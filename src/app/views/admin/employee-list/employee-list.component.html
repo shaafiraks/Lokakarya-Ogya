@@ -1,0 +1,167 @@
+<c-col xs="12">
+    <div class="mb-4" style="text-align:right; margin:15px 15px 0px 15px;">
+        <button type="button" class="btn btn-primary btn-sm" (click)="showAdd()"><i style="color:white;"
+            class="pi pi-plus"></i> Add Employee</button>
+    </div>
+
+    <!-- section confirmation -->
+    <p-confirmDialog #cd [style]="{width: '50vw'}">
+        <ng-template pTemplate="footer">
+            <!-- <button type="button" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button> -->
+            <button type="button" pButton icon="pi pi-check" label="OK" (click)="cd.accept()"></button>
+        </ng-template>
+    </p-confirmDialog>
+
+    <!-- section form -->
+    <p-dialog header={{header}} [(visible)]="employeeform" [style] = "{width : '50%'}" [draggable]="false" [dismissableMask]="false">
+        <div>
+            <hr>
+            <div class="mt-4">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <div *ngIf="isEdit || isDelete">
+                            <label>Employee ID</label>
+                            <input type="text" formControlName="employeeId" class="form-control"
+                                [ngClass]="{'is-invalid':submitted && f['employeeId'].errors}">
+                            <div *ngIf="submitted && f['employeeId'].errors" class="invalid-feedback">
+                                <div *ngIf="f['employeeId'].errors['required']">Employee ID is required</div>
+                                <div *ngIf="f['employeeId'].errors['minlength']">Employee ID min
+                                    {{f['employeeId'].errors['minlength']['requiredLength']}} character</div>
+                                <div *ngIf="f['employeeId'].errors['maxlength']">Employee ID max
+                                    {{f['employeeId'].errors['maxlength']['requiredLength']}} character</div>
+                            </div>
+                        </div>
+
+                        <label>First Name</label>
+                        <input type="text" formControlName="firstName" class="form-control"
+                            [ngClass]="{'is-invalid':submitted && f['firstName'].errors}" />
+                        <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback">
+                            <div *ngIf="f['firstName'].errors['required']">First Name is required</div>
+                            <div *ngIf="f['firstName'].errors['minlength']">First Name min
+                                {{f['firstName'].errors['minlength']['requiredLength']}} character</div>
+                            <div *ngIf="f['firstName'].errors['maxlength']">First Name max
+                                {{f['firstName'].errors['maxlength']['requiredLength']}} character</div>
+                        </div>
+
+                        <label>Last Name</label>
+                        <input type="text" formControlName="lastName" class="form-control"
+                            [ngClass]="{'is-invalid':submitted && f['lastName'].errors}" />
+                        <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">
+                            <div *ngIf="f['lastName'].errors['required']">Last Name is required</div>
+                            <div *ngIf="f['lastName'].errors['minlength']">Last Name min
+                                {{f['lastName'].errors['minlength']['requiredLength']}} character</div>
+                            <div *ngIf="f['lastName'].errors['maxlength']">Last Name max
+                                {{f['lastName'].errors['maxlength']['requiredLength']}} character</div>
+                        </div>
+
+                        <label>Email</label>
+                        <input type="text" formControlName="email" class="form-control"
+                            [ngClass]="{'is-invalid':submitted && f['email'].errors}" />
+                        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                            <div *ngIf="f['email'].errors['required']">Email is required</div>
+                        </div>
+                        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                            <div *ngIf="f['email'].errors['email']">Wrong email format</div>
+                        </div>
+
+                        <label>Phone Number</label>
+                        <input type="text" formControlName="phoneNumber" class="form-control"
+                            [ngClass]="{'is-invalid':submitted && f['phoneNumber'].errors}" />
+
+                        <label>Hire Date</label>
+                        <input type="date" formControlName="hireDate" class="form-control"
+                            [ngClass]="{'is-invalid':submitted && f['hireDate'].errors}" />
+                        <div *ngIf="submitted && f['hireDate'].errors" class="invalid-feedback">
+                            <div *ngIf="f['hireDate'].errors['required']">Hire Date is required</div>
+                        </div>
+
+                        <label>Salary</label>
+                        <input type="number" formControlName="salary" class="form-control"
+                            [ngClass]="{'is-invalid':submitted && f['salary'].errors}" />
+
+                        <label>Commission PCT</label>
+                        <input type="number" formControlName="commissionPct" class="form-control"
+                            [ngClass]="{'is-invalid':submitted && f['commissionPct'].errors}" />
+
+                        <label>Department ID</label>
+                        <select class="form-select" formControlName="departmentId" aria-label="select department">
+                            <option value=""></option>
+                            <option *ngFor="let item of listDepartments" value={{item.departmentId}}>
+                                {{item.departmentId}} : {{item.departmentName}}</option>
+                        </select>
+                        <div *ngIf="submitted && f['departmentId'].errors" class="invalid-feedback">
+                            <div *ngIf="f['departmentId'].errors['required']">Department ID is required</div>
+                        </div>
+
+                        <label>Job ID</label>
+                        <select class="form-select" formControlName="jobId" aria-label="select job">
+                            <option value=""></option>
+                            <option *ngFor="let item of listJobs" value="{{item.jobId}}">{{item.jobId}} :
+                                {{item.jobTitle}}</option>
+                        </select>
+                        <div *ngIf="submitted && f['jobId'].errors" class="invalid-feedback">
+                            <div *ngIf="f['jobId'].errors['required']">Job ID is required</div>
+                        </div>
+
+                        <label>Manager ID</label>
+                        <select class="form-select" formControlName="managerId" aria-label="select manager">
+                            <option value=""></option>
+                            <option *ngFor="let item of employees" value={{item.employeeId}}>{{item.employeeId}} :
+                                {{item.firstName}}</option>
+                        </select>
+                        <div *ngIf="submitted && f['managerId'].errors" class="invalid-feedback">
+                            <div *ngIf="f['managerId'].errors['required']">Manager ID is required</div>
+                        </div>
+
+                    </div>
+
+
+                    <div *ngIf="isEdit || isAdd" class="form-group mt-4" align="center">
+                        <button type="submit" class="btn btn-primary">Submit</button> &nbsp;
+                        <button type="button" (click)="onReset()" class="btn btn-warning float-right">Reset</button>
+                    </div>
+                    <div *ngIf="isDelete" class="form-group mt-4" align="center">
+                        <button type="submit" class="btn btn-danger" style="color:white"
+                            (click)="onDelete(); ">Delete</button> &nbsp;
+                    </div>
+                </form>
+            </div>
+        </div>
+    </p-dialog>
+    <c-card class="mb-4">
+        <c-card-header>
+            <strong>Employee List <span>({{ employees?.length}} data)</span></strong>
+        </c-card-header>
+        
+        <!-- section data tabel -->
+        <div class="tab-content rounded-bottom">
+            <div class="tab-pane p-3 active preview table-responsive" role="tabpanel" id="preview-24">
+                <p-table [value]="employees" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15,20]">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th *ngFor="let col of cols">
+                                {{col.header}}
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-employee>
+                        <tr>
+                            <td *ngFor="let col of cols">
+                                {{employee[col.field]}}
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-success btn-sm" (click)="showEdit(employee)"><i style="color:white"
+                                        class="pi pi-pencil"></i></button> 
+                                <button type="button" class="btn btn-danger btn-sm" (click)="showdelete(employee)"><i style="color:white"
+                                        class="pi pi-trash"></i></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+
+        <c-card-body>

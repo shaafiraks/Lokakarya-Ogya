@@ -1,0 +1,115 @@
+<c-col xs="12">
+    <div class="mb-4" style="text-align:right; margin:15px 15px 0px 15px;">
+        <button type="button" class="btn btn-primary btn-sm" (click)="showAdd()"><i style="color:white;"
+            class="pi pi-plus"></i> Tambah Pelanggan</button>
+    </div>
+
+    <!-- section confirmation -->
+    <p-confirmDialog #cd [style]="{width: '50vw'}">
+        <ng-template pTemplate="footer">
+            <!-- <button type="button" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button> -->
+            <button type="button" pButton icon="pi pi-check" label="OK" (click)="cd.accept()"></button>
+        </ng-template>
+    </p-confirmDialog>
+
+    <!-- section form -->
+    <p-dialog header={{header}} [(visible)]="masterform" [style] = "{width : '50%'}" [draggable]="false" [dismissableMask]="false">
+        <div>
+            <hr>
+            <div class="mt-4">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <div *ngIf="isEdit || isDelete">
+                            <label>ID Pelanggan</label>
+                            <input type="text" formControlName="idPelanggan" class="form-control"
+                                [ngClass]="{'is-invalid':submitted && f['idPelanggan'].errors}">
+                            <div *ngIf="submitted && f['idPelanggan'].errors" class="invalid-feedback">
+                                <div *ngIf="f['idPelanggan'].errors['required']">ID Pelanggan dibutuhkan</div>
+                                <div *ngIf="f['idPelanggan'].errors['minlength']">ID Pelanggan memiliki minimal
+                                    {{f['idPelanggan'].errors['minlength']['requiredLength']}} karakter</div>
+                                <div *ngIf="f['idPelanggan'].errors['maxlength']">ID Pelanggan memiliki maksimal
+                                    {{f['idPelanggan'].errors['maxlength']['requiredLength']}} karakter</div>
+                            </div>
+                        </div>
+
+                        <label>Nama</label>
+                        <input type="text" formControlName="nama" class="form-control"
+                            [ngClass]="{'is-invalid':submitted && f['nama'].errors}" />
+                        <div *ngIf="submitted && f['nama'].errors" class="invalid-feedback">
+                            <div *ngIf="f['nama'].errors['required']">Nama dibutuhkan</div>
+                            <div *ngIf="f['nama'].errors['minlength']">Nama memiliki minimal
+                                {{f['nama'].errors['minlength']['requiredLength']}} karakter</div>
+                            <div *ngIf="f['nama'].errors['maxlength']">Nama memiliki maksimal
+                                {{f['nama'].errors['maxlength']['requiredLength']}} karakter</div>
+                        </div>
+
+                        <label>No. Telp</label>
+                        <input type="text" formControlName="noTelp" class="form-control"
+                            [ngClass]="{'is-invalid':submitted && f['noTelp'].errors}" />
+                        <div *ngIf="submitted && f['noTelp'].errors" class="invalid-feedback">
+                            <div *ngIf="f['noTelp'].errors['required']">No. Telepon dibutuhkan</div>
+                            <div *ngIf="f['noTelp'].errors['maxlength']">No. Telp memiliki maksimal
+                                {{f['noTelp'].errors['maxlength']['requiredLength']}} karakter</div>
+                        </div>
+
+                        <label>Alamat</label>
+                        <input type="text" formControlName="alamat" class="form-control"
+                            [ngClass]="{'is-invalid':submitted && f['alamat'].errors}" />
+                        <div *ngIf="submitted && f['alamat'].errors" class="invalid-feedback">
+                            <div *ngIf="f['alamat'].errors['required']">Alamat dibutuhkan</div>
+                            <div *ngIf="f['alamat'].errors['maxlength']">Alamat memiliki maksimal
+                                {{f['alamat'].errors['maxlength']['requiredLength']}} karakter</div>
+                        </div>
+                    </div>
+
+
+                    <div *ngIf="isEdit || isAdd" class="form-group mt-4" align="center">
+                        <button type="submit" class="btn btn-primary">Submit</button> &nbsp;
+                        <button type="button" (click)="onReset()" class="btn btn-warning float-right">Reset</button>
+                    </div>
+                    <div *ngIf="isDelete" class="form-group mt-4" align="center">
+                        <button type="submit" class="btn btn-danger" style="color:white"
+                            (click)="onDelete(); ">Delete</button> &nbsp;
+                    </div>
+                </form>
+            </div>
+        </div>
+    </p-dialog>
+    <c-card class="mb-4">
+        <c-card-header>
+            <!-- <strong>Employee List <span>({{ pelanggan?.length}} data)</span></strong> -->
+            <strong>Master Pelanggan</strong>
+        </c-card-header>
+        
+        <!-- section data tabel -->
+        <div class="tab-content rounded-bottom">
+            <div class="tab-pane p-3 active preview table-responsive" role="tabpanel" id="preview-24">
+                <p-table [value]="pelanggan" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15,20]">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th *ngFor="let col of cols">
+                                {{col.header}}
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-pelanggan>
+                        <tr>
+                            <td *ngFor="let col of cols">
+                                {{pelanggan[col.field]}}
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-success btn-sm" (click)="showEdit(pelanggan)"><i style="color:white"
+                                        class="pi pi-pencil"></i></button> 
+                                <button type="button" class="btn btn-danger btn-sm" (click)="showdelete(pelanggan)"><i style="color:white"
+                                        class="pi pi-trash"></i></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+
+        <c-card-body>
