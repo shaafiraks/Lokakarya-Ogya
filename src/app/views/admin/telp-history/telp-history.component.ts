@@ -59,12 +59,13 @@ export class TelpHistoryComponent implements OnInit {
   }
 
   form: FormGroup = new FormGroup({
-    tanggalBayar: new FormControl(Date),
+    idHistory: new FormControl(0),
     idPelanggan: new FormControl(0),
+    tanggalBayar: new FormControl(Date),
     bulanTagihan: new FormControl(0),
     tahunTagihan: new FormControl(0),
     uang: new FormControl(0),
-    idHistory: new FormControl(0),
+    
   });
   submitted = false;
   paramIdTelpHistory: number = 0;
@@ -125,17 +126,19 @@ export class TelpHistoryComponent implements OnInit {
     this.refreshPage();
 
     this.cols = [
-      { field: 'tanggalBayar', header: 'Tanggal Bayar' },
+      { field: 'idHistory', header: 'ID History' },
       { field: 'idPelanggan', header: 'ID Pelanggan' },
+      { field: 'tanggalBayar', header: 'Tanggal Bayar' },
       { field: 'bulanTagihan', header: 'Bulan Tagihan' },
       { field: 'tahunTagihan', header: 'Tahun Tagihan' },
       { field: 'uang', header: 'Uang' },
-      { field: 'idHistory', header: 'ID History' },
+
     ];
 
     this.form = this.formBuilder.group({
-      tanggalBayar: ['', [Validators.required]],
+      idHistory: ['', [Validators.required, Validators.maxLength(4)]],
       idPelanggan: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(9)]],
+      tanggalBayar: ['', [Validators.required]],
       bulanTagihan: [
         '',
         [Validators.required, Validators.minLength(1), Validators.maxLength(2)],
@@ -145,7 +148,7 @@ export class TelpHistoryComponent implements OnInit {
         [Validators.required, Validators.minLength(1), Validators.maxLength(4)],
       ],
       uang: ['', [Validators.required, Validators.maxLength(8)]],
-      idHistory: ['', [Validators.required, Validators.maxLength(4)]],
+
     });
   }
 

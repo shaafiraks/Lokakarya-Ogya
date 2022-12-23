@@ -47,6 +47,8 @@ export class TransaksiTelkomComponent implements OnInit {
     this.form.reset();
     this.form.enable();
     this.transaksiform = true;
+    this.form.controls['status'].setValue(1);
+    this.form.controls['status'].disable();
   }
 
   showEdit(reference: TransaksiTelkomInterface) {
@@ -92,7 +94,7 @@ export class TransaksiTelkomComponent implements OnInit {
   GetConfirmAdd() {
     this.confirmationService.confirm({
       message:
-        'Berhasil menambahkan transaksi dengan nama:  ' +
+        'Berhasil menambahkan transaksi dengan ID Pelanggan:  ' +
         this.form.controls['idPelanggan'].value,
       header: 'Berhasil menambahkan transaksi',
     });

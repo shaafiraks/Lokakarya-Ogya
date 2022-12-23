@@ -22,12 +22,12 @@ export const navItems: INavData[] = [
   {
     name: 'Transaksi Telkom',
     url: '/admin/transaksi-telkom',
-    iconComponent: { name: 'cil-user' }
+    iconComponent: { name: 'cil-swap-horizontal' }
   },
   {
     name: 'Telp History',
     url: '/admin/telp-history',
-    iconComponent: { name: 'cil-user' }
+    iconComponent: { name: 'cil-history' }
   },
   {
     name: 'Employees',
