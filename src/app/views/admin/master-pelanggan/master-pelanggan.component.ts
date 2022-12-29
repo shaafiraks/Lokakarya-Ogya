@@ -108,6 +108,7 @@ export class MasterPelangganComponent implements OnInit {
       { field: 'nama', header: 'Nama' },
       { field: 'noTelp', header: 'Nomor Telepon' },
       { field: 'alamat', header: 'Alamat' },
+      { field: 'userId', header: 'User ID' },
       
   ];
     this.form = this.formBuilder.group({
@@ -135,6 +136,9 @@ export class MasterPelangganComponent implements OnInit {
           Validators.required,
           Validators.maxLength(30),
         ]
+      ],
+      userId: [
+        '',
       ],
     })
    

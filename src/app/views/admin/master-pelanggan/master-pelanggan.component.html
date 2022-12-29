@@ -1,9 +1,10 @@
 <c-col xs="12">
-    <div class="mb-4" style="text-align:right; margin:15px 15px 0px 15px;">
-        <button type="button" class="btn btn-primary btn-sm" (click)="showAdd()"><i style="color:white;"
-            class="pi pi-plus"></i> Tambah Pelanggan</button>
-    </div>
-
+    <c-card class="card-btn" style="border: none;">
+        <div class="mb-4" style="text-align:right; margin:15px 15px 0px 15px;">
+            <button pButton type="button" class="btn btn-primary btn-sm" (click)="showAdd()"><i style="color:white;"
+                class="pi pi-plus"></i> Tambah Pelanggan</button>
+        </div>
+    </c-card>
     <!-- section confirmation -->
     <p-confirmDialog #cd [style]="{width: '50vw'}">
         <ng-template pTemplate="footer">
@@ -87,8 +88,23 @@
                 <p-table [value]="pelanggan" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15,20]">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th *ngFor="let col of cols">
+                            <!-- <th *ngFor="let col of cols">
                                 {{col.header}}
+                            </th> -->
+                            <th pSortableColumn="idPelanggan">ID Pelanggan
+                                <p-sortIcon field="idPelanggan"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="nama">Nama
+                                <p-sortIcon field="nama"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="noTelp">Nomor Telepon
+                                <p-sortIcon field="noTelp"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="alamat">Alamat
+                                <p-sortIcon field="alamat"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="userId">User ID
+                                <p-sortIcon field="userId"></p-sortIcon>
                             </th>
                             <th>
                                 Action

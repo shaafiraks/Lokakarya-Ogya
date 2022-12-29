@@ -3,4 +3,5 @@ export interface MasterPelangganInterface{
     nama: string;
     noTelp: number;
     alamat: string;
+    userId: number;
 }

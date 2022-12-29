@@ -14,8 +14,88 @@
 
 // @include mat.core($custom-typography);
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 .font-primary{
     font-family: 'Poppins', sans-serif;
+}
+
+.sidebar-nav, .sidebar-toggler, .sidebar-brand{
+    background: rgba(52, 58, 64, 1) !important;
+    color: black !important;
+    
+}
+
+c-sidebar-nav-link-content{
+    color: #EFF5F5 !important;
+    // font-family: 'Poppins', sans-serif;
+}
+
+c-sidebar{
+    color: #EFF5F5 !important;
+    font-family: 'Poppins', sans-serif;
+}
+
+header {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+body {
+    font-family: 'Poppins', sans-serif ;
+}
+
+footer {
+    font-family: 'Poppins', sans-serif;
+}
+
+table {
+    font-family: 'Poppins', sans-serif;
+}
+
+c-card {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+button{
+    font-family: 'Poppins', sans-serif !important;
+}
+
+c-container {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+c-card-header {
+    height: 50px;
+    font-weight: 500;
+    font-size: 24px;
+}
+
+.wrapper {
+    // background-color: #EFF5F5;
+    background: linear-gradient(113.37deg, #D6E4E5 14.1%, #BFD8E0 30.87%, #88BCD6 52.06%);
+}
+
+.header {
+    // background: rgba(255, 255, 255, 0);
+    background: #FFFF;
+    // background: rgba(52, 58, 64, 1) !important;
+}
+
+body{
+    font-family: 'Poppins', sans-serif !important;
+    // background: linear-gradient(113.37deg, #D6E4E5 14.1%, #BFD8E0 30.87%, #88BCD6 52.06%);
+    background: rgba(255, 255, 255, 0);
+}
+
+.dashboard-font{
+    color: #FFFF
+
+}
+
+.card-btn{
+    background: rgba(255, 255, 255, 0);
+}
+
+.side-logo{
+    color: #FFFFFF;
 }

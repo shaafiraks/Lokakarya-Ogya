@@ -5,21 +5,8 @@
   id="sidebar"
   visible
 >
-  <c-sidebar-brand
-    [brandFull]="{
-      src: 'assets/img/brand/coreui-angular.svg',
-      width: 200,
-      height: 46,
-      alt: 'CoreUI Logo'
-    }"
-    [brandNarrow]="{
-      src: 'assets/img/brand/coreui-signet-white.svg',
-      width: 46,
-      height: 46,
-      alt: 'CoreUI Logo'
-    }"
-    routerLink="./"
-  >
+  <c-sidebar-brand>
+    <h3 class="side-logo">Bank CRUD</h3>
   </c-sidebar-brand>
     <perfect-scrollbar [config]="perfectScrollbarConfig">
   <!--  [perfectScrollbar]="perfectScrollbarConfig"-->
@@ -37,7 +24,7 @@
 </c-sidebar>
 
 <!--main-->
-<div class="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent">
+<div class="wrapper d-flex flex-column min-vh-100">
   <!--app-header-->
   <app-default-header class="mb-4 d-print-none header header-sticky" position="sticky" sidebarId="sidebar"></app-default-header>
   <!--app-body-->

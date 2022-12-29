@@ -59,6 +59,7 @@ export class TransaksiTelkomComponent implements OnInit {
     this.form.enable();
     this.form.controls['idPelanggan'].disable();
     this.form.controls['idTransaksi'].disable();
+    this.form.controls['status'].disable();
     this.form.setValue(reference);
     this.transaksiform = true;
   }
@@ -146,7 +147,7 @@ export class TransaksiTelkomComponent implements OnInit {
     ];
 
     this.form = this.formBuilder.group({
-      idPelanggan: [0],
+      idPelanggan: [0,  Validators.required],
       bulanTagihan: [
         0,
         [Validators.required, Validators.minLength(1), Validators.maxLength(2)],
@@ -156,7 +157,7 @@ export class TransaksiTelkomComponent implements OnInit {
         [Validators.required, Validators.minLength(1), Validators.maxLength(4)],
       ],
       uang: [0, [Validators.required, Validators.maxLength(8)]],
-      status: [0, Validators.required],
+      status: [1, Validators.required],
       idTransaksi: [0],
     });
   }
@@ -171,19 +172,23 @@ export class TransaksiTelkomComponent implements OnInit {
     if (this.form.invalid) {
       return;
     } else {
-      if (this.isEdit) {
-        this.form.controls['idTransaksi'].enable();
+      if (this.isEdit || this.isAdd) {
+        this.form.enable();
 
-        //edit
-        this.form.controls['idPelanggan'].enable();
+    
       }
       let data = JSON.stringify(this.form.value);
       console.log(data);
+
       if (this.isEdit) {
         this.form.controls['idTransaksi'].disable();
-        //edit
         this.form.controls['idPelanggan'].disable();
+        this.form.controls['status'].disable();
       }
+
+      if (this.isAdd) {
+        this.form.controls['status'].disable();
+     }
 
       if (this.isAdd) {
         this.transaksiTelkomService.addTransaksi(data).subscribe({
@@ -215,7 +220,7 @@ export class TransaksiTelkomComponent implements OnInit {
       }
 
       if (this.isDelete) {
-        this.transaksiTelkomService.deleteTransaksi(this.form.controls['idTransaksi'].value).subscribe({
+        this.transaksiTelkomService.deleteTransaksi(this.form.controls['status'].value).subscribe({
           next: (res: any) => {
             this.onReset();
             this.transaksiform = false;
@@ -232,7 +237,7 @@ export class TransaksiTelkomComponent implements OnInit {
   onReset(): void {
     this.submitted = false;
     if (this.isEdit) {
-      let temp : number = this.form.controls['idTransaksi'].value;
+      let temp : number = this.form.controls['status'].value;
       this.form.reset();
       this.form.controls['idTransaksi'].setValue(temp);
     } else {
