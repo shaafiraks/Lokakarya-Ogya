@@ -1,7 +1,7 @@
 export interface MasterPelangganInterface{
     idPelanggan: number;
     nama: string;
-    noTelp: number;
+    noTelp: string;
     alamat: string;
     userId: number;
 }

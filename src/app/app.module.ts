@@ -46,10 +46,9 @@ import {
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
-import { CountryListComponent } from './views/admin/country-list/country-list.component';
 import { TableModule } from 'primeng/table'
 import {AccordionModule} from 'primeng/accordion';     //accordion and accordion tab
-import {MenuItem} from 'primeng/api'; 
+import {ConfirmationService, MenuItem} from 'primeng/api'; 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -94,7 +93,7 @@ const APP_CONTAINERS = [
     ListGroupModule,
     CardModule,
   ],
-  providers: [
+  providers: [ ConfirmationService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,

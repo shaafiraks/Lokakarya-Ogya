@@ -185,12 +185,12 @@
           </div>
 
           <div *ngIf="isEdit || isAdd" class="form-group mt-4" align="center">
-            <button type="submit" class="btn btn-primary">Submit</button> &nbsp;
+            <button pButton type="submit" class="btn btn-primary">Submit</button> &nbsp;
             <button
               pButton
               type="button"
               (click)="onReset()"
-              class="btn btn-warning float-right"
+              class="btn p-button-danger float-right"
             >
               Reset
             </button>
@@ -232,10 +232,10 @@
         >
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="idTransaksi">ID Pelanggan
+              <th pSortableColumn="idTransaksi">ID Transaksi
                 <p-sortIcon field="idTransaksi"></p-sortIcon>
             </th>
-            <th pSortableColumn="idPelanggan">Nama
+            <th pSortableColumn="idPelanggan">ID Pelanggan
                 <p-sortIcon field="idPelanggan"></p-sortIcon>
             </th>
             <th pSortableColumn="bulanTagihan">Bulan Tagihan
@@ -255,20 +255,28 @@
           </ng-template>
           <ng-template pTemplate="body" let-transaksi>
             <tr>
-              <td *ngFor="let col of cols">
+              <!-- <td *ngFor="let col of cols">
                 {{ transaksi[col.field] }}
-              </td>
+              </td> -->
+              <td>{{transaksi.idTransaksi}}</td>
+              <td>{{transaksi.idPelanggan}}</td>
+              <td>{{transaksi.bulanTagihan}}</td>
+              <td>{{transaksi.tahunTagihan}}</td>
+              <td>{{transaksi.uang | currency:'IDR ':'symbol':'3.2-2'}}</td>
+              <td>{{transaksi.status}}</td>
               <td>
                 <button
+                  pButton
                   type="button"
-                  class="btn btn-success btn-sm"
+                  class="btn p-button-success btn-sm"
                   (click)="showEdit(transaksi)"
                 >
                   <i style="color: white" class="pi pi-pencil"></i>
                 </button>
                 <button
+                  pButton
                   type="button"
-                  class="btn btn-danger btn-sm"
+                  class="btn p-button-danger btn-sm"
                   (click)="showdelete(transaksi)"
                 >
                   <i style="color: white" class="pi pi-trash"></i>

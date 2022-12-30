@@ -30,36 +30,6 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-history' }
   },
   {
-    name: 'Employees',
-    url: '/admin/employee-list',
-    iconComponent: { name: 'cil-user' }
-  },
-  {
-    name: 'Departments',
-    url: '/admin/department-list',
-    iconComponent: { name: 'cil-notes' }
-  },
-  {
-    name: 'Locations',
-    url: '/admin/location-list',
-    iconComponent: { name: 'cil-location-pin' }
-  },
-  {
-    name: 'Countries',
-    url: '/admin/country-list',
-    iconComponent: { name: 'cil-industry' }
-  },
-  {
-    name: 'Regions',
-    url: '/admin/region-list',
-    iconComponent: { name: 'cil-map' }
-  },
-  {
-    name: 'Jobs',
-    url: '/admin/job-list',
-    iconComponent: { name: 'cil-folder-open' }
-  },
-  {
     title: true,
     name: 'Theme'
   },
@@ -169,10 +139,6 @@ export const navItems: INavData[] = [
     url: '/forms',
     iconComponent: { name: 'cil-notes' },
     children: [
-      {
-        name: 'Department',
-        url: '/forms/department'
-      },
       {
         name: 'Form Control',
         url: '/forms/form-control'

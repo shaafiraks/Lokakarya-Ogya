@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-
+import { DashboardService } from './dashboard.service';
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
 
 interface IUser {
@@ -22,9 +22,12 @@ interface IUser {
   styleUrls: ['dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  constructor(private chartsData: DashboardChartsData) {
+  constructor(
+    private chartsData: DashboardChartsData,
+    private dashboardService: DashboardService,) {
   }
 
+  public masterBank: any = [];
   public users: IUser[] = [
     {
       name: 'Yiorgos Avraamu',
@@ -111,8 +114,21 @@ export class DashboardComponent implements OnInit {
     trafficRadio: new UntypedFormControl('Month')
   });
 
+  refreshPage(){
+    this.dashboardService.findAllMasterBank().subscribe({
+      next: (res: any) => {
+        this.users = res;
+        //console.log(res);
+      },
+      error: (error) => {
+        console.log('ini error: ', error);
+      }
+    })
+  }
+
   ngOnInit(): void {
-    this.initCharts();
+    this.refreshPage();
+    // this.initCharts();
   }
 
   initCharts(): void {

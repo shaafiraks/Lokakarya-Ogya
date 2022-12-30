@@ -13,6 +13,18 @@ export class MasterPelangganService {
     })
   }
 
+  findAllUserId(): Observable<any>{
+    return this.http.get("http://localhost:8080/users/findAllPlan",{
+      responseType: "json",
+    })
+  }
+
+  findUsersByUserId(userId:number): Observable<any>{
+    return this.http.get("http://localhost:8080/users/findById?id="+userId,{
+      responseType: "json",
+    })
+  }
+
   addMasterPelanggan(data:any): Observable<any>{
     var headers = new HttpHeaders({
       'Content-Type' : 'application/json',

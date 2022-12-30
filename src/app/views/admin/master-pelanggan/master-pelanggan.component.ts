@@ -11,15 +11,25 @@ import { MasterPelangganService} from './master.service'
   providers: [ConfirmationService]
 })
 export class MasterPelangganComponent implements OnInit {
+  
 
   public cols: any= [];
-  public pelanggan: any = [];
+  public pelanggan: MasterPelangganInterface[] = [];
+  public users: any = [];
   masterform: boolean = false;
   header: string = '';
   isEdit: boolean = false;
   isAdd: boolean = false;
   isDelete: boolean = false;
+  element: any =[];
+  cekError: boolean = false; //menampilkan error
 
+  getElement(item : any){
+      // this.element = item;
+      //this.form.setValue;
+      console.log(this.element);
+      
+  }
   showdelete(reference: MasterPelangganInterface) {
     this.form.setValue(reference);
     this.isEdit = false;
@@ -37,6 +47,9 @@ export class MasterPelangganComponent implements OnInit {
     this.header = "Add Pelanggan";
     this.form.reset();
     this.form.enable();
+    this.form.controls['nama'].disable();
+    this.form.controls['noTelp'].disable();
+    this.form.controls['alamat'].disable();
     this.masterform = true;
   }
 
@@ -54,8 +67,9 @@ export class MasterPelangganComponent implements OnInit {
   form: FormGroup = new FormGroup({
     idPelanggan: new FormControl(0),
     nama: new FormControl(''),
-    noTelp: new FormControl(0),
+    noTelp: new FormControl(''),
     alamat: new FormControl(''),
+    userId: new FormControl(0),
   })
   submitted = false;
   paramIdPelanggan: number = 0;
@@ -66,6 +80,18 @@ export class MasterPelangganComponent implements OnInit {
     private confirmationService: ConfirmationService,
   ) { }
 
+
+  // untuk auto input berdasarkan dropdown
+  changeSelect(event:any) {
+    // console.log(e.target.value);
+    // console.log(this.users);
+        this.form.controls['nama'].setValue(this.users[event.target.value-1].nama);
+        this.form.controls['alamat'].setValue(this.users[event.target.value-1].alamat);
+        this.form.controls['noTelp'].setValue(this.users[event.target.value-1].telp);
+  }
+    
+  // untuk search bar
+  
   GetConfirmDelete() {
     this.confirmationService.confirm({
       message: 'Pelanggan dengan ID ' + this.form.controls['idPelanggan'].value + ' telah berhasil dihapus',
@@ -98,9 +124,20 @@ export class MasterPelangganComponent implements OnInit {
       }
     });
 
+    this.masterPelangganService.findAllUserId().subscribe({
+      next: (res: any) => {
+        this.users = res;
+        // console.log(res);
+      },
+      error: (error) => {
+        console.error('ini error: ', error);
+      }
+    });
+
   }
 
   ngOnInit(): void {
+    console.log(this.pelanggan);
     this.refreshPage();
 
     this.cols = [
@@ -120,25 +157,25 @@ export class MasterPelangganComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(1),
-          Validators.maxLength(20),
+          Validators.maxLength(50),
         ]
       ],
       noTelp: [
-        0,
+        '',
         [
           Validators.required,
-          Validators.maxLength(9),
+          Validators.maxLength(13),
         ]
       ],
       alamat: [
         '',
         [
           Validators.required,
-          Validators.maxLength(30),
+          Validators.maxLength(50),
         ]
       ],
       userId: [
-        '',
+        0,
       ],
     })
    
@@ -172,8 +209,9 @@ export class MasterPelangganComponent implements OnInit {
             this.onReset();
           },
           error: (error) => {
+            this.cekError = true;
             console.error('ini error: ', error);
-            alert(error.error.message);
+            // alert(error.error.message);
           }
         });
       };
@@ -224,6 +262,12 @@ export class MasterPelangganComponent implements OnInit {
     this.submitted = false;
     this.masterform = false;
     this.GetConfirmDelete();
+  }
+
+  onResetNew(): void {
+    // this.masterform = false;
+    this.cekError = false;
+    this.onReset()
   }
 
 }

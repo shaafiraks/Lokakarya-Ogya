@@ -10,13 +10,17 @@ import { ConfirmationService } from 'primeng/api';
 import { TransaksiTelkomInterface } from './transaksi-telkom-interface';
 import { TransaksiTelkomService } from './transaksi.service';
 import { MasterPelangganService } from '../master-pelanggan/master.service';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-transaksi-telkom',
   templateUrl: './transaksi-telkom.component.html',
   styleUrls: ['./transaksi-telkom.component.scss'],
-  providers: [ConfirmationService],
+  providers: 
+  [ConfirmationService,
+  CurrencyPipe],
 })
+
 export class TransaksiTelkomComponent implements OnInit {
   public cols: any = [];
   public transaksi: any = [];
@@ -28,6 +32,8 @@ export class TransaksiTelkomComponent implements OnInit {
   isDelete: boolean = false;
   public dateValue : Date | undefined ;
   // editButton: boolean = false;
+
+  
 
   showdelete(reference: TransaksiTelkomInterface) {
     this.form.setValue(reference);

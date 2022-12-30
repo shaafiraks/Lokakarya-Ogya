@@ -1,8 +1,15 @@
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
- 
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link
+  rel="preconnect"
+  href="https://fonts.gstatic.com"
+  crossorigin
+/><link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap"
+  rel="stylesheet"
+/>
+
 <c-col xs="12">
   <div class="mb-4" style="text-align: right; margin: 15px 15px 0px 15px">
-    <button type="button" class="btn btn-primary btn-sm" (click)="showAdd()">
+    <button pButton type="button" class="btn p-button-primary btn-sm" (click)="showAdd()">
       <i style="color: white" class="pi pi-plus"></i>Tambah History
     </button>
   </div>
@@ -31,7 +38,7 @@
   >
     <div>
       <hr />
-      <div class="mt-4 " >
+      <div class="mt-4">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <!-- <div *ngIf="isEdit || isDelete"> -->
@@ -48,7 +55,7 @@
                 class="invalid-feedback"
               >
                 <div *ngIf="f['idHistory'].errors['required']">
-                  ID history is required
+                  ID history belum diisi
                 </div>
                 <div *ngIf="f['idHistory'].errors['minlength']">
                   ID history min
@@ -77,7 +84,7 @@
               class="invalid-feedback"
             >
               <div *ngIf="f['tanggalBayar'].errors['required']">
-                Tanggal bayar dibutuhkan
+                Tanggal bayar belum diisi
               </div>
             </div>
 
@@ -100,7 +107,7 @@
               class="invalid-feedback"
             >
               <div *ngIf="f['idPelanggan'].errors['required']">
-                ID Pelanggan dibutuhkan
+                ID Pelanggan belum diisi
               </div>
             </div>
 
@@ -118,7 +125,7 @@
               class="invalid-feedback"
             >
               <div *ngIf="f['bulanTagihan'].errors['required']">
-                Bulan tagihan dibutuhkan
+                Bulan tagihan belum diisi
               </div>
               <div *ngIf="f['bulanTagihan'].errors['minlength']">
                 Bulan tagihan memiliki minimal
@@ -146,7 +153,7 @@
               class="invalid-feedback"
             >
               <div *ngIf="f['tahunTagihan'].errors['required']">
-                Tahun tagihan dibutuhkan
+                Tahun tagihan belum diisi
               </div>
               <div *ngIf="f['tahunTagihan'].errors['minlength']">
                 Tahun tagihan memiliki minimal
@@ -160,7 +167,7 @@
               </div>
             </div>
 
-            <label>Uang</label>
+            <label>Nominal Tagihan</label>
             <input
               type="number"
               formControlName="uang"
@@ -168,9 +175,11 @@
               [ngClass]="{ 'is-invalid': submitted && f['uang'].errors }"
             />
             <div *ngIf="submitted && f['uang'].errors" class="invalid-feedback">
-              <div *ngIf="f['uang'].errors['required']">Uang dibutuhkan</div>
+              <div *ngIf="f['uang'].errors['required']">
+                Nominal tagihan belum diisi
+              </div>
               <div *ngIf="f['uang'].errors['maxlength']">
-                Uang memiliki maksimal
+                Nominal tagihan memiliki maksimal
                 {{ f["uang"].errors["maxlength"]["requiredLength"] }} karakter
               </div>
             </div>
@@ -222,33 +231,44 @@
         >
           <ng-template pTemplate="header">
             <tr>
-              <th *ngFor="let col of cols">
-                {{ col.header }}
+              <th pSortableColumn="idHistory">
+                ID History
+                <p-sortIcon field="idHistory"></p-sortIcon>
+              </th>
+              <th pSortableColumn="idPelanggan">
+                ID Pelanggan
+                <p-sortIcon field="idPelanggan"></p-sortIcon>
+              </th>
+              <th pSortableColumn="tanggalBayar">
+                Tanggal Bayar
+                <p-sortIcon field="tanggalBayar"></p-sortIcon>
+              </th>
+              <th pSortableColumn="bulanTagihan">
+                Bulan Tagihan
+                <p-sortIcon field="bulanTagihan"></p-sortIcon>
+              </th>
+              <th pSortableColumn="tahunTagihan">
+                Tahun Tagihan
+                <p-sortIcon field="tahunTagihan"></p-sortIcon>
+              </th>
+              <th pSortableColumn="uang">
+                Nominal Tagihan
+                <p-sortIcon field="uang"></p-sortIcon>
               </th>
               <!-- <th>Action</th> -->
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-employee>
+          <ng-template pTemplate="body" let-history>
             <tr>
-              <td *ngFor="let col of cols">
-                {{ employee[col.field] }}
-              </td>
-              <!-- <td>
-                <button
-                  type="button"
-                  class="btn btn-success btn-sm"
-                  (click)="showEdit(employee)"
-                >
-                  <i style="color: white" class="pi pi-pencil"></i>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-danger btn-sm"
-                  (click)="showdelete(employee)"
-                >
-                  <i style="color: white" class="pi pi-trash"></i>
-                </button>
+              <!-- <td *ngFor="let col of cols">
+                {{ history[col.field] }}
               </td> -->
+              <td>{{history.idHistory}}</td>
+              <td>{{history.idPelanggan}}</td>
+              <td>{{history.tanggalBayar}}</td>
+              <td>{{history.bulanTagihan}}</td>
+              <td>{{history.tahunTagihan}}</td>
+              <td>{{history.uang | currency:'IDR ':'symbol':'3.2-2'}}</td>
             </tr>
           </ng-template>
         </p-table>
