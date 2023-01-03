@@ -38,6 +38,24 @@ const routes: Routes = [
           // }
       },
       {
+        path: 'useradm',
+        // canActivate: [RoleGuardService],
+        loadChildren: () =>
+          import('./views/useradm/useradm.module').then((m) => m.UseradmModule),
+          // data: {
+          //   expectedRole: 'tlpadm'
+          // }
+      },
+      {
+        path: 'bankadm',
+        // canActivate: [RoleGuardService],
+        loadChildren: () =>
+          import('./views/bankadm/bankadm.module').then((m) => m.BankadmModule),
+          // data: {
+          //   expectedRole: 'tlpadm'
+          // }
+      },
+      {
         path: 'theme',
         loadChildren: () =>
           import('./views/theme/theme.module').then((m) => m.ThemeModule)

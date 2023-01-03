@@ -1,0 +1,204 @@
+<!-- menambahkan button add data -->
+<c-col xs="12">
+    <div class="mb-4" style="text-align: right; margin: 15px 15px 0px 15px">
+        <button pButton pRipple type="button" label="Add User" icon="pi pi-plus" (click)="showAdd()"></button>
+    </div>
+
+    <!-- button confirm ketika delete data -->
+    <p-confirmDialog #cd [style]="{ width: '50vw' }">
+        <ng-template pTemplate="footer">
+            <button *ngIf="isDelete" pButton pRipple type="button" icon="pi pi-times" label="No" class="p-button-text"
+                (click)="cd.reject()"></button>
+            <p-button type="button" icon="pi pi-check" label="Yes" styleClass="p-button-primary"
+                (click)="cd.accept()"></p-button>
+        </ng-template>
+    </p-confirmDialog>
+
+    <!-- show tabel -->
+    <c-card class="mb-4">
+        <c-card-header>
+            <strong>User List <span>({{users?.length}} data)</span>
+            </strong>
+        </c-card-header>
+
+        <!-- section u show data tabel -->
+        <c-card-body>
+            <p-table [value]="users" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 15, 20]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="userId" style="width: 20%">User ID <p-sortIcon field="userId"></p-sortIcon>
+                        </th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Nama</th>
+                        <th>Alamat</th>
+                        <th>Email</th>
+                        <th>Telp</th>
+                        <th>Program Name</th>
+                        <th>Created Date</th>
+                        <th>Created By</th>
+                        <th>Updated Date</th>
+                        <th>Updated By</th>
+                        <th>Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-user>
+                    <tr>
+                        <td>{{user.userId}}</td>
+                        <td>{{user.username}}</td>
+                        <td>{{maskPassword(user.password)}}</td>
+                        <td>{{user.nama}}</td>
+                        <td>{{user.alamat}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.telp}}</td>
+                        <td>{{user.programName}}</td>
+                        <td>{{user.createdDate}}</td>
+                        <td>{{user.createdBy}}</td>
+                        <td>{{user.updatedDate}}</td>
+                        <td>{{user.updatedBy}}</td>
+                        <td>
+                            <button pButton pRipple type="button" icon="pi pi-pencil"
+                                class="p-button-rounded p-button-info p-button-text" (click)="showEdit(user)"></button>
+                            <button pButton pRipple type="button" icon="pi pi-trash"
+                                class="p-button-rounded p-button-danger p-button-text"
+                                (click)="showDelete(user)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </c-card-body>
+    </c-card>
+</c-col>
+
+<!-- section untuk show data tabel pada saat add dan edit   -->
+<p-dialog header="User From" [(visible)]="userform" [responsive]="true" showEffect="fade" [modal]="true"
+    [closable]="true" [dismissableMask]="true">
+    <div>
+        <hr />
+        <div *ngIf="isEdit">
+            <p style="text-align: center;"><b>{{keteranganForm}}</b>
+            </p>
+            <hr />
+        </div>
+        <div class="p-grid p-fluid">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <div class="row container">
+                        <div class="col-md-5">
+                            <label><b>Username</b></label>
+                        </div>
+                        <div class="col-md-1"><b>:</b></div>
+                        <div class="col-md-6">
+                            <input type="text" formControlName="username" pInputText [(ngModel)]="valUsername"
+                                [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" />
+                            <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+                                <div *ngIf="f['username'].errors['required']">
+                                    Username is required
+                                </div>
+                                <div *ngIf="f['username'].errors['minlength']">Username
+                                    min {{f["username"].errors["minlength"]["requiredLength"]}} character</div>
+                                <div *ngIf="f['username'].errors['maxlength']">Username
+                                    max {{f["username"].errors["maxlength"]["requiredLength"]}} character</div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row container">
+                        <div class="col-md-5">
+                            <label><b>Password</b></label>
+                        </div>
+                        <div class="col-md-1"><b>:</b></div>
+                        <div class="col-md-6">
+                            <p-password [(ngModel)]="valPassword" formControlName="password" [toggleMask]="true"
+                                [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+                                [feedback]="false"></p-password>
+                            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                                <div *ngIf="f['password'].errors['required']">
+                                    Password is required
+                                </div>
+                                <div *ngIf="f['password'].errors['minlength']">Password
+                                    min {{f["password"].errors["minlength"]["requiredLength"]}} character</div>
+                                <div *ngIf="f['password'].errors['maxlength']">Password
+                                    max {{f["password"].errors["maxlength"]["requiredLength"]}} character
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row container">
+                        <div class="col-md-5">
+                            <label><b>Nama</b></label>
+                        </div>
+                        <div class="col-md-1"><b>:</b></div>
+                        <div class="col-md-6">
+                            <input type="text" formControlName="nama" pInputText [(ngModel)]="valNama"
+                                [ngClass]="{ 'is-invalid': submitted && f['nama'].errors }" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row container">
+                        <div class="col-md-5">
+                            <label><b>Alamat</b></label>
+                        </div>
+                        <div class="col-md-1"><b>:</b></div>
+                        <div class="col-md-6">
+                            <input type="text" formControlName="alamat" pInputText [(ngModel)]="valAlamat"
+                                [ngClass]="{ 'is-invalid': submitted && f['alamat'].errors }" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row container">
+                        <div class="col-md-5">
+                            <label><b>Email</b></label>
+                        </div>
+                        <div class="col-md-1"><b>:</b></div>
+                        <div class="col-md-6">
+                            <input type="text" formControlName="email" pInputText [(ngModel)]="valEmail"
+                                [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" />
+                            <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                                <div *ngIf="f['email'].errors['required']">
+                                    Email is required
+                                </div>
+                                <div *ngIf="f['email'].errors['email']">Wrong email format</div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row container">
+                        <div class="col-md-5">
+                            <label><b>Telp</b></label>
+                        </div>
+                        <div class="col-md-1"><b>:</b></div>
+                        <div class="col-md-6">
+                            <p-inputMask formControlName="telp" mask="999999999999" [(ngModel)]="valTelp"
+                                [ngClass]="{ 'is-invalid': submitted && f['telp'].errors }"></p-inputMask>
+                            <div *ngIf="submitted && f['telp'].errors" class="invalid-feedback">
+                                <div *ngIf="f['telp'].errors['required']">Telp is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row container">
+                        <div class="col-md-5">
+                            <label><b>Program Name</b></label>
+                        </div>
+                        <div class="col-md-1"><b>:</b></div>
+                        <div class="col-md-6">
+                            <input type="text" formControlName="programName" pInputText [(ngModel)]="valProgramName"
+                                [ngClass]="{'is-invalid': submitted && f['programName'].errors}" />
+                        </div>
+                    </div>
+                    <div *ngIf="isEdit || isAdd" class="form-group mt-4" align="center">
+                        <button pButton type="button" label="Submit" class="p-button-primary"
+                            (click)="onSubmit()"></button>&nbsp;
+                        <button *ngIf="isAdd" pButton type="button" label="Reset" class="p-button-warning"
+                            (click)="onReset()"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</p-dialog>
+
+<!-- tampilkan pesan toast  -->
+<p-toast position="top-center"></p-toast>

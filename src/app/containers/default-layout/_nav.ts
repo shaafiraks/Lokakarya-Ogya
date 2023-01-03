@@ -30,6 +30,36 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-history' }
   },
   {
+    name: 'User',
+    url: '/useradm/user',
+    iconComponent: { name: 'cil-history' }
+  },
+  {
+    name: 'Role',
+    url: '/useradm/role',
+    iconComponent: { name: 'cil-history' }
+  },
+  {
+    name: 'Role Menu',
+    url: '/useradm/role-menu',
+    iconComponent: { name: 'cil-history' }
+  },
+  {
+    name: 'Menu',
+    url: '/useradm/menu',
+    iconComponent: { name: 'cil-history' }
+  },
+  {
+    name: 'Hak Akses',
+    url: '/useradm/hak-akses',
+    iconComponent: { name: 'cil-history' }
+  },
+  {
+    name: 'History Bank',
+    url: '/useradm/history-transaksi',
+    iconComponent: { name: 'cil-history' }
+  },
+  {
     title: true,
     name: 'Theme'
   },

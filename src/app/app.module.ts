@@ -48,7 +48,9 @@ import {
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { TableModule } from 'primeng/table'
 import {AccordionModule} from 'primeng/accordion';     //accordion and accordion tab
-import {ConfirmationService, MenuItem} from 'primeng/api'; 
+import {ConfirmationService, MenuItem, MessageService} from 'primeng/api';
+import { MasterBankComponent } from './views/bankadm/master-bank/master-bank.component';
+import { HistoryTransaksiComponent } from './views/bankadm/history-transaksi/history-transaksi.component'; 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -61,7 +63,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS],
+  declarations: [AppComponent, ...APP_CONTAINERS, MasterBankComponent, HistoryTransaksiComponent],
   imports: [
     AccordionModule,
     TableModule,
@@ -93,7 +95,7 @@ const APP_CONTAINERS = [
     ListGroupModule,
     CardModule,
   ],
-  providers: [ ConfirmationService,
+  providers: [ ConfirmationService, MessageService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
