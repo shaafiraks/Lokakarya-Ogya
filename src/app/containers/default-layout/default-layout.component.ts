@@ -8,6 +8,8 @@ import { navItems } from './_nav';
 })
 export class DefaultLayoutComponent {
 
+  data: any = localStorage.getItem('data');
+  
   public navItems = navItems;
 
   public perfectScrollbarConfig = {

@@ -31,7 +31,6 @@ export class TransaksiTelkomComponent implements OnInit {
   isAdd: boolean = false;
   isDelete: boolean = false;
   public dateValue : Date | undefined ;
-  // editButton: boolean = false;
 
   
 

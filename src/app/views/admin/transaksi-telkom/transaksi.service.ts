@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class TransaksiTelkomService {
   findAll(): Observable<any> {
-    return this.http.get('http://localhost:8080/transaksitelkom/findStatus1', {
+    return this.http.get('http://localhost:8080/transaksitelkom/findAllPlan', {
       responseType: 'json',
     });
   }

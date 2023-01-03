@@ -7,8 +7,8 @@
           <c-card class="p-4">
             <c-card-body>
               <form cForm>
-                <h1>Login</h1>
-                <p class="text-medium-emphasis">Sign In to your account</p>
+                <h1>Masuk</h1>
+                <p class="text-medium-emphasis">Masuk ke akun Anda</p>
                 <c-input-group class="mb-3">
                   <span cInputGroupText>
                     <svg cIcon name="cilUser"></svg>
@@ -24,35 +24,35 @@
                     cFormControl
                     name="password"
                     [(ngModel)]="password"
-                    placeholder="Password"
+                    placeholder="Kata Sandi"
                     type="password"
                   />
                 </c-input-group>
                 <c-row>
                   <c-col xs="6">
-                    <button cButton class="px-4" color="primary" (click)="login()">
-                      Login
+                    <button cButton class="px-4 btn-login" color="primary" (click)="login()">
+                      Masuk
                     </button>
                   </c-col>
                   <c-col class="text-right" xs="6">
                     <button cButton class="px-0" color="link">
-                      Forgot password?
+                      Lupa kata sandi?
                     </button>
                   </c-col>
                 </c-row>
               </form>
             </c-card-body>
           </c-card>
-          <c-card [ngStyle]="{'width.%': 44}" class="text-white bg-primary py-5">
+          <c-card [ngStyle]="{'width.%': 44}" class="text-white py-5 bg-signup">
             <c-card-body class="text-center">
               <div>
-                <h2>Sign up</h2>
+                <h2>Buat Akun Baru</h2>
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                   tempor incididunt ut labore et dolore magna aliqua.
                 </p>
-                <button [active]="true" cButton class="mt-3" color="primary" routerLink="/register">
-                  Register Now!
+                <button [active]="true" cButton class="mt-3 btn-regist" color="primary" routerLink="/register">
+                  Daftar Sekarang!
                 </button>
               </div>
             </c-card-body>

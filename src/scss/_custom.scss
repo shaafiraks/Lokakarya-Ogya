@@ -14,14 +14,14 @@
 
 // @include mat.core($custom-typography);
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 .font-primary{
     font-family: 'Poppins', sans-serif;
 }
 
 .sidebar-nav, .sidebar-toggler, .sidebar-brand{
-    background: rgba(52, 58, 64, 1) !important;
+    background: #063A41 !important;
     color: black !important;
     
 }
@@ -71,13 +71,13 @@ c-card-header {
 }
 
 .wrapper {
-    // background-color: #EFF5F5;
-    background: linear-gradient(113.37deg, #D6E4E5 14.1%, #BFD8E0 30.87%, #88BCD6 52.06%);
+    background-color: #EFF5F5;
+    // background: linear-gradient(113.37deg, #05373F 14.1%, #0d545f 30.87%, #0d545f  52.06%);
 }
 
 .header {
     // background: rgba(255, 255, 255, 0);
-    background: #FFFF;
+    background: #063A41;
     // background: rgba(52, 58, 64, 1) !important;
 }
 
@@ -88,7 +88,9 @@ body{
 }
 
 .dashboard-font{
-    color: #FFFF
+    color: black;
+    font-weight: 700;
+    font-size: 60px;
 
 }
 

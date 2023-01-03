@@ -6,6 +6,7 @@
         type="button"
         class="btn btn-primary btn-sm"
         (click)="showAdd()"
+        style="background: #063A41;"
       >
         <i style="color: white" class="pi pi-plus"></i> Tambah Pelanggan
       </button>
@@ -149,7 +150,7 @@
           </div>
 
           <div *ngIf="isEdit || isAdd" class="form-group mt-4" align="center">
-            <button pButton type="submit" class="btn p-button-primary">
+            <button pButton type="submit" class="btn btn-submit" style="background: #063A41; font-weight: 600;">
               Submit
             </button>
             &nbsp;
@@ -157,7 +158,8 @@
               pButton
               type="button"
               (click)="onReset()"
-              class="btn p-button-danger float-right"
+              class="btn float-right"
+              style="background: none; color: #063A41; border: none; font-weight: 600;"
             >
               Reset
             </button>
@@ -211,55 +213,57 @@
           </div>
       </ng-template> -->
           <ng-template pTemplate="header">
-            <tr>
+            <tr >
               <!-- <th *ngFor="let col of cols">
                                 {{col.header}}
                             </th> -->
-              <th pSortableColumn="idPelanggan">
+              <th pSortableColumn="idPelanggan" class="text-center">
                 ID Pelanggan
                 <p-sortIcon field="idPelanggan"></p-sortIcon>
               </th>
-              <th pSortableColumn="nama">
+              <th pSortableColumn="nama" class="text-center">
                 Nama
                 <p-sortIcon field="nama"></p-sortIcon>
                 <p-columnFilter type="text" field="nama" display="nama"></p-columnFilter>
               </th>
-              <th pSortableColumn="noTelp">
+              <th pSortableColumn="noTelp" class="text-center">
                 Nomor Telepon
                 <p-sortIcon field="noTelp"></p-sortIcon>
               </th>
-              <th pSortableColumn="alamat">
+              <th pSortableColumn="alamat" class="text-center">
                 Alamat
                 <p-sortIcon field="alamat"></p-sortIcon>
               </th>
-              <th pSortableColumn="userId">
+              <th pSortableColumn="userId" class="text-center">
                 ID Pengguna
                 <p-sortIcon field="userId"></p-sortIcon>
               </th>
-              <th>Action</th>
+              <th class="text-center">Action</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-pelanggan>
             <tr>
-              <td *ngFor="let col of cols">
+              <td *ngFor="let col of cols" class="text-center">
                 {{ pelanggan[col.field] }}
               </td>
               <td>
                 <button
                   pButton
                   type="button"
-                  class="btn p-button-success btn-sm"
+                  class="btn btn-sm d-flex justify-content-center"
                   (click)="showEdit(pelanggan)"
+                  style="background: #EBF9EB; border-color: #49D349; border-width: 4px;  width: 27px; text-align: center;"
                 >
-                  <i style="color: white" class="pi pi-pencil"></i>
+                  <i style="color: #49D349" class="pi pi-pencil"></i>
                 </button>
                 <button
                   pButton
                   type="button"
-                  class="btn p-button-danger btn-sm"
+                  class="btn btn-sm d-flex justify-content-center"
                   (click)="showdelete(pelanggan)"
+                  style="background: #F2E4E4; border-color: #FFA39E; border-width: 4px;  width: 27px; text-align: center;"
                 >
-                  <i style="color: white" class="pi pi-trash"></i>
+                  <i style="color: #F5222D" class="pi pi-trash"></i>
                 </button>
               </td>
             </tr>
