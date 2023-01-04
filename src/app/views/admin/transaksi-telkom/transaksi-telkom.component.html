@@ -147,7 +147,7 @@
               </div>
             </div>
 
-            <label>Saldo</label>
+            <label>Tagihan</label>
             <input
               type="number"
               formControlName="uang"
@@ -156,7 +156,7 @@
             />
             <div *ngIf="submitted && f['uang'].errors" class="invalid-feedback">
               <div *ngIf="f['uang'].errors['required']">
-                Input nominal saldo
+                Input nominal tagihan
               </div>
             </div>
 
@@ -216,7 +216,7 @@
   <c-card class="mb-4">
     <c-card-header>
       <!-- <strong>Employee List <span>({{ pelanggan?.length}} data)</span></strong> -->
-      <strong>Transaksi Telkom </strong>
+      <strong>Laporan Penunggakan <span>({{ transaksi?.length}} data)</span> </strong>
     </c-card-header>
 
     <!-- section data tabel -->
@@ -265,7 +265,7 @@
               <td class="text-center">{{transaksi.bulanTagihan}}</td>
               <td class="text-center">{{transaksi.tahunTagihan}}</td>
               <td class="text-center">{{transaksi.uang | currency:'IDR ':'symbol':'3.2-2'}}</td>
-              <td class="text-center" *ngIf="transaksi.status==1">{{transaksi.status}}</td>
+              <td class="text-center" *ngIf="transaksi.status==1">Belum Lunas</td>
               <td class="text-center" *ngIf="transaksi.status==2">{{transaksi.status}}</td>
               <td class="text-center">
                 <button

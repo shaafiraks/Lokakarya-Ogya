@@ -23,6 +23,10 @@ export class MasterPelangganComponent implements OnInit {
   isDelete: boolean = false;
   element: any =[];
   cekError: boolean = false; //menampilkan error
+  cekErrorDel: boolean = false; //menampilkan error
+  berhasilDelete: boolean = false; //menampilkan error
+  gagalDelete : boolean = false;
+  public masterPelanggan: any = [];
 
   getElement(item : any){
       // this.element = item;
@@ -47,9 +51,9 @@ export class MasterPelangganComponent implements OnInit {
     this.header = "Add Pelanggan";
     this.form.reset();
     this.form.enable();
-    this.form.controls['nama'].disable();
-    this.form.controls['noTelp'].disable();
-    this.form.controls['alamat'].disable();
+    // this.form.controls['nama'].disable();
+    // this.form.controls['noTelp'].disable();
+    // this.form.controls['alamat'].disable();
     this.masterform = true;
   }
 
@@ -90,14 +94,14 @@ export class MasterPelangganComponent implements OnInit {
         this.form.controls['noTelp'].setValue(this.users[event.target.value-1].telp);
   }
     
-  // untuk search bar
+
   
-  GetConfirmDelete() {
-    this.confirmationService.confirm({
-      message: 'Pelanggan dengan ID ' + this.form.controls['idPelanggan'].value + ' telah berhasil dihapus',
-      header: 'Pelanggan dihapus',
-    });
-  }
+  // GetConfirmDelete() {
+  //   this.confirmationService.confirm({
+  //     message: 'Pelanggan dengan ID ' + this.form.controls['idPelanggan'].value + ' telah berhasil dihapus',
+  //     header: 'Pelanggan dihapus',
+  //   });
+  // }
 
   GetConfirmAdd() {
     this.confirmationService.confirm({
@@ -134,6 +138,18 @@ export class MasterPelangganComponent implements OnInit {
       }
     });
 
+  }
+
+  getData(){
+    this.masterPelangganService.findAll().subscribe({
+      next: (res: any) => {
+        this.pelanggan = res;
+        // console.log(res);
+      },
+      error: (error) => {
+        console.error('ini error: ', error);
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -234,11 +250,17 @@ export class MasterPelangganComponent implements OnInit {
       if (this.isDelete) {
         this.masterPelangganService.deleteMasterPelanggan(this.form.controls['idPelanggan'].value).subscribe({
           next: (res: any) => {
-            this.onReset();
+            
             this.masterform = false;
+            // this.GetConfirmDelete();
+            this.berhasilDelete = true;
+            this.onReset();
+            
             // console.log(res);
           },
           error: (error) => {
+            //this.gagalDelete = true;
+            this.cekErrorDel = true;
             console.error('ini error: ', error);
           }
         });
@@ -258,15 +280,17 @@ export class MasterPelangganComponent implements OnInit {
     this.refreshPage();
   }
 
-  onDelete(): void {
-    this.submitted = false;
-    this.masterform = false;
-    this.GetConfirmDelete();
-  }
+  // onDelete(): void {
+  //   this.submitted = false;
+  //   this.masterform = false;
+  //   this.GetConfirmDelete();
+  // }
 
   onResetNew(): void {
-    // this.masterform = false;
+    this.masterform = false;
     this.cekError = false;
+    this.cekErrorDel = false;
+    this.berhasilDelete = false;
     this.onReset()
   }
 

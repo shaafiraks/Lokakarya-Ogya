@@ -25,6 +25,7 @@ export class TransaksiTelkomComponent implements OnInit {
   public cols: any = [];
   public transaksi: any = [];
   public pelanggan: any = [];
+  public totalData: any;
   transaksiform: boolean = false;
   header: string = '';
   isEdit: boolean = false;
@@ -135,8 +136,20 @@ export class TransaksiTelkomComponent implements OnInit {
         console.error('ini error: ', error);
       }
     });
+    
   }
 
+  getData(){
+    this.transaksiTelkomService.findAll().subscribe({
+      next: (res: any) => {
+        this.transaksi = res;
+        // console.log(res);
+      },
+      error: (error) => {
+        console.error('ini error: ', error);
+      },
+    });
+  }
 
   ngOnInit(): void {
     this.refreshPage();
@@ -225,7 +238,7 @@ export class TransaksiTelkomComponent implements OnInit {
       }
 
       if (this.isDelete) {
-        this.transaksiTelkomService.deleteTransaksi(this.form.controls['status'].value).subscribe({
+        this.transaksiTelkomService.deleteTransaksi(this.form.controls['idTransaksi'].value).subscribe({
           next: (res: any) => {
             this.onReset();
             this.transaksiform = false;

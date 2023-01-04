@@ -7,6 +7,12 @@ import { Observable } from 'rxjs';
 })
 export class DashboardService {
 
+  findAllMasterPelanggan():Observable<any>{
+    return this.http.get("http://localhost:8080/masterpelanggan/findAllPlan",{
+      responseType: "json",
+    })
+  }
+
   findAllMasterBank():Observable<any> {
     return this.http.get('http://localhost:8080/masterbank/findAllPlan', {
       responseType:'json',

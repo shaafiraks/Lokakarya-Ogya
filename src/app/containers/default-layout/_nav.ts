@@ -20,12 +20,12 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-user' }
   },
   {
-    name: 'Transaksi Telkom',
+    name: 'Laporan Penunggakan',
     url: '/admin/transaksi-telkom',
     iconComponent: { name: 'cil-swap-horizontal' }
   },
   {
-    name: 'Telp History',
+    name: 'Laporan Pelunasan',
     url: '/admin/telp-history',
     iconComponent: { name: 'cil-history' }
   },
@@ -56,7 +56,12 @@ export const navItems: INavData[] = [
   },
   {
     name: 'History Bank',
-    url: '/useradm/history-transaksi',
+    url: '/bankadm/history-transaksi',
+    iconComponent: { name: 'cil-history' }
+  },
+  {
+    name: 'Master Bank',
+    url: '/bankadm/master-bank',
     iconComponent: { name: 'cil-history' }
   },
   {

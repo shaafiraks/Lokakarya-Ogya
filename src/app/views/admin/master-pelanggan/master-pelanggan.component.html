@@ -170,7 +170,7 @@
               type="submit"
               class="btn p-button-danger"
               style="color: white"
-              (click)="onDelete()"
+              (click)="onSubmit()"
             >
               Delete
             </button>
@@ -183,7 +183,7 @@
   <c-card class="mb-4">
     <c-card-header>
       <!-- <strong>Employee List <span>({{ pelanggan?.length}} data)</span></strong> -->
-      <strong>Master Pelanggan</strong>
+      <strong>Master Pelanggan <span>({{ pelanggan?.length}} data)</span></strong>
     </c-card-header>
 
 
@@ -221,6 +221,10 @@
                 ID Pelanggan
                 <p-sortIcon field="idPelanggan"></p-sortIcon>
               </th>
+              <th pSortableColumn="userId" class="text-center">
+                ID Pengguna
+                <p-sortIcon field="userId"></p-sortIcon>
+              </th>
               <th pSortableColumn="nama" class="text-center">
                 Nama
                 <p-sortIcon field="nama"></p-sortIcon>
@@ -234,10 +238,7 @@
                 Alamat
                 <p-sortIcon field="alamat"></p-sortIcon>
               </th>
-              <th pSortableColumn="userId" class="text-center">
-                ID Pengguna
-                <p-sortIcon field="userId"></p-sortIcon>
-              </th>
+
               <th class="text-center">Action</th>
             </tr>
           </ng-template>
@@ -277,11 +278,11 @@
 
 
 
-<!-- TAMPIL DIALOG (ERROR) NO REK TIDAK DITEMUKAN  -->
+<!-- TAMPIL DIALOG (ERROR) PENGGUNA SUDAH TERDAFTAR  -->
 <p-dialog #cek header="Info" [(visible)]="cekError" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
   <c-card-body>
       <div>
-          <p><b>Pengguna Sudah Terdaftar</b></p>
+          <p><b>Pengguna sudah terdaftar</b></p>
       </div>
   </c-card-body>
   <ng-template pTemplate="footer">
@@ -289,3 +290,33 @@
           (click)="onResetNew()"></button>
   </ng-template>
 </p-dialog>
+
+<!-- TAMPIL DIALOG (ERROR) TIDAK BISA HAPUS  -->
+<p-dialog #cek header="Gagal menghapus" [(visible)]="cekErrorDel" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+  <c-card-body>
+      <div>
+          <p><b>Pengguna tidak dapat dihapus</b></p>
+      </div>
+  </c-card-body>
+  <ng-template pTemplate="footer">
+      <button type="button" class="p-button-danger" pButton icon="pi pi-times" label="Tutup"
+          (click)="onResetNew()"></button>
+  </ng-template>
+</p-dialog>
+
+<!-- TAMPIL DIALOG BERHASIL DELETE  -->
+<p-dialog #cek header="Berhasil menghapus" [(visible)]="berhasilDelete" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+  <c-card-body>
+      <div>
+          <p><b>Pelanggan berhasil dihapus</b></p>
+      </div>
+      <!-- <option *ngFor="let item of users" value="{{ item.userId }}">
+        {{ item.userId }}: {{ item.nama }}
+      </option> -->
+  </c-card-body>
+  <ng-template pTemplate="footer">
+      <button type="button" class="p-button-primary" pButton icon="pi pi-times" label="Tutup"
+          (click)="onResetNew()"></button>
+  </ng-template>
+</p-dialog>
+

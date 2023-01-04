@@ -39,5 +39,11 @@ export class TelpHistoryService {
     return this.http.delete('http://localhost:8080/historytelkom/deleteById?id=' + id);
   }
 
+  getNominal(): Observable<any> {
+    return this.http.get('http://localhost:8080/historytelkom/sumAll', {
+      responseType: 'json',
+    });
+  }
+
   constructor(private http: HttpClient) { }
 }

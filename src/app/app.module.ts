@@ -51,6 +51,10 @@ import {AccordionModule} from 'primeng/accordion';     //accordion and accordion
 import {ConfirmationService, MenuItem, MessageService} from 'primeng/api';
 import { MasterBankComponent } from './views/bankadm/master-bank/master-bank.component';
 import { HistoryTransaksiComponent } from './views/bankadm/history-transaksi/history-transaksi.component'; 
+import { InputTextModule } from 'primeng/inputtext';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -94,6 +98,9 @@ const APP_CONTAINERS = [
     BadgeModule,
     ListGroupModule,
     CardModule,
+    InputTextModule,
+    DialogModule,
+    ConfirmDialogModule
   ],
   providers: [ ConfirmationService, MessageService,
     {

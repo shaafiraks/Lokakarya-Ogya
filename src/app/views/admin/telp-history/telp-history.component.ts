@@ -20,6 +20,7 @@ import { MasterPelangganService } from '../master-pelanggan/master.service';
 export class TelpHistoryComponent implements OnInit {
   public cols: any = [];
   public telpHistory: any = [];
+  public totalTagihan: any = [];
   public pelanggan: any = [];
   telpHistoryForm: boolean = false;
   header: string = '';
@@ -119,6 +120,39 @@ export class TelpHistoryComponent implements OnInit {
       error: (error) => {
         console.error('ini error: ', error);
       }
+    });
+    this.telpHistoryService.getNominal().subscribe({
+      next: (res: any) => {
+        this.totalTagihan = res;
+        // console.log(res);
+      },
+      error: (error) => {
+        console.error('ini error: ', error);
+      },
+    });
+  }
+
+  getData(){
+    this.telpHistoryService.findAll().subscribe({
+      next: (res: any) => {
+        this.telpHistory = res;
+        // console.log(res);
+      },
+      error: (error) => {
+        console.error('ini error: ', error);
+      },
+    });
+  }
+
+  getTotalNominal(){
+    this.telpHistoryService.getNominal().subscribe({
+      next: (res: any) => {
+        this.totalTagihan = res;
+        console.log(this.totalTagihan);
+      },
+      error: (error) => {
+        console.error('ini error: ', error);
+      },
     });
   }
 

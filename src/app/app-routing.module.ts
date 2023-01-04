@@ -43,7 +43,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/useradm/useradm.module').then((m) => m.UseradmModule),
           // data: {
-          //   expectedRole: 'tlpadm'
+          //   expectedRole: 'useradm'
           // }
       },
       {
@@ -52,7 +52,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/bankadm/bankadm.module').then((m) => m.BankadmModule),
           // data: {
-          //   expectedRole: 'tlpadm'
+          //   expectedRole: 'bankadm'
           // }
       },
       {
