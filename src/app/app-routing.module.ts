@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './auth-guard.service';
+import { RoleGuardService } from './role-guard.service';
 import { DefaultLayoutComponent } from './containers';
 import { Page404Component } from './views/pages/page404/page404.component';
 import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
-import { RoleGuardService } from './role-guard.service';
-
 
 const routes: Routes = [
   {
@@ -28,32 +27,42 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/dashboard/dashboard.module').then((m) => m.DashboardModule)
       },
+      //TAMBAH GUARD UNTUK ROLE
       {
         path: 'admin',
-        // canActivate: [RoleGuardService],
+        canActivate: [RoleGuardService],
         loadChildren: () =>
-          import('./views/admin/admin.module').then((m) => m.AdminModule),
-          // data: {
-          //   expectedRole: 'tlpadm'
-          // }
+          import('./views/admin/admin.module').then((m) => m.AdminModule), 
+          data: { 
+            expectedRole: 'useradm'
+          }
       },
       {
-        path: 'useradm',
-        // canActivate: [RoleGuardService],
+        path: 'tlpadmin',
+        canActivate: [RoleGuardService],
         loadChildren: () =>
-          import('./views/useradm/useradm.module').then((m) => m.UseradmModule),
-          // data: {
-          //   expectedRole: 'useradm'
-          // }
+          import('./views/tlpadmin/tlpadmin.module').then((m) => m.TlpadminModule), 
+          data: { 
+            expectedRole: 'tlpadm'
+          }
       },
       {
         path: 'bankadm',
-        // canActivate: [RoleGuardService],
+        canActivate: [RoleGuardService],
         loadChildren: () =>
-          import('./views/bankadm/bankadm.module').then((m) => m.BankadmModule),
-          // data: {
-          //   expectedRole: 'bankadm'
-          // }
+          import('./views/bankadm/bankadm.module').then((m) => m.BankadmModule), 
+          data: { 
+            expectedRole: 'bankadm'
+          }
+      },
+      {
+        path: 'transaksi',
+        canActivate: [RoleGuardService],
+        loadChildren: () =>
+          import('./views/transaksi/transaksi.module').then((m) => m.TransaksiModule), 
+          data: { 
+            expectedRole: 'nasabah'
+          }
       },
       {
         path: 'theme',

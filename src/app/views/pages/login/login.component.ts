@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { AuthGuardService } from 'src/app/auth-guard.service';
-import { LoginService } from './login.service';
+import { LoginService } from './login.service'
 
 @Component({
   selector: 'app-login',
@@ -9,51 +10,96 @@ import { LoginService } from './login.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-
+  
+  nama = "";
   username = "";
   password = "";
-  data: any =[]
-
+  roles: any = [];
+  
   constructor(
     private _auth: AuthGuardService,
     private _router: Router,
     private loginService: LoginService,
-  ) {
-    if(this._auth.loggedIn){
+    private messageService: MessageService,
+    ) {
+    if (this._auth.loggedIn) {
       this._router.navigate(['dashboard']);
     }
-   }
-
-   login(){
-
-    console.log(this.username, 'username')
-    console.log(this.password, 'password')
-
+  }
+  
+  login() {
     this.loginService.login(this.username, this.password).subscribe({
       next: (res: any) => {
-        console.log(res);
-
-        // memasukan data ke local storage
+        var data = res.data[0].hakAkses;
+        
+        //sorting berdasarkan hakAksesId
+        data = Object.keys(data).sort((a, b) => data[a].hakAksesId - data[b].hakAksesId).map(f => data[f]);
+        
+        //sorting berdasarkan roleMenu
+        for (let i = 0; i < data.length; i++) {
+          data[i].roles.roleMenu = Object.keys(data[i].roles.roleMenu).sort((a, b) => data[i].roles.roleMenu[a].roleMenuId - data[i].roles.roleMenu[b].roleMenuId).map(f => data[i].roles.roleMenu[f]);
+        }
+        
+        console.log(data);
         localStorage.setItem('username', res.data[0].username);
-        localStorage.setItem('roles', (res.data[0].hakAkses[0].roles.nama));
-        localStorage.setItem('menu', JSON.stringify(res.data[0].hakAkses[0].roles.roleMenu));
-        localStorage.setItem('userId', res.data[0].userId);
+        localStorage.setItem('nama', res.data[0].nama);
+        localStorage.setItem('data', JSON.stringify(data));
         localStorage.setItem('token', 'x');
+        localStorage.setItem('userId', res.data[0].userId);
         this._router.navigate(['dashboard']);
       },
       error: (error) => {
-        console.log('Ini error: ' + error);
-        alert(error.error.message);
+        console.error('ini error: ', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error Message',
+          detail: error.error.message,
+        });
+        // alert(error.error.message);
       }
     });
-    // if(this.username == 'nn' && this.password == 'x'){
-    // localStorage.setItem('token', 'x')
-    // localStorage.setItem('role', 'nasabah')
-    // this._router.navigate(['dashboard']);
-    // } else {
-    //   alert('Gagal Login')
-    // }
+  }
 
-   }
+  public get loggedIn(): boolean {
+    return (localStorage.getItem('token') != null);
+  }
+
+
+  // username = "";
+  // password = "";
+  // data: any = [];
+
+  // constructor(
+  //   private _auth: AuthGuardService,
+  //   private _router: Router,
+  //   private loginService: LoginService,
+  // ) {
+  //   if (this._auth.loggedIn) {
+  //     this._router.navigate(['dashboard']);
+  //   }
+  // }
+
+  // //login user
+  // login() {
+  //   console.log(this.username, 'username');
+  //   console.log(this.password, 'password');
+  //   this.loginService.login(this.username,this.password).subscribe({
+  //     next: (res: any) => {
+  //       console.log(res);
+
+  //       //memasukkan data ke localstorage
+  //       localStorage.setItem('username', res.data[0].username);
+  //       localStorage.setItem('roles', res.data[0].hakAkses[0].roles.nama);
+  //       localStorage.setItem('menu', JSON.stringify(res.data[0].hakAkses[0].roles.roleMenu));
+  //       localStorage.setItem('userId', res.data[0].userId);
+  //       localStorage.setItem('token', 'x');
+  //       this._router.navigate(['dashboard']);
+  //     },
+  //     error: (error) => {
+  //       console.error('ini error: ', error);
+  //       alert(error.error.message);
+  //     }
+  //   });
+  // }
 
 }

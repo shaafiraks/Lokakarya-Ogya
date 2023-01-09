@@ -1,50 +1,33 @@
-// // Here you can add other styles
+// Here you can add other styles
 
-// @import '~@angular/material/theming';
-// @use '@angular/material' as mat;
+// .sidebar{
+//     background-color: blue;
+// }
 
-
-// $my-custom-level: mat.define-typography-level(
-//   $font-family: Roboto,
-//   $font-weight: 400,
-//   $font-size: 1rem,
-//   $line-height: 1,
-//   $letter-spacing: normal,
-// );
-
-// @include mat.core($custom-typography);
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-
-.font-primary{
-    font-family: 'Poppins', sans-serif;
+.wrapper {
+    background-image: url(../Banner.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
-.sidebar-nav, .sidebar-toggler, .sidebar-brand{
-    background: #063A41 !important;
-    color: black !important;
-    
-}
-
-c-sidebar-nav-link-content{
-    color: #EFF5F5 !important;
-    // font-family: 'Poppins', sans-serif;
-}
-
-c-sidebar{
-    color: #EFF5F5 !important;
-    font-family: 'Poppins', sans-serif;
-}
+// .header{
+//     background: rgba(255, 255, 255, 0);
+// }
 
 header {
-    font-family: 'Poppins', sans-serif !important;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    font-family: 'Poppins', sans-serif ;
+    font-family: 'Poppins', sans-serif;
 }
 
 footer {
+    font-family: 'Poppins', sans-serif;
+}
+
+c-side-bar {
     font-family: 'Poppins', sans-serif;
 }
 
@@ -53,52 +36,50 @@ table {
 }
 
 c-card {
-    font-family: 'Poppins', sans-serif !important;
+    font-family: 'Poppins', sans-serif;
 }
 
-button{
-    font-family: 'Poppins', sans-serif !important;
+button {
+    font-family: 'Poppins', sans-serif;
 }
 
-c-container {
-    font-family: 'Poppins', sans-serif !important;
+.p-dialog .p-dialog-header {
+    background: #64748B !important;
+    color: white !important;
+    padding: 1rem
 }
 
-c-card-header {
-    height: 50px;
-    font-weight: 500;
-    font-size: 24px;
+.p-dialog-body {
+    padding-top: 20px;
 }
 
-.wrapper {
-    background-color: #EFF5F5;
-    // background-image: url(../assets/images/bg-dashboard.png);
-    // background: linear-gradient(113.37deg, #05373F 14.1%, #0d545f 30.87%, #0d545f  52.06%);
+.p-confirm-dialog .p-dialog-content {
+    display: flex;
+    align-items: center;
+    padding-top: 20px !important;
 }
 
-.header {
-    // background: rgba(255, 255, 255, 0);
-    background: #063A41;
-    // background: rgba(52, 58, 64, 1) !important;
+// .p-dialog .p-dialog-content {
+//     padding-bottom: 5rem !important;
+// }
+
+.pi-times {
+    color: white;
 }
 
-body{
-    font-family: 'Poppins', sans-serif !important;
-    // background: linear-gradient(113.37deg, #D6E4E5 14.1%, #BFD8E0 30.87%, #88BCD6 52.06%);
-    background: rgba(255, 255, 255, 0);
+.borderStyle {
+    border: 3px solid white;
 }
 
-.dashboard-font{
-    color: black;
-    font-weight: 700;
-    font-size: 60px;
+// .p-button {
+//     border: 3px solid #ffff !important;
+// }
 
+.img-brand {
+    height: auto;
 }
 
-.card-btn{
-    background: rgba(255, 255, 255, 0);
+.p-datatable .p-datatable-thead>tr>th {
+    text-align: center !important;
 }
 
-.side-logo{
-    color: #FFFFFF;
-}

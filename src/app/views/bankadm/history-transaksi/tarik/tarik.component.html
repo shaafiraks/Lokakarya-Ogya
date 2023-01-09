@@ -1,0 +1,56 @@
+<c-col xs="12">
+    <c-card class="mb-4">
+        <c-card-header>
+            <strong>History Tarik <span>({{ tarikHistory?.length}} data)</span></strong>
+        </c-card-header>
+
+        <!-- tampilan data tabel -->
+        <div class="tab-content rounded-bottom">
+            <div class="tab-pane p-3 active preview table-responsive" role="tabpanel" id="preview-24">
+                <p>Jumlah transaksi tarik hari ini : <b> {{tarikHariIni}} transaksi </b></p>
+                <hr>
+                <p-table #dt [value]="tarikHistory" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15,20]"
+                    [globalFilterFields]="['idHistoryBank', 'norek','nama', 'alamat', 'tanggal', 'uang', 'noRekTujuan', 'noTlp']">
+                    <ng-template pTemplate="caption">
+                        <div class="flex">
+                            <span class="p-input-icon-left p-ml-auto">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" [(ngModel)]="searchQuery"
+                                    (input)="dt.filterGlobal($any($event.target)?.value, 'contains')"
+                                    placeholder="Search">
+                            </span>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Id History Bank</th>
+                            <th>Nomor Rekening</th>
+                            <th>Nama Nasabah
+                                <p-columnFilter type="text" field="nama" display="menu"></p-columnFilter>
+                            </th>
+                            <th pSortableColumn="tanggal">Tanggal
+                                <p-sortIcon field="tanggal"></p-sortIcon>
+                                <p-columnFilter type="text" field="tanggal" display="menu"></p-columnFilter>
+                            </th>
+                            <th>Nominal</th>
+                            <th>Keterangan</th>
+                            <!-- <th>Nomor Rekening Tujuan</th> -->
+                            <!-- <th>Nomor Telepon</th> -->
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-historyTransaksi>
+                        <tr>
+                            <td>{{historyTransaksi.idHistoryBank}}</td>
+                            <td>{{historyTransaksi.norek}}</td>
+                            <td>{{historyTransaksi.nama}}</td>
+                            <td>{{historyTransaksi.tanggal | date: 'dd-MM-y h:mm a'}}</td>
+                            <td>{{historyTransaksi.uang | currency:'IDR ':'symbol':'3.2-2'}}</td>
+                            <td>{{historyTransaksi.statusKet}}. Tarik Tunai</td>
+                            <!-- <td>{{historyTransaksi.noRekTujuan}}</td> -->
+                            <!-- <td>{{historyTransaksi.noTlp}}</td> -->
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+            <c-card-body>

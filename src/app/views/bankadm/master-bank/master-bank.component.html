@@ -2,7 +2,8 @@
 
     <!-- menambahkan button add nasabah -->
     <div class="mb-4" style="text-align:right; margin:15px 15px 0px 15px;">
-        <button pButton color="primary" (click)="showAdd()">Add Nasabah</button>
+        <button pButton pRipple type="button" label="Add Nasabah" icon="pi pi-plus" class="p-button-warning"
+            (click)="showAdd()"></button>
     </div>
 
     <!-- konfirmasi button -->
@@ -13,7 +14,8 @@
     </p-confirmDialog>
 
     <!-- form untuk add dan edit nasabah -->
-    <p-dialog header={{header}} [(visible)]="masterBankform" [style] = "{width : '50%'}" [draggable]="false" [dismissableMask]="false">
+    <p-dialog header={{header}} [(visible)]="masterBankform" [style]="{width : '50%'}" [draggable]="false"
+        [dismissableMask]="false">
         <div>
             <hr>
             <div class="mt-4">
@@ -25,16 +27,22 @@
                                 [ngClass]="{'is-invalid':submitted && f['norek'].errors}">
                         </div>
 
+                        <div *ngIf="isAdd || isDelete">
+                            <label>ID Pengguna</label>
+                            <select class="form-select" formControlName="userId" aria-label="select users"
+                                (change)="changeSelect($event)">
+                                <option value="">(choose)</option>
+                                <option *ngFor="let item of users" value="{{ item.userId }}">
+                                    {{ item.userId }}: {{ item.nama }}</option>
+                            </select>
+                        </div>
+
                         <label>Nama Nasabah</label>
                         <input type="text" formControlName="nama" class="form-control"
                             [ngClass]="{'is-invalid':submitted && f['nama'].errors}" />
                         <div *ngIf="submitted && f['nama'].errors" class="invalid-feedback">
                             <div *ngIf="f['nama'].errors['required']">Nama Nasabah is required</div>
                         </div>
-
-                        <label>User Id</label>
-                        <input type="text" formControlName="userId" class="form-control"
-                            [ngClass]="{'is-invalid':submitted && f['userId'].errors}" />
 
                         <label>Alamat</label>
                         <input type="text" formControlName="alamat" class="form-control"
@@ -44,31 +52,33 @@
                         </div>
 
                         <label>Nomor Telepon</label>
-                        <input type="number" formControlName="notlp" class="form-control"
+                        <input type="text" formControlName="notlp" class="form-control"
                             [ngClass]="{'is-invalid':submitted && f['notlp'].errors}" />
                         <div *ngIf="submitted && f['notlp'].errors" class="invalid-feedback">
                             <div *ngIf="f['notlp'].errors['required']">Nomor Telepon Nasabah is required</div>
                         </div>
 
-                        <label>Saldo</label>
-                        <input type="number" formControlName="saldo" class="form-control"
-                            [ngClass]="{'is-invalid':submitted && f['saldo'].errors}" />
-                        <div *ngIf="submitted && f['saldo'].errors" class="invalid-feedback">
-                            <div *ngIf="f['saldo'].errors['required']">Saldo Nasabah is required</div>
+                        <div *ngIf="isAdd||isDelete">
+                            <label>Nominal</label>
+                            <input type="number" formControlName="saldo" class="form-control"
+                                [ngClass]="{'is-invalid':submitted && f['saldo'].errors}">
                         </div>
-
                     </div>
 
                     <!-- tombol di dalam form add dan edit -->
                     <div *ngIf="isEdit || isAdd" class="form-group mt-4" align="center">
-                        <button pButton type="button" label="Submit" class="p-button-primary" (click)="onSubmit()"></button>&nbsp;
-                        <button pButton type="button" label="Reset" class="p-button-warning"(click)="onReset()"></button>
+                        <button pButton type="button" label="Submit" class="p-button-primary"
+                            (click)="onSubmit()"></button>&nbsp;
+                        <button pButton type="button" label="Reset" class="p-button-warning"
+                            (click)="onReset()"></button>
                     </div>
 
                     <!-- tombol di dalam form delete -->
                     <div *ngIf="isDelete" class="form-group mt-4" align="center">
-                        <button pButton type="submit" label="Delete" class="p-button-danger" (click)="onDelete()"></button>&nbsp;
-                        <button pButton type="button" label="Reset" class="p-button-warning" (click)="onReset()"></button>                  
+                        <button pButton type="submit" label="Delete" class="p-button-danger"
+                            (click)="onDelete()"></button>&nbsp;
+                        <button pButton type="button" label="Reset" class="p-button-warning"
+                            (click)="onReset()"></button>
                     </div>
                 </form>
             </div>
@@ -80,19 +90,32 @@
         <c-card-header>
             <strong>Data Nasabah<span>({{ masterBank?.length}} data)</span></strong>
         </c-card-header>
-        
+
         <!-- tabel yang ditampilkan -->
         <div class="tab-content rounded-bottom">
             <div class="tab-pane p-3 active preview table-responsive" role="tabpanel" id="preview-24">
-                <p-table [value]="masterBank" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15,20]">
+                <p-table #dt [value]="masterBank" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15,20]"
+                    [globalFilterFields]="['norek','nama', 'alamat', 'notlp', 'saldo', 'userId']">
+                    <ng-template pTemplate="caption">
+                        <div class="flex">
+                            <span class="p-input-icon-left p-ml-auto">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" [(ngModel)]="searchQuery"
+                                    (input)="dt.filterGlobal($any($event.target)?.value, 'contains')"
+                                    placeholder="Search">
+                            </span>
+                        </div>
+                    </ng-template>
                     <ng-template pTemplate="header">
                         <tr>
                             <th>Nomor Rekening</th>
-                            <th>Nama Nasabah</th>
+                            <th pSortableColumn="userId">User Id <p-sortIcon field="userId"></p-sortIcon></th>
+                            <th>Nama Nasabah
+                                <p-columnFilter type="text" field="nama" display="menu"></p-columnFilter>
+                            </th>
                             <th>Alamat</th>
                             <th>Nomor Telepon</th>
                             <th>Saldo</th>
-                            <th pSortableColumn="userId">User Id <p-sortIcon field="userId"></p-sortIcon></th>
                             <th>
                                 Action
                             </th>
@@ -101,18 +124,20 @@
                     <ng-template pTemplate="body" let-masterBank>
                         <tr>
                             <td>{{masterBank.norek}}</td>
+                            <td>{{masterBank.userId}}</td>
                             <td>{{masterBank.nama}}</td>
                             <td>{{masterBank.alamat}}</td>
                             <td>{{masterBank.notlp}}</td>
-                            <td>{{masterBank.saldo  | currency:'Rp. ':'symbol':'3.2-2'}}</td>
-                            <td>{{masterBank.userId}}</td>
+                            <td>{{masterBank.saldo | currency:'IDR ':'symbol':'3.2-2'}}</td>
 
                             <!-- button edit dan delete -->
                             <td class="row">
-                                <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-info p-button-text col"
-                                (click)="showEdit(masterBank)"></button> &nbsp;
-                                <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text col"
-                                (click)="showDelete(masterBank)"></button>
+                                <button pButton pRipple type="button" icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-info p-button-text col"
+                                    (click)="showEdit(masterBank)"></button> &nbsp;
+                                <button pButton pRipple type="button" icon="pi pi-trash"
+                                    class="p-button-rounded p-button-danger p-button-text col"
+                                    (click)="showDelete(masterBank)"></button>
                             </td>
                         </tr>
                     </ng-template>

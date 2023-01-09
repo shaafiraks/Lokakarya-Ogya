@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,8 +9,10 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  login(email: String, password: String):Observable<any>{
-    return this.http.get("http://localhost:8080/users/login?identity=" + email + "&password=" + password,{
+  //ambil data dari database
+  login(username:String, password:String):Observable<any>{
+    return this.http.get("http://localhost:8080/users/login?identity="+username+'&password='+password,{
+      responseType: "json",
     })
   }
 }

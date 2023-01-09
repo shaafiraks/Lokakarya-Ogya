@@ -1,0 +1,21 @@
+.container{
+    display: flex;
+align-items: center;
+}
+
+.buttonStyle {
+    background: #FF9800;
+}
+
+.p-button-warning {
+    border: 1px solid white;
+}
+
+.buttonStyle:enabled:hover {
+    background: #ffab2c;
+}
+
+.card-header {
+    background-color:#64748B ;
+    color:#ffff;
+}

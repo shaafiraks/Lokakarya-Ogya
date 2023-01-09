@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { MasterPelangganComponent } from './master-pelanggan/master-pelanggan.component';
-import { TransaksiTelkomComponent } from './transaksi-telkom/transaksi-telkom.component';
-import { TelpHistoryComponent } from './telp-history/telp-history.component';
+import { UserComponent } from './user/user.component';
+import { HakAksesComponent } from './hak-akses/hak-akses.component';
+import { RoleComponent } from './role/role.component';
+import { RoleMenuComponent } from './role-menu/role-menu.component';
+import { MenuComponent } from './menu/menu.component';
+import { SubMenuComponent } from './sub-menu/sub-menu.component';
 
 const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Admin',
+      title: '',
     },
     children: [
       {
@@ -18,27 +21,47 @@ const routes: Routes = [
         redirectTo: 'Admin',
       },
       {
-        path: 'master-pelanggan',
-        component: MasterPelangganComponent,
+        path: 'user',
+        component: UserComponent,
         data: {
-          title: 'Master Pelanggan',
+          title: 'User',
         },
       },
       {
-        path: 'transaksi-telkom',
-        component: TransaksiTelkomComponent,
+        path: 'hak-akses',
+        component: HakAksesComponent,
         data: {
-          title: 'Transaksi Telkom',
+          title: 'Hak Akses',
         },
       },
       {
-        path: 'telp-history',
-        component: TelpHistoryComponent,
+        path: 'role',
+        component: RoleComponent,
         data: {
-          title: 'Telp History',
+          title: 'Role',
         },
-      }
-
+      },
+      {
+        path: 'role-menu',
+        component: RoleMenuComponent,
+        data: {
+          title: 'Role Menu',
+        },
+      },
+      {
+        path: 'menu',
+        component: MenuComponent,
+        data: {
+          title: 'Menu',
+        },
+      },
+      {
+        path: 'sub-menu',
+        component: SubMenuComponent,
+        data: {
+          title: 'Sub Menu',
+        },
+      },
     ],
   },
 ];

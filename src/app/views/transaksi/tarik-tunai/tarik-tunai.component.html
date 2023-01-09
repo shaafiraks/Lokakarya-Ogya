@@ -1,0 +1,292 @@
+<c-row>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <c-card-header [ngStyle]="{backgroundColor:'#64748B'}">
+                <strong style="color: white;"><i class="uil uil-money-withdrawal icon-wid"></i> Tarik Tunai</strong>
+            </c-card-header>
+            <c-card-body class="body-con">
+                <!-- INPUT NOREK  -->
+                <form (ngSubmit)="showNasabah(); " [formGroup]="form">
+                    <div class="row container p-grid p-fluid">
+                        <div class="form-group p-field col-md-6">
+                            <label>Masukkan Nomor Rekening</label>
+                        </div>
+                        <div class="col-md-1"><b>:</b></div>
+                        <div class="form-group p-field col-md-5 p-md-3">
+                            <p-inputNumber name="norek" placeholder="ex:001" formControlName="cekSaldo"
+                                [ngClass]="{'is-invalid' : submitted && f['cekSaldo'].errors}" [(ngModel)]="norek"
+                                [useGrouping]="false" class="p-inputtext-sm">
+                            </p-inputNumber>
+                            <!-- Untuk menampilkan pesan error -->
+                            <div *ngIf="submitted && f['cekSaldo'].errors" class="invalid-feedback">
+                                <div *ngIf="f['cekSaldo'].errors['required']"> Masukkan nomor rekening </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row btn-div ">
+                        <div class="col">
+                            <button pButton type="button" class="btn btn-sm p-button-secondary " routerLink="dashboard">
+                                Kembali
+                            </button>&nbsp;
+                            <button pButton type="submit" class="btn btn-sm p-button-primary "
+                                (click)="goDown1()">Submit</button>
+                            <br><br>
+
+                            <!-- <button pButton (click)="findAll()" type="button" class="btn btn-sm p-button-danger float-right" >
+                                Lihat Data dulu</button> -->
+                        </div>
+                    </div>
+                </form>
+            </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>
+
+<!-- TAMPIL DATA NASABAH  -->
+<c-card style="margin-bottom: 50px;" id="dataNasabah">
+    <c-card-body>
+        <div class="row">
+            <div class="col">
+                <p-table [value]="nasabah" styleClass="p-datatable-striped">
+                    <ng-template pTemplate="body" let-nas>
+                        <tr>
+                            <th [ngStyle]="{color:'var(--blue-500)'}" style="font-size: 120%;"><b>Info Nasabah : </b>
+                            </th>
+                        </tr>
+                        <th colspan="3">
+                            <hr>
+                        </th>
+                        <tr>
+                            <th>Nomor Rekening</th>
+                            <th> : </th>
+                            <td><b>{{nas.norek}}</b></td>
+                        </tr>
+                        <tr>
+                            <th>Nama</th>
+                            <th> : </th>
+                            <td>{{nas.nama}}</td>
+                        </tr>
+                        <tr>
+                            <th><b>Saldo</b></th>
+                            <th> : </th>
+                            <td><b>{{nas.saldo | currency:'IDR ':'symbol':'3.2-2'}}</b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><button type="button" pButton class="btn p-button-primary"
+                                    (click)="showFormPilihanNominal()" style="width: 100%;
+                                text-align: center;
+                                font-weight: 800;">Tarik Tunai</button></td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+
+
+    </c-card-body>
+</c-card>
+
+
+<!-- DIALOG  TAMPIL TARIK TUNAI -->
+<p-dialog [ngStyle]="{color:'var(--blue-500)'}" header="Tarik Tunai : " [(visible)]="display1" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <c-card-body>
+        <p-table [value]="nasabah">
+            <ng-template pTemplate="body" let-nas>
+                <tr>
+                    <th><b>Nomor Rekening</b></th>
+                    <th></th>
+                    <th> : </th>
+                    <td>{{nas.nomorRekening}}</td>
+                </tr>
+                <tr>
+                    <th>Nama</th>
+                    <th></th>
+                    <th> : </th>
+                    <td>{{nas.namaNasabah}}</td>
+                </tr>
+                <tr>
+                    <th><b>Nominal Tarik</b></th>
+                    <th></th>
+                    <th> : </th>
+                    <td>{{nas.nominal | currency:'IDR ':'symbol':'3.2-2'}}</td>
+                </tr>
+                <tr>
+                    <th><b>Sisa Saldo</b></th>
+                    <th></th>
+                    <th> : </th>
+                    <td><b>{{nas.saldo | currency:'IDR ':'symbol':'3.2-2'}}</b></td>
+                </tr>
+                <tr>
+                    <th><b>Waktu</b></th>
+                    <th></th>
+                    <th> : </th>
+                    <td><b>{{nas.tanggal | date: 'dd/MM/y HH:mm:ss'}}</b></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </c-card-body>
+    <ng-template pTemplate="footer">
+        <button type="button" class="p-button-warning" pButton icon="pi pi-times" label="Tutup"
+            (click)="onReset()"></button>
+    </ng-template>
+</p-dialog>
+<!-- <p-confirmDialog #cd [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+    <ng-template pTemplate="footer">
+        <button pButton class={{classButton}} (click)="cd.accept()">Tutup</button>
+    </ng-template>
+</p-confirmDialog> -->
+
+<!-- DIALOG KONFIRMASI TARIK TUNAI  -->
+<p-confirmDialog #konfirmasi [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}"
+    header="Info">
+    <hr>
+    <ng-template pTemplate="footer">
+        <button type="button" class="p-button-danger" pButton icon="pi pi-times" label="Batal"
+            (click)="konfirmasi.reject()"></button>
+        <button type="button" class="p-button-success" pButton icon="pi pi-check" label="Konfirmasi"
+            (click)="konfirmasi.accept()"></button>
+    </ng-template>
+
+</p-confirmDialog>
+
+<!-- TAMPIL DIALOG (ERROR) NO REK TIDAK DITEMUKAN  -->
+<p-dialog #cek header="Info" [(visible)]="cekNorek" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+    <c-card-body>
+        <div>
+            <p style="margin-top: 20px;"><b>{{errorMessage}}</b></p>
+        </div>
+    </c-card-body>
+    <ng-template pTemplate="footer">
+        <button type="button" class="p-button-danger" pButton icon="pi pi-times" label="Tutup"
+            (click)="onReset()"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- TAMPIL FORM TARIK TUNAI  -->
+<p-dialog header="Tarik Tunai : " [(visible)]="tampilForm" [draggable]="false"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false">
+    <c-card-body>
+        <form (ngSubmit)="onTarikTunai()" [formGroup]="form">
+            <div class="row container p-grid p-fluid">
+                <div class="form-group p-field col-md-5">
+                    <label>Masukkan Nomor Rekening Anda</label>
+                </div>
+                <div class="col-md-1"><b>:</b></div>
+                <div class="form-group p-field col-md-6 p-md-3">
+                    <p-inputNumber type="text" name="norek" [(ngModel)]="norek"
+                        [ngClass]="{'is-invalid' : submitted && f['norek'].errors}" formControlName="norek"
+                        placeholder="No. Rek" [useGrouping]="false" class="p-inputtext-sm">
+                    </p-inputNumber>
+                    <!-- Untuk menampilkan pesan error -->
+                    <div *ngIf="submitted && f['norek'].errors" class="invalid-feedback">
+                        <div *ngIf="f['norek'].errors['required']"> Masukkan nomor rekening </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row container p-grid p-fluid">
+                <div class="form-group p-field col-md-5">
+                    <label><b>Nominal Tarik</b></label>
+                </div>
+                <div class="col-md-1"><b>Rp.</b></div>
+                <div class="form-group p-field col-md-6 p-md-3">
+                    <p-inputNumber type="text" name="nominal" [(ngModel)]="nominal"
+                        [ngClass]="{'is-invalid' : submitted && f['nominal'].errors}" formControlName="nominal"
+                        placeholder="Nominal" class="p-inputtext-sm">
+                    </p-inputNumber>
+                    <!-- Untuk menampilkan pesan error -->
+                    <div *ngIf="submitted && f['nominal'].errors" class="invalid-feedback">
+                        <div *ngIf="f['nominal'].errors['required']"> Masukkan nominal Tarik </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row btn-div ">
+                <div class="col">
+                    <button pButton type="button" class="btn btn-sm p-button-secondary"
+                        (click)="onBatalFormTarik()">Batal</button>&nbsp;
+                    <button pButton type="submit" class="btn btn-sm p-button-primary">Tarik</button>
+                </div>
+            </div>
+        </form>
+    </c-card-body>
+</p-dialog>
+<!-- END FORM  -->
+
+<!-- TAMPIL FORM TARIK TUNAI  DENGAN PILIHAN NOMINAL-->
+<p-dialog header="Tarik Tunai : " [(visible)]="tampilFormPilihanNominal" [draggable]="false"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false">
+    <c-card-body>
+        <form (ngSubmit)="onTarikTunai()" [formGroup]="form">
+            <div class="row container p-grid p-fluid">
+                <div class="form-group p-field col-md-5">
+                    <label>Masukkan Nomor Rekening Anda</label>
+                </div>
+                <div class="col-md-1"><b>:</b></div>
+                <div class="form-group p-field col-md-6 p-md-3">
+                    <p-inputNumber type="text" name="norek" [(ngModel)]="norek"
+                        [ngClass]="{'is-invalid' : submitted && f['norek'].errors}" formControlName="norek"
+                        placeholder="No. Rek" [useGrouping]="false" class="p-inputtext-sm">
+                    </p-inputNumber>
+                    <!-- Untuk menampilkan pesan error -->
+                    <div *ngIf="submitted && f['norek'].errors" class="invalid-feedback">
+                        <div *ngIf="f['norek'].errors['required']"> Masukkan nomor rekening </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row container p-grid p-fluid">
+                <div>
+                    <label for=""><b>Pilih Nominal : </b></label>
+                </div><br><br>
+                <!-- SELECT BUTTON  -->
+                <div class="form-group p-field col">
+                    <p-selectButton [options]="stateOptions1" [(ngModel)]="nominal" formControlName="nominal"
+                        optionLabel="label" optionValue="value"></p-selectButton>
+                </div>
+                <div class="form-group p-field col">
+                    <p-selectButton [options]="stateOptions2" [(ngModel)]="nominal" formControlName="nominal"
+                        optionLabel="label" optionValue="value"></p-selectButton>
+                </div>
+            </div><br>
+            <div class="row container p-grid p-fluid">
+                <!-- SELECT BUTTON  -->
+                <div class="form-group p-field col">
+                    <p-selectButton [options]="stateOptions3" [(ngModel)]="nominal" formControlName="nominal"
+                        optionLabel="label" optionValue="value"></p-selectButton>
+                </div>
+                <div class="form-group p-field col">
+                    <p-selectButton [options]="stateOptions4" [(ngModel)]="nominal" formControlName="nominal"
+                        optionLabel="label" optionValue="value"></p-selectButton>
+                </div>
+            </div><br>
+            <div class="row container p-grid p-fluid">
+                <!-- SELECT BUTTON  -->
+                <div class="form-group p-field col">
+                    <p-selectButton [options]="stateOptions5" [(ngModel)]="nominal" formControlName="nominal"
+                        optionLabel="label" optionValue="value"></p-selectButton>
+                </div>
+                <div class="form-group p-field col">
+                    <p-selectButton [options]="stateOptions6" [(ngModel)]="nominal" formControlName="nominal"
+                        optionLabel="label" optionValue="value"></p-selectButton>
+                </div>
+            </div><br>
+            <div class="row container p-grid p-fluid">
+                <div class="col p-field ">
+                    <button pButton pRipple type="button" label="Input Nominal Lain"
+                        class="p-button-outlined p-button-secondary" style="float: right; "
+                        (click)="showFormTarik()"></button>
+                </div>
+            </div>
+            <div class="row btn-div ">
+                <div class="col">
+                    <button pButton type="button" class="btn btn-sm p-button-secondary"
+                        (click)="onBatalFormPilihanNominal()">Batal</button>&nbsp;
+                    <button pButton type="submit" class="btn btn-sm p-button-primary">Tarik</button>
+                </div><br><br><br><br>
+            </div>
+        </form>
+    </c-card-body>
+</p-dialog>
+
+
+<!-- TOAST -->
+<p-toast></p-toast>

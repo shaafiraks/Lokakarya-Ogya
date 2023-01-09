@@ -3,7 +3,7 @@
         <c-card-header>
             <strong>History Transaksi Nasabah <span>({{ historyTransaksi?.length}} data)</span></strong>
         </c-card-header>
-        
+
         <!-- tampilan data tabel -->
         <div class="tab-content rounded-bottom">
             <div class="tab-pane p-3 active preview table-responsive" role="tabpanel" id="preview-24">
@@ -28,16 +28,17 @@
                             <td>{{historyTransaksi.norek}}</td>
                             <td>{{historyTransaksi.nama}}</td>
                             <td>{{historyTransaksi.tanggal}}</td>
-                            <td>{{historyTransaksi.uang | currency:'Rp. ':'symbol':'3.2-2'}}</td>
+                            <td>{{historyTransaksi.uang | currency:'IDR ':'symbol':'3.2-2'}}</td>
                             <td *ngIf="historyTransaksi.statusKet==1">{{historyTransaksi.statusKet}} (Setor)</td>
                             <td *ngIf="historyTransaksi.statusKet==2">{{historyTransaksi.statusKet}} (Tarik)</td>
                             <td *ngIf="historyTransaksi.statusKet==3">{{historyTransaksi.statusKet}} (Transfer)</td>
-                            <td *ngIf="historyTransaksi.statusKet==4">{{historyTransaksi.statusKet}} (Bayar Telepon)</td>
+                            <td *ngIf="historyTransaksi.statusKet==4">{{historyTransaksi.statusKet}} (Bayar Telepon)
+                            </td>
                             <td>{{historyTransaksi.noRekTujuan}}</td>
                             <td>{{historyTransaksi.noTlp}}</td>
                         </tr>
                     </ng-template>
                 </p-table>
-        </div>
+            </div>
 
-        <c-card-body> 
+            <c-card-body>

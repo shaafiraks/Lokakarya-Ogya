@@ -12,287 +12,296 @@ export const navItems: INavData[] = [
   },
   {
     title: true,
-    name: 'Admin'
-  },
-  {
-    name: 'Master Pelanggan',
-    url: '/admin/master-pelanggan',
-    iconComponent: { name: 'cil-user' }
-  },
-  {
-    name: 'Laporan Penunggakan',
-    url: '/admin/transaksi-telkom',
-    iconComponent: { name: 'cil-swap-horizontal' }
-  },
-  {
-    name: 'Laporan Pelunasan',
-    url: '/admin/telp-history',
-    iconComponent: { name: 'cil-history' }
+    name: 'Menu'
   },
   {
     name: 'User',
-    url: '/useradm/user',
-    iconComponent: { name: 'cil-history' }
-  },
-  {
-    name: 'Role',
-    url: '/useradm/role',
-    iconComponent: { name: 'cil-history' }
-  },
-  {
-    name: 'Role Menu',
-    url: '/useradm/role-menu',
-    iconComponent: { name: 'cil-history' }
-  },
-  {
-    name: 'Menu',
-    url: '/useradm/menu',
-    iconComponent: { name: 'cil-history' }
+    url: '/admin/user',
+    iconComponent: { name: 'cil-user' }
   },
   {
     name: 'Hak Akses',
-    url: '/useradm/hak-akses',
-    iconComponent: { name: 'cil-history' }
+    url: '/admin/hak-akses',
+    iconComponent: { name: 'cil-user' }
   },
   {
-    name: 'History Bank',
-    url: '/bankadm/history-transaksi',
-    iconComponent: { name: 'cil-history' }
+    name: 'Role',
+    url: '/admin/role',
+    iconComponent: { name: 'cil-user' }
   },
   {
-    name: 'Master Bank',
-    url: '/bankadm/master-bank',
-    iconComponent: { name: 'cil-history' }
+    name: 'Role Menu',
+    url: '/admin/role-menu',
+    iconComponent: { name: 'cil-user' }
   },
   {
-    title: true,
-    name: 'Theme'
+    name: 'menu',
+    url: '/admin/menu',
+    iconComponent: { name: 'cil-user' }
   },
-  {
-    name: 'Colors',
-    url: '/theme/colors',
-    iconComponent: { name: 'cil-drop' }
-  },
-  {
-    name: 'Typography',
-    url: '/theme/typography',
-    linkProps: { fragment: 'someAnchor' },
-    iconComponent: { name: 'cil-pencil' }
-  },
-  {
-    name: 'Components',
-    title: true
-  },
-  {
-    name: 'Base',
-    url: '/base',
-    iconComponent: { name: 'cil-puzzle' },
-    children: [
-      {
-        name: 'Accordion',
-        url: '/base/accordion'
-      },
-      {
-        name: 'Breadcrumbs',
-        url: '/base/breadcrumbs'
-      },
-      {
-        name: 'Cards',
-        url: '/base/cards'
-      },
-      {
-        name: 'Carousel',
-        url: '/base/carousel'
-      },
-      {
-        name: 'Collapse',
-        url: '/base/collapse'
-      },
-      {
-        name: 'List Group',
-        url: '/base/list-group'
-      },
-      {
-        name: 'Navs & Tabs',
-        url: '/base/navs'
-      },
-      {
-        name: 'Pagination',
-        url: '/base/pagination'
-      },
-      {
-        name: 'Placeholder',
-        url: '/base/placeholder'
-      },
-      {
-        name: 'Popovers',
-        url: '/base/popovers'
-      },
-      {
-        name: 'Progress',
-        url: '/base/progress'
-      },
-      {
-        name: 'Spinners',
-        url: '/base/spinners'
-      },
-      {
-        name: 'Tables',
-        url: '/base/tables'
-      },
-      {
-        name: 'Tabs',
-        url: '/base/tabs'
-      },
-      {
-        name: 'Tooltips',
-        url: '/base/tooltips'
-      }
-    ]
-  },
-  {
-    name: 'Buttons',
-    url: '/buttons',
-    iconComponent: { name: 'cil-cursor' },
-    children: [
-      {
-        name: 'Buttons',
-        url: '/buttons/buttons'
-      },
-      {
-        name: 'Button groups',
-        url: '/buttons/button-groups'
-      },
-      {
-        name: 'Dropdowns',
-        url: '/buttons/dropdowns'
-      },
-    ]
-  },
-  {
-    name: 'Forms',
-    url: '/forms',
-    iconComponent: { name: 'cil-notes' },
-    children: [
-      {
-        name: 'Form Control',
-        url: '/forms/form-control'
-      },
-      {
-        name: 'Select',
-        url: '/forms/select'
-      },
-      {
-        name: 'Checks & Radios',
-        url: '/forms/checks-radios'
-      },
-      {
-        name: 'Range',
-        url: '/forms/range'
-      },
-      {
-        name: 'Input Group',
-        url: '/forms/input-group'
-      },
-      {
-        name: 'Floating Labels',
-        url: '/forms/floating-labels'
-      },
-      {
-        name: 'Layout',
-        url: '/forms/layout'
-      },
-      {
-        name: 'Validation',
-        url: '/forms/validation'
-      }
-    ]
-  },
-  {
-    name: 'Charts',
-    url: '/charts',
-    iconComponent: { name: 'cil-chart-pie' }
-  },
-  {
-    name: 'Icons',
-    iconComponent: { name: 'cil-star' },
-    url: '/icons',
-    children: [
-      {
-        name: 'CoreUI Free',
-        url: '/icons/coreui-icons',
-        badge: {
-          color: 'success',
-          text: 'FREE'
-        }
-      },
-      {
-        name: 'CoreUI Flags',
-        url: '/icons/flags'
-      },
-      {
-        name: 'CoreUI Brands',
-        url: '/icons/brands'
-      }
-    ]
-  },
-  {
-    name: 'Notifications',
-    url: '/notifications',
-    iconComponent: { name: 'cil-bell' },
-    children: [
-      {
-        name: 'Alerts',
-        url: '/notifications/alerts'
-      },
-      {
-        name: 'Badges',
-        url: '/notifications/badges'
-      },
-      {
-        name: 'Modal',
-        url: '/notifications/modal'
-      },
-      {
-        name: 'Toast',
-        url: '/notifications/toasts'
-      }
-    ]
-  },
-  {
-    name: 'Widgets',
-    url: '/widgets',
-    iconComponent: { name: 'cil-calculator' },
-    badge: {
-      color: 'info',
-      text: 'NEW'
-    }
-  },
-  {
-    title: true,
-    name: 'Extras'
-  },
-  {
-    name: 'Pages',
-    url: '/login',
-    iconComponent: { name: 'cil-star' },
-    children: [
-      {
-        name: 'Login',
-        url: '/login'
-      },
-      {
-        name: 'Register',
-        url: '/register'
-      },
-      {
-        name: 'Error 404',
-        url: '/404'
-      },
-      {
-        name: 'Error 500',
-        url: '/500'
-      }
-    ]
-  },
+  // {
+  //   name: 'Employees',
+  //   url: '/admin/employee-list',
+  //   iconComponent: { name: 'cil-user' }
+  // },
+  // {
+  //   name: 'Departments',
+  //   url: '/admin/department-list',
+  //   iconComponent: { name: 'cil-notes' }
+  // },
+  // {
+  //   name: 'Locations',
+  //   url: '/admin/location-list',
+  //   iconComponent: { name: 'cil-location-pin' }
+  // },
+  // {
+  //   name: 'Countries',
+  //   url: '/admin/country-list',
+  //   iconComponent: { name: 'cil-industry' }
+  // },
+  // {
+  //   name: 'Regions',
+  //   url: '/admin/region-list',
+  //   iconComponent: { name: 'cil-map' }
+  // },
+  // {
+  //   name: 'Jobs',
+  //   url: '/admin/job-list',
+  //   iconComponent: { name: 'cil-folder-open' }
+  // },
+  // {
+  //   title: true,
+  //   name: 'Theme'
+  // },
+  // {
+  //   name: 'Colors',
+  //   url: '/theme/colors',
+  //   iconComponent: { name: 'cil-drop' }
+  // },
+  // {
+  //   name: 'Typography',
+  //   url: '/theme/typography',
+  //   linkProps: { fragment: 'someAnchor' },
+  //   iconComponent: { name: 'cil-pencil' }
+  // },
+  // {
+  //   name: 'Components',
+  //   title: true
+  // },
+  // {
+  //   name: 'Base',
+  //   url: '/base',
+  //   iconComponent: { name: 'cil-puzzle' },
+  //   children: [
+  //     {
+  //       name: 'Accordion',
+  //       url: '/base/accordion'
+  //     },
+  //     {
+  //       name: 'Breadcrumbs',
+  //       url: '/base/breadcrumbs'
+  //     },
+  //     {
+  //       name: 'Cards',
+  //       url: '/base/cards'
+  //     },
+  //     {
+  //       name: 'Carousel',
+  //       url: '/base/carousel'
+  //     },
+  //     {
+  //       name: 'Collapse',
+  //       url: '/base/collapse'
+  //     },
+  //     {
+  //       name: 'List Group',
+  //       url: '/base/list-group'
+  //     },
+  //     {
+  //       name: 'Navs & Tabs',
+  //       url: '/base/navs'
+  //     },
+  //     {
+  //       name: 'Pagination',
+  //       url: '/base/pagination'
+  //     },
+  //     {
+  //       name: 'Placeholder',
+  //       url: '/base/placeholder'
+  //     },
+  //     {
+  //       name: 'Popovers',
+  //       url: '/base/popovers'
+  //     },
+  //     {
+  //       name: 'Progress',
+  //       url: '/base/progress'
+  //     },
+  //     {
+  //       name: 'Spinners',
+  //       url: '/base/spinners'
+  //     },
+  //     {
+  //       name: 'Tables',
+  //       url: '/base/tables'
+  //     },
+  //     {
+  //       name: 'Tabs',
+  //       url: '/base/tabs'
+  //     },
+  //     {
+  //       name: 'Tooltips',
+  //       url: '/base/tooltips'
+  //     }
+  //   ]
+  // },
+  // {
+  //   name: 'Buttons',
+  //   url: '/buttons',
+  //   iconComponent: { name: 'cil-cursor' },
+  //   children: [
+  //     {
+  //       name: 'Buttons',
+  //       url: '/buttons/buttons'
+  //     },
+  //     {
+  //       name: 'Button groups',
+  //       url: '/buttons/button-groups'
+  //     },
+  //     {
+  //       name: 'Dropdowns',
+  //       url: '/buttons/dropdowns'
+  //     },
+  //   ]
+  // },
+  // {
+  //   name: 'Forms',
+  //   url: '/forms',
+  //   iconComponent: { name: 'cil-notes' },
+  //   children: [
+  //     {
+  //       name: 'Department',
+  //       url: '/forms/department'
+  //     },
+  //     {
+  //       name: 'Form Control',
+  //       url: '/forms/form-control'
+  //     },
+  //     {
+  //       name: 'Select',
+  //       url: '/forms/select'
+  //     },
+  //     {
+  //       name: 'Checks & Radios',
+  //       url: '/forms/checks-radios'
+  //     },
+  //     {
+  //       name: 'Range',
+  //       url: '/forms/range'
+  //     },
+  //     {
+  //       name: 'Input Group',
+  //       url: '/forms/input-group'
+  //     },
+  //     {
+  //       name: 'Floating Labels',
+  //       url: '/forms/floating-labels'
+  //     },
+  //     {
+  //       name: 'Layout',
+  //       url: '/forms/layout'
+  //     },
+  //     {
+  //       name: 'Validation',
+  //       url: '/forms/validation'
+  //     }
+  //   ]
+  // },
+  // {
+  //   name: 'Charts',
+  //   url: '/charts',
+  //   iconComponent: { name: 'cil-chart-pie' }
+  // },
+  // {
+  //   name: 'Icons',
+  //   iconComponent: { name: 'cil-star' },
+  //   url: '/icons',
+  //   children: [
+  //     {
+  //       name: 'CoreUI Free',
+  //       url: '/icons/coreui-icons',
+  //       badge: {
+  //         color: 'success',
+  //         text: 'FREE'
+  //       }
+  //     },
+  //     {
+  //       name: 'CoreUI Flags',
+  //       url: '/icons/flags'
+  //     },
+  //     {
+  //       name: 'CoreUI Brands',
+  //       url: '/icons/brands'
+  //     }
+  //   ]
+  // },
+  // {
+  //   name: 'Notifications',
+  //   url: '/notifications',
+  //   iconComponent: { name: 'cil-bell' },
+  //   children: [
+  //     {
+  //       name: 'Alerts',
+  //       url: '/notifications/alerts'
+  //     },
+  //     {
+  //       name: 'Badges',
+  //       url: '/notifications/badges'
+  //     },
+  //     {
+  //       name: 'Modal',
+  //       url: '/notifications/modal'
+  //     },
+  //     {
+  //       name: 'Toast',
+  //       url: '/notifications/toasts'
+  //     }
+  //   ]
+  // },
+  // {
+  //   name: 'Widgets',
+  //   url: '/widgets',
+  //   iconComponent: { name: 'cil-calculator' },
+  //   badge: {
+  //     color: 'info',
+  //     text: 'NEW'
+  //   }
+  // },
+  // {
+  //   title: true,
+  //   name: 'Extras'
+  // },
+  // {
+  //   name: 'Pages',
+  //   url: '/login',
+  //   iconComponent: { name: 'cil-star' },
+  //   children: [
+  //     {
+  //       name: 'Login',
+  //       url: '/login'
+  //     },
+  //     {
+  //       name: 'Register',
+  //       url: '/register'
+  //     },
+  //     {
+  //       name: 'Error 404',
+  //       url: '/404'
+  //     },
+  //     {
+  //       name: 'Error 500',
+  //       url: '/500'
+  //     }
+  //   ]
+  // },
 ];

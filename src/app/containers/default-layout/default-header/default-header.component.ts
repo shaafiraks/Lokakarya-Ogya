@@ -10,6 +10,12 @@ import { ClassToggleService, HeaderComponent } from '@coreui/angular';
 })
 export class DefaultHeaderComponent extends HeaderComponent {
 
+  nama : any = localStorage.getItem('nama');
+  username : any = localStorage.getItem('username');
+  data : any = localStorage.getItem('data');
+  objData = JSON.parse(this.data || '{}');
+  photoUrl: any = `./assets/img/avatars/${this.username}.png`
+
   @Input() sidebarId: string = "sidebar";
 
   public newMessages = new Array(4)

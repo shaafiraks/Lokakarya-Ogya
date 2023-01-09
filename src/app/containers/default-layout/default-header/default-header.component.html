@@ -1,23 +1,12 @@
 <!--<c-header class="mb-4 d-print-none" position="sticky">-->
 <ng-container>
   <c-container [fluid]="true">
-    <button
-      toggle="visible"
-      cHeaderToggler
-      [cSidebarToggle]="sidebarId"
-      class="ps-1"
-      color=""
-    >
-      <svg cIcon
-        name="cilMenu"
-        size="lg"
-        style="
-        color: white;"
-      ></svg>
+    <button toggle="visible" cHeaderToggler [cSidebarToggle]="sidebarId" class="ps-1">
+      <svg cIcon name="cilMenu" size="lg"></svg>
     </button>
     <c-header-nav class="d-none d-lg-flex me-auto">
       <c-nav-item>
-        <a cNavLink routerLink="/dashboard" routerLinkActive="active" style="color: white">
+        <a cNavLink routerLink="/dashboard" routerLinkActive="active">
           Dashboard
         </a>
       </c-nav-item>
@@ -32,7 +21,7 @@
     </c-header-nav>
 
     <c-header-nav class="d-none d-lg-flex">
-      <c-nav-item>
+      <!-- <c-nav-item>
         <a routerLink="./" cNavLink>
           <svg cIcon name="cilBell" size="lg"></svg>
         </a>
@@ -46,6 +35,9 @@
         <a routerLink="./" cNavLink>
           <svg cIcon name="cilEnvelopeOpen" size="lg"></svg>
         </a>
+      </c-nav-item> -->
+      <c-nav-item style="margin-top:5px">
+        <span>{{nama}}</span>
       </c-nav-item>
     </c-header-nav>
     <c-header-nav class="ms-3">
@@ -62,36 +54,24 @@
 
 <ng-template #userDropdown>
   <c-dropdown alignment="end" variant="nav-item">
-    <button
-      cButton
-      color=""
-      [caret]="false"
-      cDropdownToggle
-      class="py-0"
-    >
-      <c-avatar
-        cTextColor="primary"
-        shape="rounded-1"
-        size="md"
-        src="./assets/img/avatars/8.jpg"
-        status="success"
-      >
+    <button cButton color="" [caret]="false" cDropdownToggle class="py-0">
+      <c-avatar cTextColor="primary" shape="rounded-1" size="md" src="{{photoUrl}}" status="success">
       </c-avatar>
     </button>
     <ul cDropdownMenu class="pt-0 pr-5 w-auto">
       <li>
-        <h6 cDropdownHeader class="bg-light fw-semibold py-2">Account</h6>
+        <h6 cDropdownHeader class="bg-light fw-semibold py-2">Roles</h6>
       </li>
-      <li>
+      <li *ngFor="let item of objData">
         <a routerLink="./" cDropdownItem>
-          <svg cIcon class="me-2" name="cilBell"></svg>
-          Updates
-          <c-badge class="ms-2 float-end" color="info">
+          <svg cIcon class="me-2" name="cilUser"></svg>
+          {{item.roles.nama}}
+          <!-- <c-badge class="ms-2 float-end" color="info">
             42
-          </c-badge>
+          </c-badge> -->
         </a>
       </li>
-      <li>
+      <!-- <li>
         <a routerLink="./" cDropdownItem>
           <svg cIcon class="me-2" name="cilEnvelopeOpen"></svg>
           Messages
@@ -117,8 +97,8 @@
             42
           </c-badge>
         </a>
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <h6 cDropdownHeader class="bg-light fw-semibold py-2">Settings</h6>
       </li>
       <li></li>
@@ -151,9 +131,9 @@
             42
           </c-badge>
         </a>
-      </li>
+      </li> -->
       <li>
-        <hr cDropdownDivider/>
+        <hr cDropdownDivider />
       </li>
       <li>
         <a routerLink="./" (click)="logout()" cDropdownItem>
@@ -165,4 +145,3 @@
     </ul>
   </c-dropdown>
 </ng-template>
-

@@ -1,0 +1,200 @@
+<!-- menambahkan button add data -->
+<c-col xs="12">
+    <div class="mb-4" style="text-align:right; margin:15px 15px 0px 15px;">
+        <button pButton pRipple type="button" label="Add Role" icon="pi pi-plus" class="p-button-warning"
+            (click)="showAdd()"></button>
+    </div>
+
+    <!-- button confirm ketika delete data -->
+    <p-confirmDialog #cd [style]="{width: '50vw'}">
+        <ng-template pTemplate="footer">
+            <button *ngIf="isDelete || isEdit" pButton pRipple type="button" icon="pi pi-times" label="No" class="p-button-text"
+                (click)="cd.reject()"></button>
+            <p-button *ngIf="isDelete || isEdit" type="button" icon="pi pi-check" label="Yes" styleClass="p-button-primary"
+                (click)="cd.accept()"></p-button>
+            <p-button *ngIf="isAdd" type="button" icon="pi pi-check" label="Ok" styleClass="p-button-primary"
+                (click)="cd.accept()"></p-button>
+        </ng-template>
+    </p-confirmDialog>
+
+    <!-- show tabel -->
+    <c-card class="mb-4">
+        <c-card-header>
+            <strong>Role List <span>({{ role?.length}} data)</span></strong>
+        </c-card-header>
+
+        <!-- section u show data tabel -->
+        <c-card-body>
+            <p-table #dt [value]="role" dataKey="id" [paginator]="true" [rows]="5"
+                [rowsPerPageOptions]="[5, 10, 15, 20]" [globalFilterFields]="['userId','roleId',]" [loading]="loading"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <span class="p-input-icon-left p-ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" [(ngModel)]="searchQuery"
+                                (input)="dt.filterGlobal($any($event.target)?.value, 'contains')" placeholder="Search">
+                        </span>
+                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                            (click)="clear(dt)"></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="roleId" style="min-width:3rem">Role ID <p-sortIcon
+                                field="roleId"></p-sortIcon>
+                        </th>
+                        <th style="min-width:8rem">
+                            Nama
+                            <p-columnFilter field="nama" display="menu" matchMode="in" [showMatchModes]="false"
+                                [showOperator]="false" [showAddButton]="false">
+                                <ng-template pTemplate="header">
+                                    <div class="px-3 pt-3 pb-0">
+                                        <span class="font-bold">Users</span>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-multiSelect [ngModel]="value" [options]="role" placeholder="Any"
+                                        (onChange)="filter($event.value)" optionValue="nama" optionLabel="nama">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="p-multiselect-representative-option">
+                                                <span class="ml-1">{{option.nama}}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </ng-template>
+                            </p-columnFilter>
+                        </th>
+                        <th>Program Name</th>
+                        <th pSortableColumn="createdDate">Created Date<p-sortIcon
+                            field="createdDate"></p-sortIcon></th>
+                        <th style="min-width:10rem">
+                            Created By
+                            <p-columnFilter field="createdBy" display="menu" matchMode="in" [showMatchModes]="false"
+                                [showOperator]="false" [showAddButton]="false">
+                                <ng-template pTemplate="header">
+                                    <div class="px-3 pt-3 pb-0">
+                                        <span class="font-bold">Users</span>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-multiSelect [ngModel]="value" [options]="listUser" placeholder="Any"
+                                        (onChange)="filter($event.value)" optionValue="username" optionLabel="username">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="p-multiselect-representative-option">
+                                                <span class="ml-1">{{option.username}}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </ng-template>
+                            </p-columnFilter>
+                        </th>
+                        <th pSortableColumn="updatedDate">Updated Date<p-sortIcon
+                            field="updatedDate"></p-sortIcon></th>
+                        <th style="min-width:11rem">
+                            Updated By
+                            <p-columnFilter field="updatedBy" display="menu" matchMode="in" [showMatchModes]="false"
+                                [showOperator]="false" [showAddButton]="false">
+                                <ng-template pTemplate="header">
+                                    <div class="px-3 pt-3 pb-0">
+                                        <span class="font-bold">Users</span>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-multiSelect [ngModel]="value" [options]="listUser" placeholder="Any"
+                                        (onChange)="filter($event.value)" optionValue="username" optionLabel="username">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="p-multiselect-representative-option">
+                                                <span class="ml-1">{{option.username}}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </ng-template>
+                            </p-columnFilter>
+                        </th>
+                        <th style="min-width:9rem">Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-role>
+                    <tr>
+                        <td>{{role.roleId}}</td>
+                        <td>{{role.nama}}</td>
+                        <td>{{role.nama}}</td>
+                        <td>{{role.createdDate | date: 'dd/MM/y'}}</td>
+                        <td>{{role.createdBy}}</td>
+                        <td>{{role.updatedDate | date: 'dd/MM/y'}}</td>
+                        <td>{{role.updatedBy}}</td>
+                        <td>
+                            <button pButton pRipple type="button" icon="pi pi-pencil" pTooltip="Edit"
+                                tooltipPosition="top" class="p-button-rounded p-button-info p-button-text"
+                                (click)="showEdit(role)"></button>
+                            <button pButton pRipple type="button" icon="pi pi-trash" pTooltip="Delete"
+                                tooltipPosition="top" class="p-button-rounded p-button-danger p-button-text"
+                                (click)="showDelete(role)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="7">No data found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </c-card-body>
+    </c-card>
+</c-col>
+
+<!-- section show data tabel pada saat add dan edit   -->
+<p-dialog header="Role Form" [(visible)]="roleform" [responsive]="true" showEffect="fade" [modal]="true"
+    [closable]="true" [dismissableMask]="true">
+    <div>
+        <hr>
+        <div *ngIf="isEdit">
+            <p style="text-align: center"><b>{{keteranganForm}}</b>
+            </p>
+            <hr />
+        </div>
+        <div class="p-grid p-fluid">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <div class="row container">
+                        <div class="col-md-5">
+                            <label><b>Nama</b></label>
+                        </div>
+                        <div class="col-md-1"><b>:</b></div>
+                        <div class="col-md-6">
+                            <input type="text" formControlName="nama" pInputText [(ngModel)]="valNama"
+                                [ngClass]="{'is-invalid': submitted && f['nama'].errors}" />
+                            <div *ngIf="submitted && f['nama'].errors" class="invalid-feedback">
+                                <div *ngIf="f['nama'].errors['required']">Nama is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row container">
+                        <div class="col-md-5">
+                            <label><b>Program Name</b></label>
+                        </div>
+                        <div class="col-md-1"><b>:</b></div>
+                        <div class="col-md-6">
+                            <input type="text" formControlName="programName" pInputText [(ngModel)]="valProgramName"
+                                [ngClass]="{'is-invalid': submitted && f['programName'].errors}" />
+                        </div>
+                    </div>
+                    <div *ngIf="isEdit || isAdd" class="form-group btn-div">
+                        <button *ngIf="isAdd" pButton type="button" label="Reset" class="p-button-text btn btn-sm"
+                            (click)="onReset()"></button>&nbsp;
+                        <button *ngIf="isAdd" pButton type="button" label="Submit" class="p-button-primary btn btn-sm"
+                            (click)="onSubmit()"></button>
+                        <button *ngIf="isEdit" pButton type="button" label="Submit" class="p-button-primary btn btn-sm"
+                            (click)="getConfirmEdit()"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</p-dialog>
+
+<!--tampilkan pesan toast -->
+<p-toast position="top-center"></p-toast>

@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    align-items: center;
+}
+
+.buttonStyle {
+    background: #FF9800;
+}
+
+.p-button-warning {
+    border: 1px solid white;
+}
+
+.buttonStyle:enabled:hover {
+    background: #ffab2c;
+}
+
+.card-header {
+    background-color: #64748B;
+    color: #ffff;
+}
+
+.btn-div {
+    margin-top: 50px;
+    float: right;
+    margin-right: 30px;
+}
+
+.btn {
+    width: 100px;
+    margin: 0 auto;
+    padding: 0;
+    display: inline-block;
+    line-height: 50px;
+    text-align: center;
+    margin-top: -50px;
+    margin-right: 5px;
+}

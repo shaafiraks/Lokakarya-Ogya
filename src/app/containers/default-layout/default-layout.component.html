@@ -5,8 +5,10 @@
   id="sidebar"
   visible
 >
-  <c-sidebar-brand>
-    <h3 class="side-logo">Bank <span style="color:#F8BF88">ABC</span></h3>
+  <c-sidebar-brand
+    routerLink="./"
+  ><img src="assets/batch8.png" width="50" class="img-brand" align="left">&nbsp;&nbsp;
+  <!-- <img src="assets/images/Bank XYZ.png" alt="" class="img-brand"> -->
   </c-sidebar-brand>
     <perfect-scrollbar [config]="perfectScrollbarConfig">
   <!--  [perfectScrollbar]="perfectScrollbarConfig"-->
@@ -24,6 +26,7 @@
 </c-sidebar>
 
 <!--main-->
+<!-- <div class="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent"> -->
 <div class="wrapper d-flex flex-column min-vh-100">
   <!--app-header-->
   <app-default-header class="mb-4 d-print-none header header-sticky" position="sticky" sidebarId="sidebar"></app-default-header>

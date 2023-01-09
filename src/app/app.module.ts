@@ -49,12 +49,7 @@ import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { TableModule } from 'primeng/table'
 import {AccordionModule} from 'primeng/accordion';     //accordion and accordion tab
 import {ConfirmationService, MenuItem, MessageService} from 'primeng/api';
-import { MasterBankComponent } from './views/bankadm/master-bank/master-bank.component';
-import { HistoryTransaksiComponent } from './views/bankadm/history-transaksi/history-transaksi.component'; 
-import { InputTextModule } from 'primeng/inputtext';
-import { DialogModule } from 'primeng/dialog';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-
+import { CurrencyPipe } from '@angular/common';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -67,7 +62,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, MasterBankComponent, HistoryTransaksiComponent],
+  declarations: [AppComponent, ...APP_CONTAINERS],
   imports: [
     AccordionModule,
     TableModule,
@@ -98,11 +93,8 @@ const APP_CONTAINERS = [
     BadgeModule,
     ListGroupModule,
     CardModule,
-    InputTextModule,
-    DialogModule,
-    ConfirmDialogModule
   ],
-  providers: [ ConfirmationService, MessageService,
+  providers: [ ConfirmationService, MessageService, CurrencyPipe,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,

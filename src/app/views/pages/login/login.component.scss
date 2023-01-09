@@ -1,16 +1,27 @@
-.btn-login {
-  background: #063a41;
-  border-color: #063a41;
-  color: white;
+.bg-sign-up{
+    background-image: url(../../../../assets/images/bg-right-login2.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 10px;
 }
 
-.bg-signup {
-  background: #063a41;
+.btn-login{
+    float: right;
+}
+.logo{
+    margin-top: -8px;
 }
 
-.btn-regist {
-  background: #f8bf88;
-  border-color: #f8bf88;
-  color: #063a41;
-//   background: #f39a84;
+.bg-login{
+    background-image: url(../../../../Banner.png);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
+
+.xyz{
+    color: #FFBB57;
+}
+
+// .bg-sign-up-left{
+    // background-color: #FFBB57;
+// }

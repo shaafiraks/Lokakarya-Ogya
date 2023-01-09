@@ -1,0 +1,235 @@
+<c-col xs="12">
+        <div class="mb-4" style="text-align: right; margin: 15px 15px 0px 15px">
+            <button type="button" pButton class="p-button-warning btn-sm" (click)="showAdd()">
+                <i style="color: white" class="pi pi-plus"></i>Tambah Transaksi
+            </button>
+        </div>
+
+    <!-- section confirmation -->
+    <p-confirmDialog #cd [style]="{ width: '50vw' }">
+        <ng-template pTemplate="footer">
+            <!-- <button type="button" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button> -->
+            <button type="button" pButton icon="pi pi-check" label="OK" (click)="cd.accept()"></button>
+        </ng-template>
+    </p-confirmDialog>
+
+    <!-- section form -->
+    <p-dialog header="{{ header }}" [(visible)]="transaksiform" [style]="{ width: '50%' }" [draggable]="false"
+        [dismissableMask]="false">
+        <div>
+            <div class="mt-4">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <div *ngIf="isEdit || isDelete">
+                            <label>Id transaksi</label>
+                            <input type="number" formControlName="idTransaksi" class="form-control" [ngClass]="{
+                    'is-invalid': submitted && f['idTransaksi'].errors
+                }" />
+                            <div *ngIf="submitted && f['idTransaksi'].errors" class="invalid-feedback">
+                                <div *ngIf="f['idTransaksi'].errors['required']">
+                                    ID Pelanggan dibutuhkan
+                                </div>
+                                <div *ngIf="f['idTransaksi'].errors['minlength']">
+                                    ID Pelanggan minimal
+                                    {{ f["idTransaksi"].errors["minlength"]["requiredLength"] }}
+                                    karakter
+                                </div>
+                                <div *ngIf="f['idTransaksi'].errors['maxlength']">
+                                    ID Pelanggan maksimal
+                                    {{ f["idTransaksi"].errors["maxlength"]["requiredLength"] }}
+                                    karakter
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <label>Id pelanggan</label>
+                        <input type="number" formControlName="idPelanggan" class="form-control"
+                            [ngClass]="{'is-invalid':submitted && f['idPelanggan'].errors}" />
+                          <div *ngIf="submitted && f['idPelanggan'].errors" class="invalid-feedback">
+                              <div *ngIf="f['idPelanggan'].errors['required']">First Name is required</div>
+                              <div *ngIf="f['idPelanggan'].errors['minlength']">First Name min
+                                {{f['idPelanggan'].errors['minlength']['requiredLength']}} character</div>
+                              <div *ngIf="f['idPelanggan'].errors['maxlength']">First Name max
+                                {{f['idPelanggan'].errors['maxlength']['requiredLength']}} character</div>
+                        </div> -->
+
+                        <!-- edited -->
+                        <label>ID Pelanggan</label>
+                        <select class="form-select" formControlName="idPelanggan" aria-label="select pelanggan">
+                            <option value="">(choose)</option>
+                            <option *ngFor="let item of pelanggan" value="{{ item.idPelanggan }}">
+                                {{ item.idPelanggan }} - {{ item.nama }}
+                            </option>
+                        </select>
+                        <div *ngIf="submitted && f['idPelanggan'].errors" class="invalid-feedback">
+                            <div *ngIf="f['idPelanggan'].errors['required']">
+                                Input ID Pelanggan
+                            </div>
+                        </div>
+
+                        <label>Bulan Tagihan</label>
+                        <select class="form-select" formControlName="bulanTagihan">
+                            <option value="">(choose)</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <div *ngIf="submitted && f['bulanTagihan'].errors" class="invalid-feedback">
+                            <div *ngIf="f['bulanTagihan'].errors['required']">
+                                Bulan tagihan dibutuhkan
+                            </div>
+                        </div>
+
+                        <label>Tahun Tagihan</label>
+                        <!-- <input type="number" formControlName="tahunTagihan" class="form-control"
+                            [ngClass]="{'is-invalid':submitted && f['tahunTagihan'].errors}" /> -->
+                        <select class="form-select" formControlName="tahunTagihan">
+                            <option value="">(choose)</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                        </select>
+                        <div *ngIf="submitted && f['tahunTagihan'].errors" class="invalid-feedback">
+                            <div *ngIf="f['tahunTagihan'].errors['required']">
+                                Tahun tagihan dibutuhkan
+                            </div>
+                        </div>
+
+                        <label>Tagihan</label>
+                        <input type="number" formControlName="uang" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f['uang'].errors }" />
+                        <div *ngIf="submitted && f['uang'].errors" class="invalid-feedback">
+                            <div *ngIf="f['uang'].errors['required']">
+                                Input nominal tagihan
+                            </div>
+                        </div>
+
+                        <!-- <label>Hire Date</label>
+                        <input type="date" formControlName="hireDate" class="form-control"
+                            [ngClass]="{'is-invalid':submitted && f['hireDate'].errors}" />
+                          <div *ngIf="submitted && f['hireDate'].errors" class="invalid-feedback">
+                              <div *ngIf="f['hireDate'].errors['required']">Hire Date is required</div>
+                        </div> > -->
+
+                        <label>Status</label>
+                        <input type="number" formControlName="status" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f['status'].errors }" id="numeric" value="1" />
+
+                        <!-- <label>Hire Date</label>
+                          <input type="date" formControlName="hireDate" class="form-control"
+                              [ngClass]="{'is-invalid':submitted && f['hireDate'].errors}" />
+                          <div *ngIf="submitted && f['hireDate'].errors" class="invalid-feedback">
+                              <div *ngIf="f['hireDate'].errors['required']">Hire Date is required</div>
+                          </div> -->
+                    </div>
+
+                    <div *ngIf="isEdit || isAdd" class="form-group mt-4" align="center">
+                        <button pButton type="submit" class="btn p-button-warning"
+                            style="font-weight: 600;">Submit</button> &nbsp;
+                        <button pButton type="button" (click)="onReset()" class="btn float-right"
+                            style="color: #063A41; background: none; border: none; font-weight: 600;">
+                            Reset
+                        </button>
+                    </div>
+                    <div *ngIf="isDelete" class="form-group mt-4" align="center">
+                        <button pButton type="submit" class="btn p-button-danger" style="color: white" (click)="onDelete()">
+                            Delete
+                        </button>
+                        &nbsp;
+                    </div>
+                </form>
+            </div>
+        </div>
+    </p-dialog>
+    <c-card class="mb-4">
+        <c-card-header>
+            <!-- <strong>Employee List <span>({{ pelanggan?.length}} data)</span></strong> -->
+            <strong>Laporan Penunggakan <span>({{ transaksi?.length}} data)</span> </strong>
+        </c-card-header>
+
+
+        <!-- section data tabel -->
+        <div class="tab-content rounded-bottom">
+            <div class="tab-pane p-3 active preview table-responsive" role="tabpanel" id="preview-24">
+                <p-table #dt [value]="transaksi" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 15, 20]" [globalFilterFields]="['idTransaksi', ]">
+                    <ng-template pTemplate="caption">
+                        <div class="flex">
+                            <span class="p-input-icon-left p-ml-auto">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" [(ngModel)]="searchQuery"
+                                    (input)="dt.filterGlobal($any($event.target)?.value, 'contains')" placeholder="Cari ID Transaksi">
+                            </span>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="idTransaksi" class="text-center">ID Transaksi
+                                <p-sortIcon field="idTransaksi"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="idPelanggan" class="text-center">ID Pelanggan
+                                <p-sortIcon field="idPelanggan"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="bulanTagihan" class="text-center">Bulan Tagihan
+                                <p-sortIcon field="bulanTagihan"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="tahunTagihan" class="text-center">Tahun Tagihan
+                                <p-sortIcon field="tahunTagihan"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="uang" class="text-center">Nominal Tagihan
+                                <p-sortIcon field="uang"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="status" class="text-center">Status
+                                <p-sortIcon field="status"></p-sortIcon>
+                            </th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-transaksi>
+                        <tr>
+                            <!-- <td *ngFor="let col of cols">
+                    {{ transaksi[col.field] }}
+                </td> -->
+                            <td class="text-center">{{transaksi.idTransaksi}}</td>
+                            <td class="text-center">{{transaksi.idPelanggan}}</td>
+                            <td class="text-center">{{transaksi.bulanTagihan}}</td>
+                            <td class="text-center">{{transaksi.tahunTagihan}}</td>
+                            <td class="text-center">{{transaksi.uang | currency:'IDR ':'symbol':'3.2-2'}}</td>
+                            <td class="text-center" *ngIf="transaksi.status==1">Belum Lunas</td>
+                            <td class="text-center" *ngIf="transaksi.status==2">{{transaksi.status}}</td>
+                            <td class="text-center">
+                                <button pButton pRipple type="button" icon="pi pi-pencil" tooltipPosition="top"
+                                    class="p-button-rounded p-button-info p-button-text" pTooltip="Edit" (click)="showEdit(transaksi)"></button>
+                                <button pButton pRipple type="button" icon="pi pi-trash"
+                                    class="p-button-rounded p-button-danger p-button-text" pTooltip="Delete" tooltipPosition="top"
+                                    (click)="showdelete(transaksi)"></button>
+                            </td>
+                            <!-- <td class="text-center">
+                                <button pButton type="button" class="btn btn-sm d-flex justify-content-center"
+                                    (click)="showEdit(transaksi)"
+                                    style="background: #EBF9EB; border-color: #49D349; border-width: 4px;  width: 27px; text-align: center;">
+                                    <i style="color: #49D349" class="pi pi-pencil"></i>
+                                </button>
+                                <button pButton type="button" class="btn btn-sm d-flex justify-content-center"
+                                    (click)="showdelete(transaksi)"
+                                    style="background: #F2E4E4; border-color: #FFA39E; border-width: 4px;  width: 27px; text-align: center;">
+                                    <i style="color: #F5222D" class="pi pi-trash"></i>
+                                </button>
+                            </td> -->
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+        <c-card-body>
+            <strong>Total Penunggakan <span>({{ totalTunggakan | currency:'IDR ':'symbol':'3.2-2'}})</span> </strong>
+        </c-card-body>
+    </c-card>
+</c-col>

@@ -1,17 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
 import { HistoryTransaksiService } from './history-transaksi.service';
 import { ConfirmationService } from 'primeng/api';
-import { MasterBankService } from '../master-bank/master-bank.service';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-history-transaksi',
   templateUrl: './history-transaksi.component.html',
-  styleUrls: ['./history-transaksi.component.scss'],
-  providers: [ConfirmationService]
+  styleUrls: ['./history-transaksi.component.scss']
 })
 export class HistoryTransaksiComponent implements OnInit {
+
+  constructor(
+    private historyTransaksiService: HistoryTransaksiService,
+    private formBuilder: FormBuilder,
+  ) { }
+
   public cols: any = [];
   public historyTransaksi: any = [];
   public listMasterBank: any = [];
@@ -28,14 +31,6 @@ export class HistoryTransaksiComponent implements OnInit {
     noRekTujuan: new FormControl(0),
     noTlp: new FormControl(0),
   });
-  // submitted = false;
-  // paramidHistoryBank: number = 0;
-
-  constructor(
-    private masterBankService: MasterBankService,
-    private historyTransaksiService: HistoryTransaksiService,
-    private formBuilder: FormBuilder,
-  ) { }
 
   refreshPage() {
     this.historyTransaksiService.findAll().subscribe({
@@ -73,4 +68,5 @@ export class HistoryTransaksiComponent implements OnInit {
 
   onReset(): void {
   }
+
 }
