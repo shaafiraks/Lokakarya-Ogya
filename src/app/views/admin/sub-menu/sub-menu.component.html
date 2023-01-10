@@ -43,7 +43,7 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="min-width:10rem">
-                            Menu ID
+                            Menu
                             <p-columnFilter field="menuId" display="menu" matchMode="in" [showMatchModes]="false"
                                 [showOperator]="false" [showAddButton]="false">
                                 <ng-template pTemplate="header">
@@ -84,7 +84,6 @@
                                 </ng-template>
                             </p-columnFilter>
                         </th>
-                        <th>Icon</th>
                         <th>Url</th>
                         <th>Program Name</th>
                         <th pSortableColumn="createdDate">Created Date<p-sortIcon field="createdDate"></p-sortIcon></th>
@@ -136,9 +135,8 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-subMenu>
                     <tr>
-                        <td>{{subMenu.menuId}}</td>
+                        <td>{{subMenu.menuName}}</td>
                         <td>{{subMenu.nama}}</td>
-                        <td>{{subMenu.icon}}</td>
                         <td>{{subMenu.url}}</td>
                         <td>{{subMenu.nama}}</td>
                         <td>{{subMenu.createdDate | date: 'dd/MM/y'}}</td>
@@ -192,19 +190,6 @@
                         </div>
                     </div>
                     <br>
-                    <div class="row container">
-                        <div class="col-md-5">
-                            <label><b>Icon</b></label>
-                        </div>
-                        <div class="col-md-1"><b>:</b></div>
-                        <div class="col-md-6">
-                            <input type="text" formControlName="icon" pInputText [(ngModel)]="valIcon"
-                                [ngClass]="{'is-invalid': submitted && f['icon'].errors}" />
-                            <div *ngIf="submitted && f['icon'].errors" class="invalid-feedback">
-                                <div *ngIf="f['icon'].errors['required']">Icon is required</div>
-                            </div>
-                        </div>
-                    </div>
                     <br>
                     <div class="row container">
                         <div class="col-md-5">

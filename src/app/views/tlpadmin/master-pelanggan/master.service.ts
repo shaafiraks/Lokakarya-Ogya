@@ -1,25 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MasterService {
+  baseUrl = environment.BASE_API_URL;
+
   findAll(): Observable<any> {
-    return this.http.get('http://localhost:8080/masterpelanggan/findAllPlan', {
+    return this.http.get(this.baseUrl + 'masterpelanggan/findAllPlan', {
       responseType: 'json',
     });
   }
 
   findAllUserId(): Observable<any> {
-    return this.http.get('http://localhost:8080/users/findAllPlan', {
+    return this.http.get(this.baseUrl + 'users/findAllPlan', {
       responseType: 'json',
     });
   }
 
   findUsersByUserId(userId: number): Observable<any> {
-    return this.http.get('http://localhost:8080/users/findById?id=' + userId, {
+    return this.http.get(this.baseUrl + 'users/findById?id=' + userId, {
       responseType: 'json',
     });
   }
@@ -29,7 +32,7 @@ export class MasterService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://localhost:8080/masterpelanggan/';
+    const urlPost = this.baseUrl + 'masterpelanggan/';
     return this.http.post<any>(urlPost, data, { headers });
   }
 
@@ -38,7 +41,7 @@ export class MasterService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://localhost:8080/masterpelanggan/';
+    const urlPost = this.baseUrl + 'masterpelanggan/';
     return this.http.put<any>(urlPost, data, { headers });
   }
 
@@ -48,12 +51,12 @@ export class MasterService {
       Accept: 'application/json',
     });
     return this.http.delete(
-      'http://localhost:8080/masterpelanggan/deleteById?id=' + id
+      this.baseUrl + 'masterpelanggan/deleteById?id=' + id
     );
   }
 
   findUserById(userId: number): Observable<any> {
-    return this.http.get(`http://localhost:8080/users/findById?id=${userId}`, {
+    return this.http.get(`${this.baseUrl}users/findById?id=${userId}`, {
       responseType: 'json',
     });
   }

@@ -17,7 +17,7 @@
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text" [(ngModel)]="searchQuery"
                                     (input)="dt.filterGlobal($any($event.target)?.value, 'contains')"
-                                    placeholder="Search">
+                                    placeholder="Search by Name">
                             </span>
                         </div>
                     </ng-template>
