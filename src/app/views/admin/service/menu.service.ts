@@ -7,7 +7,6 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class MenuService {
-<<<<<<< HEAD
   baseUrl = environment.BASE_API_URL;
 
   constructor(private http: HttpClient) { }
