@@ -43,11 +43,7 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="userId" style="min-width:8rem">User ID <p-sortIcon
-                                field="userId"></p-sortIcon>
-                        </th>
                         <th>Username</th>
-                        <th>Password</th>
                         <th style="min-width:12rem">Nama</th>
                         <th>Alamat</th>
                         <th>Email</th>
@@ -104,9 +100,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-user>
                     <tr>
-                        <td>{{user.userId}}</td>
                         <td>{{user.username}}</td>
-                        <td>{{maskPassword(user.password)}}</td>
                         <td>{{user.nama}}</td>
                         <td>{{user.alamat}}</td>
                         <td>{{user.email}}</td>
@@ -169,27 +163,6 @@
                         </div>
                     </div>
                     <br />
-                    <div class="row container">
-                        <div class="col-md-5">
-                            <label><b>Password</b></label>
-                        </div>
-                        <div class="col-md-1"><b>:</b></div>
-                        <div class="col-md-6">
-                            <p-password [(ngModel)]="valPassword" formControlName="password" [toggleMask]="true"
-                                [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
-                                [feedback]="false"></p-password>
-                            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-                                <div *ngIf="f['password'].errors['required']">
-                                    Password is required
-                                </div>
-                                <div *ngIf="f['password'].errors['minlength']">Password
-                                    min {{f["password"].errors["minlength"]["requiredLength"]}} character</div>
-                                <div *ngIf="f['password'].errors['maxlength']">Password
-                                    max {{f["password"].errors["maxlength"]["requiredLength"]}} character
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <br />
                     <div class="row container">
                         <div class="col-md-5">

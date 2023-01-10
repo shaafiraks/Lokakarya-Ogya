@@ -7,4 +7,6 @@ export interface HakAksesInterface {
     createdBy : string;
     updatedDate : Date;
     updatedBy : string;
+    username: string;
+    roleName: string;
 }

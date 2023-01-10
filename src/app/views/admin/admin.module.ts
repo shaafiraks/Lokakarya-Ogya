@@ -14,8 +14,8 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {TooltipModule} from 'primeng/tooltip';
 import {MultiSelectModule} from 'primeng/multiselect';
+import {RadioButtonModule} from 'primeng/radiobutton';
 import {CheckboxModule} from 'primeng/checkbox';
-import {RadioButtonModule} from 'primeng/radiobutton'
 
 import {
   ButtonGroupModule,
@@ -80,8 +80,8 @@ import { SubMenuComponent } from './sub-menu/sub-menu.component';
     InputNumberModule,
     TooltipModule,
     MultiSelectModule,
-    CheckboxModule,
     RadioButtonModule,
+    CheckboxModule,
   ]
 })
 export class AdminModule {

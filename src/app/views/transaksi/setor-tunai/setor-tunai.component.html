@@ -40,7 +40,7 @@
 </c-row>
 
 <!-- TAMPIL DATA NASABAH -->
-<c-card style="margin-bottom: 50px;">
+<c-card style="margin-bottom: 50px;" *ngIf="tampilDataNasabah">
     <c-card-body>
         <p-table [value]="nasabah" styleClass="p-datatable-striped">
             <ng-template pTemplate="body" let-nas>
@@ -79,7 +79,7 @@
 
 <!-- DIALOG  TAMPIL SETOR TUNAI -->
 <p-dialog [ngStyle]="{color:'var(--blue-500)'}" header="Setor Tunai" [(visible)]="display1" [style]="{width: '50vw'}"
-    [draggable]="false" [resizable]="false">
+    [draggable]="false" [resizable]="false" [modal]="true">
     <c-card-body>
         <p-table [value]="nasabah">
             <ng-template pTemplate="body" let-nas>
@@ -118,12 +118,6 @@
     </ng-template>
 </p-dialog>
 
-<!-- <p-confirmDialog #cd [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
-    <ng-template pTemplate="footer">
-        <button pButton class={{classButton}} (click)="cd.accept()">Tutup</button>
-    </ng-template>
-</p-confirmDialog> -->
-
 <!-- DIALOG KONFIRMASI SETOR TUNAI  -->
 <p-confirmDialog #konfirmasi [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}"
     header="Info">
@@ -137,7 +131,7 @@
 </p-confirmDialog>
 
 <!-- TAMPIL DIALOG (ERROR) NO REK TIDAK DITEMUKAN  -->
-<p-dialog #cek header="Info" [(visible)]="cekNorek" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+<p-dialog #cek header="Info" [(visible)]="cekNorek" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false" [modal]="true">
     <c-card-body>
         <div>
             <p style="margin-top: 20px;"><b>{{errorMessage}}</b></p>
@@ -153,7 +147,7 @@
 
 <!-- TAMPIL FORM SETOR TUNAI  -->
 <p-dialog header="Setor Tunai : " [(visible)]="tampilForm" [draggable]="false"
-    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false">
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false" [modal]="true">
     <c-card-body>
         <form (ngSubmit)="onSetorTunai()" [formGroup]="form">
             <div class="row container p-grid p-fluid">
