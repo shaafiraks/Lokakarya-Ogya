@@ -6,5 +6,7 @@ export interface HistoryTransaksiInterface {
     nama : string;
     uang : number;
     noRekTujuan : number;
+    NamaTujuan: string;
+
     noTlp : number;
 }
