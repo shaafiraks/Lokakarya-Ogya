@@ -5,7 +5,7 @@
                 <strong style="color: white;"><i class="uil uil-money-withdrawal icon-wid"></i> Cek Saldo</strong>
             </c-card-header>
             <c-card-body class="body-con">
-                <form (ngSubmit)="showNasabah()" [formGroup]="form">
+                <form (ngSubmit)="showNasabah2()" [formGroup]="form">
                     <div class="row container p-grid p-fluid">
                         <div class="form-group p-field col-md-6">
                             <label>Masukkan Nomor Rekening</label>
@@ -78,3 +78,16 @@
         <button pButton class="p-button-danger" (click)="cd.accept()">Tutup</button>
     </ng-template>
 </p-confirmDialog>
+
+<!-- TAMPIL DIALOG (ERROR) NO REK TIDAK DITEMUKAN  -->
+<p-dialog #cek header="Info" [(visible)]="cekNorek" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false" [modal]="true">
+    <c-card-body>
+        <div>
+            <p style="margin-top: 20px;"><b>{{errorMessage}}</b></p>
+        </div>
+    </c-card-body>
+    <ng-template pTemplate="footer">
+        <button type="button" class="p-button-danger" pButton icon="pi pi-times" label="Tutup"
+            (click)="onReset()"></button>
+    </ng-template>
+</p-dialog>

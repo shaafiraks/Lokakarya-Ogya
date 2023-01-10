@@ -98,6 +98,7 @@ export class SubMenuComponent implements OnInit {
     createdBy: new FormControl(''),
     updatedDate: new FormControl(''),
     updatedBy: new FormControl(''),
+    menuName: new FormControl(''),
     menuId: new FormControl(0),
   });
 
@@ -238,6 +239,7 @@ export class SubMenuComponent implements OnInit {
       updatedDate: ['',],
       updatedBy: ['',],
       menuId: ['',],
+      menuName: ['',],
     })
   }
 
