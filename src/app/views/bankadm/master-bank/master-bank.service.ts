@@ -3,15 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MasterBankService {
-
   //service find all data nasabah
   findAll(): Observable<any> {
-    return this.http.get("http://localhost:8080/masterbank/findAllPlan", {
-      responseType: "json",
-    })
+    return this.http.get('http://localhost:8080/masterbank/findAllPlan', {
+      responseType: 'json',
+    });
   }
 
   //service add data nasabah baru
@@ -40,21 +39,23 @@ export class MasterBankService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    return this.http.delete('http://localhost:8080/masterbank/deleteById?id=' + id);
+    return this.http.delete(
+      'http://localhost:8080/masterbank/deleteById?id=' + id
+    );
   }
 
-  //service get all data user 
+  //service get all data user
   findAllUser(): Observable<any> {
-    return this.http.get("http://localhost:8080/users/findAllPlan", {
-      responseType: "json",
-    })
+    return this.http.get('http://localhost:8080/users/findAllPlan', {
+      responseType: 'json',
+    });
   }
 
-  findUserById(userId:number): Observable<any> {
+  findUserById(userId: number): Observable<any> {
     return this.http.get(`http://localhost:8080/users/findById?id=${userId}`, {
-      responseType: "json",
-    })
+      responseType: 'json',
+    });
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 }
