@@ -21,9 +21,9 @@ export class RoleMenuComponent implements OnInit {
   public listRole: any = [];
   public listUser: any = [];
   public listMenu: any = [];
-  public roleMenuform: any = [];
   public roleform: any = [];
   header: string = "";
+  roleMenuform: boolean = false;
   isEdit: boolean = false;
   isAdd: boolean = false;
   isDelete: boolean = false;

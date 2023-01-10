@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private http: HttpClient) {}
+  baseUrl = environment.BASE_API_URL;
 
-  get(): Observable<any> {
-    return this.http.get('http://localhost:8080/users/findAll', {
-      responseType: 'json',
-    });
+  constructor(private http: HttpClient) { }
+
+  get():Observable<any>{
+    return this.http.get(this.baseUrl + 'users/findAll',{
+      responseType: "json",
+    })
   }
 
   add(data: any): Observable<any> {
@@ -19,8 +22,8 @@ export class UserService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://localhost:8080/users/';
-    return this.http.post<any>(urlPost, data, { headers });
+    const urlPost = this.baseUrl + 'users/';
+    return this.http.post<any>(urlPost,data, { headers});
   }
 
   edit(data: any): Observable<any> {
@@ -28,8 +31,8 @@ export class UserService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://localhost:8080/users/';
-    return this.http.put<any>(urlPost, data, { headers });
+    const urlPost = this.baseUrl + 'users/';
+    return this.http.put<any>(urlPost,data, { headers});
   }
 
   delete(id: number): Observable<any> {
@@ -37,6 +40,6 @@ export class UserService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    return this.http.delete('http://localhost:8080/users/deleteById?id=' + id);
+    return this.http.delete(this.baseUrl + 'users/deleteById?id=' + id);
   }
 }

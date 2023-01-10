@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
 import { TransaksiService } from '../transaksi.service';
-import { BulanTagihan } from './bayar-telepon-interface'
 
 @Component({
   selector: 'app-bayar-telepon',
@@ -23,7 +22,6 @@ export class BayarTeleponComponent implements OnInit {
     saldo: new FormControl(0),
     status: new FormControl(''),
     bulanKe: new FormControl(0),
-    bulanTagihan: new FormControl(0),
 
   });
 
@@ -43,6 +41,8 @@ export class BayarTeleponComponent implements OnInit {
       cekSaldo: [0, Validators.required],
       bulanKe: [0, Validators.required],
       bulanTagihan :[0],
+      idPelanggan: [0],
+      namaPelanggan: [''],
     });
   }
 
@@ -54,16 +54,19 @@ export class BayarTeleponComponent implements OnInit {
   noRekening: any;
   noTelepon: any = 0;
   tagihan: any = 0;
-  bulanKe:any ;
+  bulanTagihan:any ;
   nasabah: any = [];
   totalTagihan:any = [];
   infoBayar: any = [];
   display1: boolean = false;
+  display2:boolean= false;
   submitted: boolean = false;
   cekError: boolean = false;
   tampilForm: boolean = false;
   tampilFormPerBulan:boolean = false;
   errorMessage:string = '';
+  tampilDatatagihan:boolean = false;
+  cekErrorBulanTagihan:boolean =false;
 
   //FUNCTION BAYAR TELEPON SEKALIGUS
   onBayarTelepon() {
@@ -125,16 +128,16 @@ export class BayarTeleponComponent implements OnInit {
       this.confirmationService.confirm({
         message: '<b>Konfirmasi Bayar Telepon : </b>',
         accept: () => {
-          let data = JSON.stringify(this.noRekening, this.noTelepon, this.bulanKe);
+          let data = JSON.stringify(this.noRekening, this.noTelepon, this.bulanTagihan);
           console.log(data);
           console.log(this.noRekening);
           console.log(this.noTelepon);
-          console.log(this.bulanKe);
+          console.log(this.bulanTagihan);
 
-          this.transaksiService.postBayarteleponPerBulan(this.noRekening, this.noTelepon, this.bulanKe).subscribe({
+          this.transaksiService.postBayarteleponPerBulan(this.noRekening, this.noTelepon, this.bulanTagihan).subscribe({
             next: (resp: any) => {
               //boolean dialog
-
+              this.display2 =true;
               this.nasabah = resp.data;
               this.messageService.add({ severity: 'success', summary: 'Transaksi Berhasil', detail: 'Tagihan telah dibayar' });
               console.log(resp);
@@ -142,11 +145,10 @@ export class BayarTeleponComponent implements OnInit {
 
             },
             error: (error) => {
-              this.cekError = true;
-              // this.messageError();
+              this.cekErrorBulanTagihan = true
               console.log(error);
-              this.errorMessage = error.error.message
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: (error.error.message) });
+              // this.errorMessage = error.error.message
+              // this.messageService.add({ severity: 'error', summary: 'Error', detail: (error.error.message) });
               // alert('Id tidak ditemukan')
             },
           });
@@ -170,7 +172,11 @@ export class BayarTeleponComponent implements OnInit {
     // this.submitted = false;
     this.cekError = false;
     this.display1 = false;
+    this.display2 = false;
     this.tampilForm = false;
+    this.tampilFormPerBulan = false;
+    this.tampilDatatagihan = false;
+    this.cekErrorBulanTagihan=false;
     this.nasabah = [];
     this.totalTagihan = [];
     this.infoBayar = [];
@@ -191,7 +197,7 @@ export class BayarTeleponComponent implements OnInit {
       console.log(data);
       this.transaksiService.findBayarTelepon(this.noRekening, this.noTelepon).subscribe({
         next: (resp: any) => {
-          // this.display1 = true;
+          this.tampilDatatagihan = true
           this.nasabah = resp.data;
           console.log(resp);
           console.log(resp.data);
@@ -233,9 +239,9 @@ export class BayarTeleponComponent implements OnInit {
   }
 
   // MESSAGE ERROR 
-  messageErrorNorekOrNoTelpSalah() {
+  messageErrorInputBulanTagihan() {
     this.confirmationService.confirm({
-      message: '<b>Perhatikan Nomor Rekening dan Nomor Telepon Anda</b>',
+      message: '<b>Masukkan Bulan Tagihan</b>',
       header: 'Pesan'
     });
   }
@@ -252,7 +258,7 @@ export class BayarTeleponComponent implements OnInit {
     this.tampilFormPerBulan = true;
     this.form.controls['noRekening'].disable();
     this.form.controls['noTelepon'].disable();
-    this.form.controls['bulanTagihan'].disable();
+    // this.form.controls['bulanTagihan'].disable();
     
   }
 
