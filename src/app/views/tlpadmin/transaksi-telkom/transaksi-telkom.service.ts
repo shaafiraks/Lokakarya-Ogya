@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransaksiTelkomService {
+  baseUrl = environment.BASE_API_URL;
+
   findAll(): Observable<any> {
-    return this.http.get('http://localhost:8080/transaksitelkom/findStatus1', {
+    return this.http.get(this.baseUrl + 'transaksitelkom/findStatus1', {
       responseType: 'json',
     });
   }
   getTotal(): Observable<any> {
-    return this.http.get('http://localhost:8080/transaksitelkom/sumAll', {
+    return this.http.get(this.baseUrl + 'transaksitelkom/sumAll', {
       responseType: 'json',
     });
   }
@@ -22,7 +25,7 @@ export class TransaksiTelkomService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://localhost:8080/transaksitelkom/';
+    const urlPost = this.baseUrl + 'transaksitelkom/';
     return this.http.post<any>(urlPost, data, { headers });
   }
 
@@ -31,7 +34,7 @@ export class TransaksiTelkomService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://localhost:8080/transaksitelkom/';
+    const urlPost = this.baseUrl + 'transaksitelkom/';
     return this.http.put<any>(urlPost, data, { headers });
   }
 
@@ -41,7 +44,7 @@ export class TransaksiTelkomService {
       Accept: 'application/json',
     });
     return this.http.delete(
-      'http://localhost:8080/transaksitelkom/deleteById?id=' + id
+      this.baseUrl + 'transaksitelkom/deleteById?id=' + id
     );
   }
 
