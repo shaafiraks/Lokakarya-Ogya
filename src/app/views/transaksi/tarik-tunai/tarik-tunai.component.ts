@@ -80,7 +80,7 @@ export class TarikTunaiComponent implements OnInit {
   value1: number = 0;
   tampilFormPilihanNominal: boolean = false;
   errorMessage:string = '';
-
+  tampilDataNasabah:boolean = false;
   // //UNTUK MENGUBAH KE FORMAT RUPIAH
   // formattedValue = this.currencyPipe.transform(this.nominal, 'IDR', true);
 
@@ -154,6 +154,7 @@ export class TarikTunaiComponent implements OnInit {
     this.nasabah = [];
     this.nominal = 0;
     this.tampilFormPilihanNominal = false;
+    this.tampilDataNasabah= false;
   }
 
   //PANGGIL SEMUA DATA NASABAH
@@ -167,12 +168,10 @@ export class TarikTunaiComponent implements OnInit {
       console.log(data);
       this.transaksiService.getNasabah(this.norek).subscribe({
         next: (resp: any) => {
-          // this.display1 = true;
+          this.tampilDataNasabah= true;
           this.nasabah[0] = resp.data;
           console.log(resp);
           console.log(resp.data);
-
-
         },
         error: (error) => {
           this.messageError();

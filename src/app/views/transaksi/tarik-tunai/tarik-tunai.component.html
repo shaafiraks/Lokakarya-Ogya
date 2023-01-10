@@ -43,7 +43,7 @@
 </c-row>
 
 <!-- TAMPIL DATA NASABAH  -->
-<c-card style="margin-bottom: 50px;" id="dataNasabah">
+<c-card style="margin-bottom: 50px;" id="dataNasabah" *ngIf="tampilDataNasabah">
     <c-card-body>
         <div class="row">
             <div class="col">
@@ -89,7 +89,7 @@
 
 <!-- DIALOG  TAMPIL TARIK TUNAI -->
 <p-dialog [ngStyle]="{color:'var(--blue-500)'}" header="Tarik Tunai : " [(visible)]="display1" [style]="{width: '50vw'}"
-    [draggable]="false" [resizable]="false">
+    [draggable]="false" [resizable]="false" [modal]="true">
     <c-card-body>
         <p-table [value]="nasabah">
             <ng-template pTemplate="body" let-nas>
@@ -131,15 +131,10 @@
             (click)="onReset()"></button>
     </ng-template>
 </p-dialog>
-<!-- <p-confirmDialog #cd [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
-    <ng-template pTemplate="footer">
-        <button pButton class={{classButton}} (click)="cd.accept()">Tutup</button>
-    </ng-template>
-</p-confirmDialog> -->
 
 <!-- DIALOG KONFIRMASI TARIK TUNAI  -->
 <p-confirmDialog #konfirmasi [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}"
-    header="Info">
+    header="Info" >
     <hr>
     <ng-template pTemplate="footer">
         <button type="button" class="p-button-danger" pButton icon="pi pi-times" label="Batal"
@@ -151,7 +146,7 @@
 </p-confirmDialog>
 
 <!-- TAMPIL DIALOG (ERROR) NO REK TIDAK DITEMUKAN  -->
-<p-dialog #cek header="Info" [(visible)]="cekNorek" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+<p-dialog #cek header="Info" [(visible)]="cekNorek" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false" [modal]="true">
     <c-card-body>
         <div>
             <p style="margin-top: 20px;"><b>{{errorMessage}}</b></p>
@@ -165,7 +160,8 @@
 
 <!-- TAMPIL FORM TARIK TUNAI  -->
 <p-dialog header="Tarik Tunai : " [(visible)]="tampilForm" [draggable]="false"
-    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false">
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false"
+    [modal]="true">
     <c-card-body>
         <form (ngSubmit)="onTarikTunai()" [formGroup]="form">
             <div class="row container p-grid p-fluid">
@@ -214,7 +210,8 @@
 
 <!-- TAMPIL FORM TARIK TUNAI  DENGAN PILIHAN NOMINAL-->
 <p-dialog header="Tarik Tunai : " [(visible)]="tampilFormPilihanNominal" [draggable]="false"
-    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false">
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false"
+    [modal]="true">
     <c-card-body>
         <form (ngSubmit)="onTarikTunai()" [formGroup]="form">
             <div class="row container p-grid p-fluid">

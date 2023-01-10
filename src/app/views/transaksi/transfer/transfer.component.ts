@@ -70,6 +70,7 @@ export class TransferComponent implements OnInit {
   value1: number = 0;
   tampilFormPilihanNominal: boolean = false;
   errorMessage : string ='';
+  tampilDataNasabah:boolean = false;
 
   onTransfer() {
     this.submitted = true;
@@ -123,6 +124,7 @@ export class TransferComponent implements OnInit {
     this.submitted = false;
     this.cekError = false;
     this.display1 = false;
+    this.tampilDataNasabah= false
     this.form.reset();
     this.tampilForm = false;
     this.nasabah = [];
@@ -142,7 +144,7 @@ export class TransferComponent implements OnInit {
       console.log(data);
       this.transaksiService.getNasabah(this.norekAsal).subscribe({
         next: (resp: any) => {
-          // this.display1 = true;
+          this.tampilDataNasabah =true;
           this.nasabah[0] = resp.data;
           console.log(resp);
           console.log(resp.data);

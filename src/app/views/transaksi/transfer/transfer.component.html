@@ -41,7 +41,7 @@
 </c-row>
 
 <!-- MUNCUL DATA NASABAH  -->
-<c-card style="margin-bottom: 50px;">
+<c-card style="margin-bottom: 50px;" *ngIf="tampilDataNasabah">
     <c-card-body>
         <p-table [value]="nasabah" styleClass="p-datatable-striped">
             <ng-template pTemplate="body" let-nas>
@@ -79,7 +79,7 @@
 
 <!-- DIALOG TAMPIL DATA TRANSFER -->
 <p-dialog [ngStyle]="{color:'var(--blue-500)'}" header="Transfer : " [(visible)]="display1" [style]="{width: '50vw'}"
-    [draggable]="false" [resizable]="false">
+    [draggable]="false" [resizable]="false" [modal]="true">
     <c-card-body>
         <p-table [value]="nasabah">
             <ng-template pTemplate="body" let-nasabah>
@@ -142,7 +142,7 @@
 </p-confirmDialog>
 
 <!-- TAMPIL DIALOG (ERROR) NO REK TIDAK DITEMUKAN  -->
-<p-dialog #cek header="Info" [(visible)]="cekError" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+<p-dialog #cek header="Info" [(visible)]="cekError" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false" [modal]="true">
     <c-card-body>
         <div>
             <p style="margin-top: 20px;"><b>{{errorMessage}}</b></p>
@@ -158,7 +158,8 @@
 
 <!-- TAMPIL FORM TRANSFER  -->
 <p-dialog header="Transfer : " [(visible)]="tampilForm" [draggable]="false"
-    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false">
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false"
+    [modal]="true">
     <c-card-body>
         <form (ngSubmit)="onTransfer()" [formGroup]="form">
             <div class="row container p-grid p-fluid">
@@ -224,7 +225,8 @@
 
 <!-- FORM DENGAN PILIHAN NOMINAL  -->
 <p-dialog header="Transfer : " [(visible)]="tampilFormPilihanNominal" [draggable]="false"
-    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false">
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false"
+    [modal]="true">
     <c-card-body>
         <form (ngSubmit)="onTransfer()" [formGroup]="form">
             <div class="row container p-grid p-fluid">
