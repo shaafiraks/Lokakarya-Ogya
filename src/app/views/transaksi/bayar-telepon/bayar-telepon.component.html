@@ -58,14 +58,14 @@
 </c-row>
 
 <!-- MUNCUL DATA NASABAH  -->
-<c-card style="margin-bottom: 50px;">
+<c-card style="margin-bottom: 50px;" *ngIf="tampilDatatagihan">
     <c-card-body>
         <p-table [value]="nasabah" styleClass="p-datatable-striped">
-            <ng-template pTemplate="header">
+            <ng-template pTemplate="header" let-nas>
                 <div class="flex">
             <tr>
-                <th [ngStyle]="{color:'var(--blue-500)'}" style="font-size: 120%;"><b>Info Nasabah :
-                    </b></th>
+                <th [ngStyle]="{color:'var(--blue-500)'}" style="font-size: 120%;"><b>
+                    Info Tagihan Telepon :</b></th>
             </tr>
         </div>
             <tr>
@@ -74,34 +74,31 @@
                 <th>Nomor Telepon</th>
                 <th>Bulan tagihan</th>
                 <th>Tagihan</th>
-                <th>Action</th>
+                <!-- <th>Action</th> -->
             </tr>
         </ng-template>  
             <ng-template pTemplate="body" let-nas>
                 <tr>
-                    <td>{{nas.namaRekening}}</td>
-                    <td>{{nas.namaPelanggan}}</td>
-                    <td>{{nas.noTelepon}}</td>
-                    <td>{{nas.bulanTagihan}}</td>
-                    <td>{{nas.tagihan | currency:'IDR ':'symbol':'3.2-2'}}</td>
-                    <td><button type="button" pButton class="btn p-button-warning"
-                        (click)="showFormBayarTeleponPerBulan()">Bayar</button></td>
+                    <td class="td1">{{nas.namaRekening}}</td>
+                    <td class="td1">{{nas.namaPelanggan}}</td>
+                    <td class="td1">{{nas.noTelepon}}</td>
+                    <td class="td1">{{nas.bulanTagihan}}</td>
+                    <td class="td1">{{nas.tagihan | currency:'IDR ':'symbol':'3.2-2'}}</td>
                 </tr>
             </ng-template>
         </p-table>
         <p-table [value]="totalTagihan">
             <ng-template pTemplate="body" let-total>
-                <tr>
-                    <th><b>Total Tagihan Telepon :</b></th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><b>{{total.tagihan | currency:'IDR ':'symbol':'3.2-2'}}</b></td>
-                    <td></td>
+                <tr style="background-color: aliceblue;">
+                    <td colspan="5"><b>Total Tagihan Telepon :</b></td>
+                    <td style="text-align: right !important;"><b>{{total.tagihan | currency:'IDR ':'symbol':'3.2-2'}}</b></td>
                 </tr>
                 <tr>
-                    <td colspan="6">
-                        <button type="button" pButton class="btn p-button-primary" style="width: 100%;">Bayar Semua Tagihan Telepon</button>
+                    <td colspan="3">
+                        <button type="button" pButton class="btn p-button-warning" style="width: 100%;" (click)="showFormBayarTeleponPerBulan()"><b>Bayar Tagihan Per-Bulan</b></button>
+                    </td>
+                    <td colspan="3">
+                        <button type="button" pButton class="btn p-button-primary" style="width: 100%;" (click)="showFormBayarTelepon()"><b>Bayar Semua Tagihan Telepon</b></button>
                     </td>
                 </tr>
             </ng-template>
@@ -110,7 +107,7 @@
     </c-card-body>
 </c-card>
 
-<!-- DIALOG TAMPIL DATA BAYAR TELEPON -->
+<!-- DIALOG TAMPIL DATA BAYAR TELEPON TOTAL-->
 <p-dialog [ngStyle]="{color:'var(--blue-500)'}" header="Bayar Telepon: " [(visible)]="display1"
     [style]="{width: '50vw'}" [draggable]="false" [resizable]="false" [modal]="true">
     <c-card-body>
@@ -127,9 +124,56 @@
                     <td><b>{{bayar.namaPelanggan}}</b></td>
                 </tr>
                 <tr>
-                    <th>Bulan Tagihan</th>
+                    <th><b>Tagihan Telepon</b></th>
+                    <th><b>:</b></th>
+                    <td><b>{{bayar.tagihan | currency:'IDR ':'symbol':'3.2-2'}}</b></td>
+                </tr>
+                <tr>
+                    <th><b>Sisa Saldo Pemilik Rekening </b></th>
+                    <th><b>:</b></th>
+                    <td><b>{{bayar.saldo | currency:'IDR ':'symbol':'3.2-2'}}</b></td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <th><b>:</b></th>
+                    <td><b>Lunas</b></td>
+                    <!-- <td *ngIf="bayar.status == 1"><b>Belum lunas</b></td>
+                    <td *ngIf="bayar.status == 2"><b>Lunas</b></td> -->
+                </tr>
+                <tr>
+                    <th colspan="3">
+                        <hr>
+                    </th>
+                </tr>
+            </ng-template>
+        </p-table>
+    </c-card-body>
+    <ng-template pTemplate="footer">
+        <button type="button" class="p-button-warning" pButton icon="pi pi-times" label="Tutup"
+            (click)="onReset()"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- DIALOG TAMPIL DATA BAYAR TELEPON PER - BULAN-->
+<p-dialog [ngStyle]="{color:'var(--blue-500)'}" header="Bayar Telepon: " [(visible)]="display2"
+    [style]="{width: '50vw'}" [draggable]="false" [resizable]="false" [modal]="true">
+    <c-card-body>
+        <p-table [value]="nasabah">
+            <ng-template pTemplate="body" let-bayar>
+                <tr>
+                    <th>Nomor Telepon</th>
                     <th> : </th>
-                    <td>{{bayar.bulanTagihan}}</td>
+                    <td>{{bayar.noTelepon}}</td>
+                </tr>
+                <tr>
+                    <th><b>Nama Pelanggan</b></th>
+                    <th><b>:</b></th>
+                    <td><b>{{bayar.namaPelanggan}}</b></td>
+                </tr>
+                <tr>
+                    <th><b>Bulan Tagihan ke-</b></th>
+                    <th><b>:</b></th>
+                    <td><b>{{bayar.bulanTagihan}}</b></td>
                 </tr>
                 <tr>
                     <th><b>Tagihan Telepon</b></th>
@@ -186,7 +230,19 @@
         <button type="button" class="p-button-danger" pButton icon="pi pi-times" label="Tutup"
             (click)="onReset()"></button>
     </ng-template>
+</p-dialog>
 
+<!-- TAMPIL DIALOG (ERROR) WAJIB INPUT BULAN TAGIHAN  -->
+<p-dialog #cek header="Info" [(visible)]="cekErrorBulanTagihan" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false" [modal]="true">
+    <c-card-body>
+        <div>
+            <p style="margin-top: 20px;"><b>Masukkan Bulan Tagihan</b></p>
+        </div>
+    </c-card-body>
+    <ng-template pTemplate="footer">
+        <button type="button" class="p-button-danger" pButton icon="pi pi-times" label="Tutup"
+            (click)="onReset()"></button>
+    </ng-template>
 </p-dialog>
 
 <!-- TAMPIL FORM BAYAR TELEPON  -->
@@ -282,13 +338,13 @@
                 </div>
                 <div class="col-md-1"><b>:</b></div>
                 <div class="form-group p-field col-md-6 p-md-1">
-                    <p-inputNumber type="text" name="noTelepon" [(ngModel)]="bulanKe"
+                    <p-inputNumber type="text" name="bulanTagihan" [(ngModel)]="bulanTagihan"
                         [ngClass]="{'is-invalid' : submitted && f['bulanKe'].errors}" formControlName="bulanTagihan"
-                        placeholder="Bulan tagihan" [useGrouping]="false" class="p-inputtext-sm">
+                        placeholder="-" [useGrouping]="false" class="p-inputtext-sm">
                     </p-inputNumber>
                     <!-- Untuk menampilkan pesan error -->
                     <div *ngIf="submitted && f['bulanKe'].errors" class="invalid-feedback">
-                        <div *ngIf="f['bulanKe'].errors['required']"> Masukkan nomor Telepon </div>
+                        <div *ngIf="f['bulanKe'].errors['required']"> Masukkan Bulan Tagihan </div>
                     </div>
                 </div>
             </div>
