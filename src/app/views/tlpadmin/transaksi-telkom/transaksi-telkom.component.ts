@@ -268,11 +268,13 @@ export class TransaksiTelkomComponent implements OnInit {
   onReset(): void {
     this.submitted = false;
     if (this.isEdit) {
-      let temp: number = this.form.controls['status'].value;
+      let temp: number = this.form.controls['idTransaksi'].value;
+      let temp1: number = this.form.controls['idPelanggan'].value;
+      let temp2: number = this.form.controls['status'].value;
       this.form.reset();
       this.form.controls['idTransaksi'].setValue(temp);
-      this.form.controls['idTransaksi'].setValue(temp);
-      this.form.controls['idTransaksi'].setValue(temp);
+      this.form.controls['idPelanggan'].setValue(temp1);
+      this.form.controls['status'].setValue(temp2);
     } else {
       this.form.reset();
     }
