@@ -94,10 +94,10 @@
                     <td style="text-align: right !important;"><b>{{total.tagihan | currency:'IDR ':'symbol':'3.2-2'}}</b></td>
                 </tr>
                 <tr>
-                    <td colspan="3">
+                    <td colspan="3" *ngIf="total.tagihan != null">
                         <button type="button" pButton class="btn p-button-warning" style="width: 100%;" (click)="showFormBayarTeleponPerBulan()"><b>Bayar Tagihan Per-Bulan</b></button>
                     </td>
-                    <td colspan="3">
+                    <td colspan="3" *ngIf="total.tagihan != null">
                         <button type="button" pButton class="btn p-button-primary" style="width: 100%;" (click)="showFormBayarTelepon()"><b>Bayar Semua Tagihan Telepon</b></button>
                     </td>
                 </tr>
