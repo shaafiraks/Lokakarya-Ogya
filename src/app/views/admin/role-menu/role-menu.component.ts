@@ -297,8 +297,9 @@ export class RoleMenuComponent implements OnInit {
             }
           });
         };
-
       }
+      this.form.controls['menuId'].setValue(this.multipleMenu);
+
       let data = JSON.stringify(this.form.value);
       console.log(data);
 

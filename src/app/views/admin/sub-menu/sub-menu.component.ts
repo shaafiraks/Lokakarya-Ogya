@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SubMenuService } from '../service/sub-Menu.service';
-import { SubMenuInterface } from './sub-Menu-interface';
+import { SubMenuService } from '../service/sub-menu.service';
+import { SubMenuInterface } from './sub-menu-interface';
 import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { UserService } from '../service/user.service';
@@ -9,8 +9,8 @@ import { MenuService } from '../service/menu.service';
 
 @Component({
   selector: 'app-sub-subMenu',
-  templateUrl: './sub-Menu.component.html',
-  styleUrls: ['./sub-Menu.component.scss']
+  templateUrl: './sub-menu.component.html',
+  styleUrls: ['./sub-menu.component.scss']
 })
 export class SubMenuComponent implements OnInit {
 

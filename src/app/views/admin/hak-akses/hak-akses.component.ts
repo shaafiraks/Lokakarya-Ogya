@@ -255,9 +255,7 @@ export class HakAksesComponent implements OnInit {
       if (this.isEdit || this.isAdd) {
         this.form.enable();
       }
-      for (let i = 0; i < this.form.controls['userId'].value.length; i++){
-        this.multipleUser[i] = this.form.controls['userId'].value[i];
-      }
+      this.multipleUser = this.form.controls['userId'].value;
       for (let i = 0; i < this.multipleUser.length; i++) {
         this.form.controls['userId'].setValue(this.multipleUser[i]);
         console.log(this.form.value);
@@ -283,6 +281,7 @@ export class HakAksesComponent implements OnInit {
           });
         };
       }
+      this.form.controls['userId'].setValue(this.multipleUser);
 
       let data = JSON.stringify(this.form.value);
       console.log(data);
