@@ -6,6 +6,9 @@ import { HakAksesInterface } from './hak-akses-interface';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs/internal/observable/throwError';
 
 @Component({
   selector: 'app-hak-akses',
@@ -47,6 +50,7 @@ export class HakAksesComponent implements OnInit {
     private formBuilder: FormBuilder,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
+    private http: HttpClient,
   ) { }
 
   //Menampilkan form tambah data
@@ -185,9 +189,23 @@ export class HakAksesComponent implements OnInit {
     });
   }
 
+  errorMessage: string = '';
+  cekError: boolean = false;
   //mengambil data dari service
   getData() {
-    this.hakAksesService.get().subscribe({
+    this.hakAksesService.get()
+    .pipe(catchError(err => {
+      if (err.status === 0) {
+        this.cekError = true;
+        this.errorMessage = 'Error: Server Sedang Maintenance.';
+      } else {
+        this.errorMessage = `Error: ${err.error}`;
+      }
+      return throwError(err);
+    }))
+    
+    
+    .subscribe({
       next: (res: any) => {
         this.hakAkses = res.data;
         this.loading = false;
