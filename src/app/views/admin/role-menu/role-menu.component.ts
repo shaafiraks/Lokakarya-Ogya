@@ -11,7 +11,7 @@ import { UserService } from '../service/user.service';
 @Component({
   selector: 'app-role-menu',
   templateUrl: './role-menu.component.html',
-  styleUrls: ['./role-menu.component.scss'] 
+  styleUrls: ['./role-menu.component.scss']
 })
 export class RoleMenuComponent implements OnInit {
 
@@ -21,9 +21,9 @@ export class RoleMenuComponent implements OnInit {
   public listRole: any = [];
   public listUser: any = [];
   public listMenu: any = [];
-  public roleform: any = [];
-  header: string = "";
+  multipleMenu: any[] = [];
   roleMenuform: boolean = false;
+  header: string = "";
   isEdit: boolean = false;
   isAdd: boolean = false;
   isDelete: boolean = false;
@@ -33,10 +33,10 @@ export class RoleMenuComponent implements OnInit {
   keteranganForm = '';
   valNama = '';
   valRoleId = '';
-  valMenuId = '';
+  valMenuId: string = '';
   valProgramName = '';
   valIsActive = '';
-  searchQuery: string='';
+  searchQuery: string = '';
   loading: boolean = true;
   currentDate = `${this.now.getFullYear()}-${this.padTo2Digits(this.now.getMonth() + 1)}-${this.padTo2Digits(this.now.getDate())}`;
 
@@ -103,13 +103,15 @@ export class RoleMenuComponent implements OnInit {
     createdBy: new FormControl(''),
     updatedDate: new FormControl(''),
     updatedBy: new FormControl(''),
+    roleName: new FormControl(''),
+    menuName: new FormControl(''),
 
   });
 
   //konfirmasi berhasil add ketika klik submit
   getConfirmAdd() {
     this.confirmationService.confirm({
-      message: 'Created Role Menu data with Role ID = ' + this.form.controls['roleId'].value,
+      message: 'Created Role Menu data with Role ID = ' + this.multipleMenu,
       header: 'Role Menu Created',
       accept: () => {
         this.onSubmit();
@@ -243,12 +245,14 @@ export class RoleMenuComponent implements OnInit {
       roleMenuId: ['',],
       roleId: ['', [Validators.required,],],
       menuId: ['', [Validators.required,],],
-      isActive: ['',],
+      isActive: ['', [Validators.required,],],
       programName: ['',],
       createdDate: ['',],
       createdBy: ['',],
       updatedDate: ['',],
       updatedBy: ['',],
+      roleName: ['',],
+      menuName: ['',],
     })
   }
 
@@ -267,28 +271,56 @@ export class RoleMenuComponent implements OnInit {
       if (this.isEdit || this.isAdd) {
         this.form.enable();
       }
+
+      this.multipleMenu = this.form.controls['menuId'].value;
+      for (let i = 0; i < this.multipleMenu.length; i++) {
+        this.form.controls['menuId'].setValue(this.multipleMenu[i]);
+        let data = JSON.stringify(this.form.value);
+        if (this.isAdd) {
+          this.roleMenuService.add(data).subscribe({
+            next: (res: any) => {
+              console.log(res);
+              this.roleMenuform = false;
+              this.getConfirmAdd();
+              this.onReset();
+            },
+            error: (error) => {
+              // this.onReset();
+              this.form.reset();
+              console.error('ini error: ', error);
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error Message',
+                detail: error.error.message,
+              });
+              // alert(error.error.message);
+            }
+          });
+        };
+
+      }
       let data = JSON.stringify(this.form.value);
       console.log(data);
 
-      if (this.isAdd) {
-        this.roleMenuService.add(data).subscribe({
-          next: (res: any) => {
-            console.log(res);
-            this.roleMenuform = false;
-            this.getConfirmAdd();
-            this.onReset();
-          },
-          error: (error) => {
-            console.error('ini error: ', error);
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error Message',
-              detail: error.error.message,
-            });
-            // alert(error.error.message);
-          }
-        });
-      };
+      // if (this.isAdd) {
+      //   this.roleMenuService.add(data).subscribe({
+      //     next: (res: any) => {
+      //       console.log(res);
+      //       this.roleMenuform = false;
+      //       this.getConfirmAdd();
+      //       this.onReset();
+      //     },
+      //     error: (error) => {
+      //       console.error('ini error: ', error);
+      //       this.messageService.add({
+      //         severity: 'error',
+      //         summary: 'Error Message',
+      //         detail: error.error.message,
+      //       });
+      //       // alert(error.error.message);
+      //     }
+      //   });
+      // };
 
       if (this.isEdit) {
         this.roleMenuService.edit(data).subscribe({
@@ -355,6 +387,6 @@ export class RoleMenuComponent implements OnInit {
 
   clear(table: Table) {
     table.clear();
-}
+  }
 
 }

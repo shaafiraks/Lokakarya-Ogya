@@ -8,4 +8,6 @@ export interface RoleMenuInterface {
     createdBy : string;
     updatedDate : Date;
     updatedBy : string;
+    roleName: string;
+    menuName: string;
 }

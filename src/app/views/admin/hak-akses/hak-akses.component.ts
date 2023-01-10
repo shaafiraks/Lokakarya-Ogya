@@ -18,6 +18,7 @@ export class HakAksesComponent implements OnInit {
   public hakAkses: any = [];
   public listUser: any = [];
   public listRole: any = [];
+  multipleUser: any[] = [];
   aksesform: boolean = false;
   header: string = "";
   isEdit: boolean = false;
@@ -95,8 +96,8 @@ export class HakAksesComponent implements OnInit {
     createdBy: new FormControl(''),
     updatedDate: new FormControl(''),
     updatedBy: new FormControl(''),
-    username: new FormControl (''),
-    roleName: new FormControl (''),
+    roleName: new FormControl(''),
+    username: new FormControl(''),
 
   });
 
@@ -104,8 +105,7 @@ export class HakAksesComponent implements OnInit {
   getConfirmAdd() {
     this.confirmationService.confirm({
       message:
-        'Created Hak Akses data with User Id = ' +
-        this.form.controls['userId'].value,
+        'Created Hak Akses data with User Id = ' + this.multipleUser,
       header: 'Hak Akses Created',
       accept: () => {
         this.onSubmit();
@@ -235,6 +235,8 @@ export class HakAksesComponent implements OnInit {
       createdBy: ['',],
       updatedDate: ['',],
       updatedBy: ['',],
+      username: ['',],
+      roleName: ['',],
     })
   }
 
@@ -253,28 +255,37 @@ export class HakAksesComponent implements OnInit {
       if (this.isEdit || this.isAdd) {
         this.form.enable();
       }
+      for (let i = 0; i < this.form.controls['userId'].value.length; i++){
+        this.multipleUser[i] = this.form.controls['userId'].value[i];
+      }
+      for (let i = 0; i < this.multipleUser.length; i++) {
+        this.form.controls['userId'].setValue(this.multipleUser[i]);
+        console.log(this.form.value);
+        let data = JSON.stringify(this.form.value);
+        if (this.isAdd) {
+          this.hakAksesService.add(data).subscribe({
+                next: (res: any) => {
+                  console.log(res);
+                  this.aksesform = false;
+                  // this.getConfirmAdd();
+                  this.onReset();
+                },
+                error: (error) => {
+                  this.form.reset();
+                  console.error('ini error: ', error);
+                  this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error Message',
+                    detail: error.error.message,
+                  });
+                  // alert(error.error.message);
+            }
+          });
+        };
+      }
+
       let data = JSON.stringify(this.form.value);
       console.log(data);
-
-      if (this.isAdd) {
-        this.hakAksesService.add(data).subscribe({
-          next: (res: any) => {
-            console.log(res);
-            this.aksesform = false;
-            this.getConfirmAdd();
-            this.onReset();
-          },
-          error: (error) => {
-            console.error('ini error: ', error);
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error Message',
-              detail: error.error.message,
-            });
-            // alert(error.error.message);
-          }
-        });
-      };
 
       if (this.isEdit) {
         this.hakAksesService.edit(data).subscribe({

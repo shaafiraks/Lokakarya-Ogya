@@ -9,4 +9,5 @@ export interface SubMenuInterface {
     updatedDate : Date;
     updatedBy : string;
     menuId : number;
+    menuName : string;
 }

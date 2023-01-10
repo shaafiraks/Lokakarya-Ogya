@@ -8,10 +8,10 @@
     <!-- button confirm ketika delete data -->
     <p-confirmDialog #cd [style]="{width: '50vw'}">
         <ng-template pTemplate="footer">
-            <button *ngIf="isDelete || isEdit" pButton pRipple type="button" icon="pi pi-times" label="No" class="p-button-text"
-                (click)="cd.reject()"></button>
-            <p-button *ngIf="isDelete || isEdit" type="button" icon="pi pi-check" label="Yes" styleClass="p-button-primary"
-                (click)="cd.accept()"></p-button>
+            <button *ngIf="isDelete || isEdit" pButton pRipple type="button" icon="pi pi-times" label="No"
+                class="p-button-text" (click)="cd.reject()"></button>
+            <p-button *ngIf="isDelete || isEdit" type="button" icon="pi pi-check" label="Yes"
+                styleClass="p-button-primary" (click)="cd.accept()"></p-button>
             <p-button *ngIf="isAdd" type="button" icon="pi pi-check" label="Ok" styleClass="p-button-primary"
                 (click)="cd.accept()"></p-button>
         </ng-template>
@@ -42,11 +42,8 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="subMenuId" style="min-width:11rem">Sub Menu ID<p-sortIcon
-                                field="subMenuId"></p-sortIcon>
-                        </th>
                         <th style="min-width:10rem">
-                            Menu ID
+                            Menu
                             <p-columnFilter field="menuId" display="menu" matchMode="in" [showMatchModes]="false"
                                 [showOperator]="false" [showAddButton]="false">
                                 <ng-template pTemplate="header">
@@ -87,11 +84,9 @@
                                 </ng-template>
                             </p-columnFilter>
                         </th>
-                        <th>Icon</th>
                         <th>Url</th>
                         <th>Program Name</th>
-                        <th pSortableColumn="createdDate">Created Date<p-sortIcon
-                            field="createdDate"></p-sortIcon></th>
+                        <th pSortableColumn="createdDate">Created Date<p-sortIcon field="createdDate"></p-sortIcon></th>
                         <th style="min-width:10rem">
                             Created By
                             <p-columnFilter field="createdBy" display="menu" matchMode="in" [showMatchModes]="false"
@@ -113,8 +108,7 @@
                                 </ng-template>
                             </p-columnFilter>
                         </th>
-                        <th pSortableColumn="updatedDate">Updated Date<p-sortIcon
-                            field="updatedDate"></p-sortIcon></th>
+                        <th pSortableColumn="updatedDate">Updated Date<p-sortIcon field="updatedDate"></p-sortIcon></th>
                         <th style="min-width:11rem">
                             Updated By
                             <p-columnFilter field="updatedBy" display="menu" matchMode="in" [showMatchModes]="false"
@@ -141,10 +135,8 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-subMenu>
                     <tr>
-                        <td>{{subMenu.subMenuId}}</td>
-                        <td>{{subMenu.menuId}}</td>
+                        <td>{{subMenu.menuName}}</td>
                         <td>{{subMenu.nama}}</td>
-                        <td>{{subMenu.icon}}</td>
                         <td>{{subMenu.url}}</td>
                         <td>{{subMenu.nama}}</td>
                         <td>{{subMenu.createdDate | date: 'dd/MM/y'}}</td>
@@ -198,19 +190,6 @@
                         </div>
                     </div>
                     <br>
-                    <div class="row container">
-                        <div class="col-md-5">
-                            <label><b>Icon</b></label>
-                        </div>
-                        <div class="col-md-1"><b>:</b></div>
-                        <div class="col-md-6">
-                            <input type="text" formControlName="icon" pInputText [(ngModel)]="valIcon"
-                                [ngClass]="{'is-invalid': submitted && f['icon'].errors}" />
-                            <div *ngIf="submitted && f['icon'].errors" class="invalid-feedback">
-                                <div *ngIf="f['icon'].errors['required']">Icon is required</div>
-                            </div>
-                        </div>
-                    </div>
                     <br>
                     <div class="row container">
                         <div class="col-md-5">
@@ -226,7 +205,7 @@
                         </div>
                     </div>
                     <br>
-                    
+
                     <div class="row container">
                         <div class="col-md-5">
                             <label><b>Menu ID</b></label>
@@ -234,7 +213,8 @@
                         <div class="col-md-1"><b>:</b></div>
                         <div class="col-md-6">
                             <p-dropdown [options]="listMenu" formControlName="menuId" [(ngModel)]="valMenuId"
-                                placeholder="Select a Menu ID" optionLabel="nama" optionValue="menuId"></p-dropdown>
+                                placeholder="Select a Menu ID" optionLabel="nama" optionValue="menuId"
+                                [ngClass]="{'is-invalid': submitted && f['menuId'].errors}"></p-dropdown>
                             <div *ngIf="submitted && f['menuId'].errors" class="invalid-feedback">
                                 <div *ngIf="f['menuId'].errors['required']">Menu ID is required</div>
                             </div>
