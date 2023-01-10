@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MasterBankService {
 
@@ -46,7 +46,7 @@ export class MasterBankService {
     return this.http.delete(this.baseUrl + 'masterbank/deleteById?id=' + id);
   }
 
-  //service get all data user 
+  //service get all data user
   findAllUser(): Observable<any> {
     return this.http.get(this.baseUrl + 'users/findAllPlan', {
       responseType: "json",
@@ -59,5 +59,5 @@ export class MasterBankService {
     })
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 }

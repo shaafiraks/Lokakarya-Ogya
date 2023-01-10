@@ -3,10 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TransaksiTelkomService {
-
   findAll(): Observable<any> {
     return this.http.get('http://localhost:8080/transaksitelkom/findStatus1', {
       responseType: 'json',
@@ -41,8 +40,10 @@ export class TransaksiTelkomService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    return this.http.delete('http://localhost:8080/transaksitelkom/deleteById?id=' + id);
+    return this.http.delete(
+      'http://localhost:8080/transaksitelkom/deleteById?id=' + id
+    );
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 }

@@ -1,135 +1,217 @@
 <c-col xs="12">
-    <div class="mb-4" style="text-align: right; margin: 15px 15px 0px 15px">
-        <button pButton type="button" class="p-button-warning btn-sm" (click)="showAdd()">
-            <i style="color: white" class="pi pi-plus"></i> Tambah Pelanggan
-        </button>
-    </div>
-    <!-- section confirmation -->
-    <p-confirmDialog #cd [style]="{ width: '50vw' }">
-        <ng-template pTemplate="footer">
-            <!-- <button type="button" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button> -->
-            <button type="button" pButton icon="pi pi-check" label="OK" (click)="cd.accept()"></button>
-        </ng-template>
-    </p-confirmDialog>
+  <div class="mb-4" style="text-align: right; margin: 15px 15px 0px 15px">
+    <button
+      pButton
+      type="button"
+      class="p-button-warning btn-sm"
+      (click)="showAdd()"
+    >
+      <i style="color: white" class="pi pi-plus"></i> Tambah Pelanggan
+    </button>
+  </div>
+  <!-- section confirmation -->
+  <p-confirmDialog #cd [style]="{ width: '50vw' }">
+    <ng-template pTemplate="footer">
+      <!-- <button type="button" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button> -->
+      <button
+        type="button"
+        pButton
+        icon="pi pi-check"
+        label="OK"
+        (click)="cd.accept()"
+      ></button>
+    </ng-template>
+  </p-confirmDialog>
 
-    <!-- section form -->
-    <p-dialog header="{{ header }}" [(visible)]="masterform" [style]="{ width: '50%' }" [draggable]="false"
-        [dismissableMask]="false">
-        <div>
-            <div class="mt-4">
-                <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                    <div class="form-group">
-                        <div *ngIf="isEdit || isDelete">
-                            <label>ID Pelanggan</label>
-                            <input type="text" formControlName="idPelanggan" class="form-control" [ngClass]="{
-                    'is-invalid': submitted && f['idPelanggan'].errors}" />
-                            <div *ngIf="submitted && f['idPelanggan'].errors" class="invalid-feedback">
-                                <div *ngIf="f['idPelanggan'].errors['required']">
-                                    ID Pelanggan belum diisi
-                                </div>
-                                <div *ngIf="f['idPelanggan'].errors['minlength']">
-                                    ID Pelanggan memiliki minimal
-                                    {{ f["idPelanggan"].errors["minlength"]["requiredLength"] }}
-                                    karakter
-                                </div>
-                                <div *ngIf="f['idPelanggan'].errors['maxlength']">
-                                    ID Pelanggan memiliki maksimal
-                                    {{ f["idPelanggan"].errors["maxlength"]["requiredLength"] }}
-                                    karakter
-                                </div>
-                            </div>
-                        </div>
-
-                        <label>ID Pengguna</label>
-                        <select class="form-select" formControlName="userId" aria-label="select users"
-                            (change)="changeSelect($event)">
-                            <option value="">(choose)</option>
-                            <option *ngFor="let item of users" value="{{ item.userId }}">
-                                {{ item.userId }}: {{ item.nama }}
-                            </option>
-                        </select>
-
-                        <div *ngIf="submitted && f['userId'].errors" class="invalid-feedback">
-                            <div *ngIf="f['userId'].errors['required']">Input ID user</div>
-                        </div>
-
-                        <label>Nama</label>
-                        <input type="text" formControlName="nama" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && f['nama'].errors }" />
-                        <div *ngIf="submitted && f['nama'].errors" class="invalid-feedback">
-                            <div *ngIf="f['nama'].errors['required']">Nama belum diisi</div>
-                            <div *ngIf="f['nama'].errors['minlength']">
-                                Nama memiliki minimal
-                                {{ f["nama"].errors["minlength"]["requiredLength"] }} karakter
-                            </div>
-                            <div *ngIf="f['nama'].errors['maxlength']">
-                                Nama memiliki maksimal
-                                {{ f["nama"].errors["maxlength"]["requiredLength"] }} karakter
-                            </div>
-                        </div>
-
-                        <label>No. Telp</label>
-                        <input type="text" formControlName="noTelp" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && f['noTelp'].errors }" />
-                        <div *ngIf="submitted && f['noTelp'].errors" class="invalid-feedback">
-                            <div *ngIf="f['noTelp'].errors['required']">
-                                No. Telepon belum diisi
-                            </div>
-                            <div *ngIf="f['noTelp'].errors['maxlength']">
-                                No. Telp memiliki maksimal
-                                {{ f["noTelp"].errors["maxlength"]["requiredLength"] }} karakter
-                            </div>
-                        </div>
-
-                        <label>Alamat</label>
-                        <input type="text" formControlName="alamat" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && f['alamat'].errors }" />
-                        <div *ngIf="submitted && f['alamat'].errors" class="invalid-feedback">
-                            <div *ngIf="f['alamat'].errors['required']">
-                                Alamat dibutuhkan
-                            </div>
-                            <div *ngIf="f['alamat'].errors['maxlength']">
-                                Alamat memiliki maksimal
-                                {{ f["alamat"].errors["maxlength"]["requiredLength"] }} karakter
-                            </div>
-                        </div>
-                    </div>
-
-                    <div *ngIf="isEdit || isAdd" class="form-group mt-4" align="center">
-                        <button pButton type="submit" class="btn p-button-warning" style="font-weight: 600;">
-                            Submit
-                        </button>
-                        &nbsp;
-                        <button pButton type="button" (click)="onReset()" class="btn float-right"
-                            style="background: none; color: #063A41; border: none; font-weight: 600;">
-                            Reset
-                        </button>
-                    </div>
-                    <div *ngIf="isDelete" class="form-group mt-4" align="center">
-                        <button pButton type="button" class="btn p-button-danger" style="color: white"
-                            (click)="deleteMasterPelanggan()">
-                            Delete
-                        </button>
-                        &nbsp;
-                    </div>
-                </form>
+  <!-- section form -->
+  <p-dialog
+    header="{{ header }}"
+    [(visible)]="masterform"
+    [style]="{ width: '50%' }"
+    [draggable]="false"
+    [dismissableMask]="false"
+  >
+    <div>
+      <div class="mt-4">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <div *ngIf="isEdit || isDelete">
+              <label>ID Pelanggan</label>
+              <input
+                type="text"
+                formControlName="idPelanggan"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': submitted && f['idPelanggan'].errors
+                }"
+              />
+              <div
+                *ngIf="submitted && f['idPelanggan'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['idPelanggan'].errors['required']">
+                  ID Pelanggan belum diisi
+                </div>
+                <div *ngIf="f['idPelanggan'].errors['minlength']">
+                  ID Pelanggan memiliki minimal
+                  {{ f["idPelanggan"].errors["minlength"]["requiredLength"] }}
+                  karakter
+                </div>
+                <div *ngIf="f['idPelanggan'].errors['maxlength']">
+                  ID Pelanggan memiliki maksimal
+                  {{ f["idPelanggan"].errors["maxlength"]["requiredLength"] }}
+                  karakter
+                </div>
+              </div>
             </div>
-        </div>
-    </p-dialog>
-    <c-card class="mb-4">
-        <c-card-header>
-            <!-- <strong>Employee List <span>({{ pelanggan?.length}} data)</span></strong> -->
-            <strong>Master Pelanggan <span>({{ pelanggan.length}} data)</span></strong>
-        </c-card-header>
 
+            <label>ID Pengguna</label>
+            <select
+              class="form-select"
+              formControlName="userId"
+              aria-label="select users"
+              (change)="changeSelect($event)"
+            >
+              <option value="">(choose)</option>
+              <option *ngFor="let item of users" value="{{ item.userId }}">
+                {{ item.userId }}: {{ item.nama }}
+              </option>
+            </select>
 
-        <!-- section data tabel -->
-        <div class="tab-content rounded-bottom">
-            <div class="tab-pane p-3 active preview table-responsive" role="tabpanel" id="preview-24">
-                <p-table #dt [globalFilterFields]="['idPelanggan',]" dataKey="id"
-                    [value]="pelanggan" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 15, 20]"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                    <!-- <ng-template pTemplate="caption">
+            <div
+              *ngIf="submitted && f['userId'].errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f['userId'].errors['required']">Input ID user</div>
+            </div>
+
+            <label>Nama</label>
+            <input
+              type="text"
+              formControlName="nama"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f['nama'].errors }"
+            />
+            <div *ngIf="submitted && f['nama'].errors" class="invalid-feedback">
+              <div *ngIf="f['nama'].errors['required']">Nama belum diisi</div>
+              <div *ngIf="f['nama'].errors['minlength']">
+                Nama memiliki minimal
+                {{ f["nama"].errors["minlength"]["requiredLength"] }} karakter
+              </div>
+              <div *ngIf="f['nama'].errors['maxlength']">
+                Nama memiliki maksimal
+                {{ f["nama"].errors["maxlength"]["requiredLength"] }} karakter
+              </div>
+            </div>
+
+            <label>No. Telp</label>
+            <input
+              type="text"
+              formControlName="noTelp"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f['noTelp'].errors }"
+            />
+            <div
+              *ngIf="submitted && f['noTelp'].errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f['noTelp'].errors['required']">
+                No. Telepon belum diisi
+              </div>
+              <div *ngIf="f['noTelp'].errors['maxlength']">
+                No. Telp memiliki maksimal
+                {{ f["noTelp"].errors["maxlength"]["requiredLength"] }} karakter
+              </div>
+            </div>
+
+            <label>Alamat</label>
+            <input
+              type="text"
+              formControlName="alamat"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f['alamat'].errors }"
+            />
+            <div
+              *ngIf="submitted && f['alamat'].errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f['alamat'].errors['required']">
+                Alamat dibutuhkan
+              </div>
+              <div *ngIf="f['alamat'].errors['maxlength']">
+                Alamat memiliki maksimal
+                {{ f["alamat"].errors["maxlength"]["requiredLength"] }} karakter
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="isEdit || isAdd" class="form-group mt-4" align="center">
+            <button
+              pButton
+              type="submit"
+              class="btn p-button-warning"
+              style="font-weight: 600"
+            >
+              Submit
+            </button>
+            &nbsp;
+            <button
+              pButton
+              type="button"
+              (click)="onReset()"
+              class="btn float-right"
+              style="
+                background: none;
+                color: #063a41;
+                border: none;
+                font-weight: 600;
+              "
+            >
+              Reset
+            </button>
+          </div>
+          <div *ngIf="isDelete" class="form-group mt-4" align="center">
+            <button
+              pButton
+              type="button"
+              class="btn p-button-danger"
+              style="color: white"
+              (click)="deleteMasterPelanggan()"
+            >
+              Delete
+            </button>
+            &nbsp;
+          </div>
+        </form>
+      </div>
+    </div>
+  </p-dialog>
+  <c-card class="mb-4">
+    <c-card-header>
+      <!-- <strong>Employee List <span>({{ pelanggan?.length}} data)</span></strong> -->
+      <strong
+        >Master Pelanggan <span>({{ pelanggan.length }} data)</span></strong
+      >
+    </c-card-header>
+
+    <!-- section data tabel -->
+    <div class="tab-content rounded-bottom">
+      <div
+        class="tab-pane p-3 active preview table-responsive"
+        role="tabpanel"
+        id="preview-24"
+      >
+        <p-table
+          #dt
+          [globalFilterFields]="['nama', 'noTelp', 'alamat']"
+          dataKey="id"
+          [value]="pelanggan"
+          [paginator]="true"
+          [rows]="5"
+          [rowsPerPageOptions]="[5, 10, 15, 20]"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        >
+          <!-- <ng-template pTemplate="caption">
             <div class="flex">
                 <span class="p-input-icon-left ml-auto">
                     <i class="pi pi-search"></i>
@@ -137,110 +219,179 @@
                 </span>
             </div>
         </ng-template> -->
-                    <ng-template pTemplate="caption">
-                        <div class="flex">
-                            <span class="p-input-icon-left p-ml-auto">
-                                <i class="pi pi-search"></i>
-                                <input pInputText type="text" [(ngModel)]="searchQuery"
-                                    (input)="dt.filterGlobal($any($event.target)?.value, 'contains')"
-                                    placeholder="Cari ID Pelanggan">
-                            </span>
-                        </div>
-                    </ng-template>
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <!-- <th *ngFor="let col of cols">
+          <ng-template pTemplate="caption">
+            <div class="flex">
+              <span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input
+                  pInputText
+                  type="text"
+                  [(ngModel)]="searchQuery"
+                  (input)="
+                    dt.filterGlobal($any($event.target)?.value, 'contains')
+                  "
+                  placeholder="Cari nama, no. telpon atau alamat"
+                />
+              </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <!-- <th *ngFor="let col of cols">
                                 {{col.header}}
                             </th> -->
-                            <th pSortableColumn="idPelanggan" class="text-center">
-                                ID Pelanggan
-                                <p-sortIcon field="idPelanggan"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="nama" class="text-center">
-                                Nama
-                                <p-sortIcon field="nama"></p-sortIcon>
-                                <p-columnFilter type="text" field="nama" display="nama"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="noTelp" class="text-center">
-                                Nomor Telepon
-                                <p-sortIcon field="noTelp"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="alamat" class="text-center">
-                                Alamat
-                                <p-sortIcon field="alamat"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="userId" class="text-center">
-                                ID Pengguna
-                                <p-sortIcon field="userId"></p-sortIcon>
-                            </th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-pelanggan>
-                        <tr>
-                            <td *ngFor="let col of cols" class="text-center">
-                                {{ pelanggan[col.field] }}
-                            </td>
-                            <td>
-                                <button pButton pRipple type="button" icon="pi pi-pencil" tooltipPosition="top"
-                                    class="p-button-rounded p-button-info p-button-text" pTooltip="Edit"
-                                    (click)="showEdit(pelanggan)"></button>
-                                <button pButton pRipple type="button" icon="pi pi-trash"
-                                    class="p-button-rounded p-button-danger p-button-text" pTooltip="Delete"
-                                    tooltipPosition="top" (click)="showdelete(pelanggan)"></button>
-                            </td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-            </div>
-        </div>
+              <th pSortableColumn="idPelanggan" class="text-center">
+                ID Pelanggan
+                <p-sortIcon field="idPelanggan"></p-sortIcon>
+              </th>
+              <th pSortableColumn="nama" class="text-center">
+                Nama
+                <p-sortIcon field="nama"></p-sortIcon>
+                <p-columnFilter
+                  type="text"
+                  field="nama"
+                  display="nama"
+                ></p-columnFilter>
+              </th>
+              <th pSortableColumn="noTelp" class="text-center">
+                Nomor Telepon
+                <p-sortIcon field="noTelp"></p-sortIcon>
+              </th>
+              <th pSortableColumn="alamat" class="text-center">
+                Alamat
+                <p-sortIcon field="alamat"></p-sortIcon>
+              </th>
+              <!-- <th pSortableColumn="userId" class="text-center">
+                ID Pengguna
+                <p-sortIcon field="userId"></p-sortIcon>
+              </th> -->
+              <th class="text-center">Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-pelanggan>
+            <tr>
+              <!-- <td *ngFor="let col of cols" class="text-center"> -->
+              <td class="text-center">
+                {{ pelanggan.idPelanggan }}
+              </td>
+              <td class="text-center">
+                {{ pelanggan.nama }}
+              </td>
+              <td class="text-center">
+                {{ pelanggan.noTelp }}
+              </td>
+              <td class="text-center">
+                {{ pelanggan.alamat }}
+              </td>
+              <td>
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-pencil"
+                  tooltipPosition="top"
+                  class="p-button-rounded p-button-info p-button-text"
+                  pTooltip="Edit"
+                  (click)="showEdit(pelanggan)"
+                ></button>
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger p-button-text"
+                  pTooltip="Delete"
+                  tooltipPosition="top"
+                  (click)="showdelete(pelanggan)"
+                ></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
 
-        <c-card-body></c-card-body>
-    </c-card>
+    <c-card-body></c-card-body>
+  </c-card>
 </c-col>
 
-
-
 <!-- TAMPIL DIALOG (ERROR) PENGGUNA SUDAH TERDAFTAR  -->
-<p-dialog #cek header="Info" [(visible)]="cekError" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
-    <c-card-body>
-        <div>
-            <p><b>Pengguna sudah terdaftar</b></p>
-        </div>
-    </c-card-body>
-    <ng-template pTemplate="footer">
-        <button type="button" class="p-button-danger" pButton icon="pi pi-times" label="Tutup"
-            (click)="onResetNew()"></button>
-    </ng-template>
+<p-dialog
+  #cek
+  header="Info"
+  [(visible)]="cekError"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <c-card-body>
+    <div>
+      <p><b>Pengguna sudah terdaftar</b></p>
+    </div>
+  </c-card-body>
+  <ng-template pTemplate="footer">
+    <button
+      type="button"
+      class="p-button-danger"
+      pButton
+      icon="pi pi-times"
+      label="Tutup"
+      (click)="onResetNew()"
+    ></button>
+  </ng-template>
 </p-dialog>
 
 <!-- TAMPIL DIALOG (ERROR) TIDAK BISA HAPUS  -->
-<p-dialog #cek header="Gagal menghapus" [(visible)]="cekErrorDel" [style]="{width: '50vw'}" [draggable]="false"
-    [resizable]="false">
-    <c-card-body>
-        <div>
-            <p><b>Pengguna tidak dapat dihapus</b></p>
-        </div>
-    </c-card-body>
-    <ng-template pTemplate="footer">
-        <button type="button" class="p-button-danger" pButton icon="pi pi-times" label="Tutup"
-            (click)="onResetNew()"></button>
-    </ng-template>
+<p-dialog
+  #cek
+  header="Gagal menghapus"
+  [(visible)]="cekErrorDel"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <c-card-body>
+    <div>
+      <p><b>Pengguna tidak dapat dihapus</b></p>
+    </div>
+  </c-card-body>
+  <ng-template pTemplate="footer">
+    <button
+      type="button"
+      class="p-button-danger"
+      pButton
+      icon="pi pi-times"
+      label="Tutup"
+      (click)="onResetNew()"
+    ></button>
+  </ng-template>
 </p-dialog>
 
 <!-- TAMPIL DIALOG BERHASIL DELETE  -->
-<p-dialog #cek header="Berhasil menghapus" [(visible)]="berhasilDelete" [style]="{width: '50vw'}" [draggable]="false"
-    [resizable]="false">
-    <c-card-body>
-        <div>
-            <p><b>Pelanggan berhasil dihapus</b></p>
-        </div>
-        <!-- <option *ngFor="let item of users" value="{{ item.userId }}">
+<p-dialog
+  #cek
+  header="Berhasil menghapus"
+  [(visible)]="berhasilDelete"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <c-card-body>
+    <div>
+      <p><b>Pelanggan berhasil dihapus</b></p>
+    </div>
+    <!-- <option *ngFor="let item of users" value="{{ item.userId }}">
             {{ item.userId }}: {{ item.nama }}
         </option> -->
-    </c-card-body>
-    <ng-template pTemplate="footer">
-        <button type="button" class="p-button-primary" pButton icon="pi pi-times" label="Tutup"
-            (click)="onResetNew()"></button>
-    </ng-template>
+  </c-card-body>
+  <ng-template pTemplate="footer">
+    <button
+      type="button"
+      class="p-button-primary"
+      pButton
+      icon="pi pi-times"
+      label="Tutup"
+      (click)="onResetNew()"
+    ></button>
+  </ng-template>
 </p-dialog>
