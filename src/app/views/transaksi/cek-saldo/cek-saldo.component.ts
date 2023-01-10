@@ -3,6 +3,9 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TransaksiService } from '../transaksi.service'
 import { CurrencyPipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs/internal/observable/throwError';
 
 @Component({
   selector: 'app-cek-saldo',
@@ -18,6 +21,7 @@ export class CekSaldoComponent implements OnInit {
     private formBuilder: FormBuilder,
     // private messageService: MessageService
     private currencyPipe: CurrencyPipe,
+    private http: HttpClient
 
 
 
@@ -44,7 +48,8 @@ export class CekSaldoComponent implements OnInit {
   nasabah: any = [];
   display1: boolean = false;
   submitted: boolean = false;
-
+  errorMessage: string = '';
+  cekNorek:boolean = false;
 
 
   //FUNCTION MEMUNCULKAN NASABAH
@@ -99,8 +104,35 @@ export class CekSaldoComponent implements OnInit {
 
   onReset(): void {
     this.submitted = false;
+    this.cekNorek = false;
     this.form.reset();
     this.display1 = false;
   }
 
+  showNasabah2(){
+    this.transaksiService.getNasabah(this.norek)
+    .pipe(catchError(err => {
+      if (err.status === 0) {
+        this.cekNorek = true;
+        this.errorMessage = 'Error: Server Sedang Maintenance.';
+      } else {
+        this.errorMessage = `Error: ${err.error}`;
+      }
+      return throwError(err);
+    })).subscribe({
+      next: (resp: any) => {
+        this.display1 = true;
+        this.nasabah[0] = resp.data;
+        console.log(resp);
+        console.log(resp.data);
+
+      },
+      error: (error) => {
+        this.cekNorek= true;
+        console.log(error);
+        // alert('Id tidak ditemukan')
+        // this.onReset();
+      },
+    });
+  }
 }
