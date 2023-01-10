@@ -62,6 +62,10 @@
                             <label>Nominal</label>
                             <input type="number" formControlName="saldo" class="form-control"
                                 [ngClass]="{'is-invalid':submitted && f['saldo'].errors}">
+                                <div *ngIf="submitted && f['saldo'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['saldo'].errors['required']">Nominal is required</div>
+                                    <div *ngIf="f['saldo'].errors['min']">Minimal tabungan IDR 10.000,00 </div>
+                                </div>
                         </div>
                     </div>
 
@@ -76,9 +80,9 @@
                     <!-- tombol di dalam form delete -->
                     <div *ngIf="isDelete" class="form-group mt-4" align="center">
                         <button pButton type="submit" label="Delete" class="p-button-danger"
-                            (click)="onDelete()"></button>&nbsp;
-                        <button pButton type="button" label="Reset" class="p-button-warning"
-                            (click)="onReset()"></button>
+                            (click)="deleteNasabah()"></button>&nbsp;
+                        <!-- <button pButton type="button" label="Reset" class="p-button-warning"
+                            (click)="onReset()"></button> -->
                     </div>
                 </form>
             </div>
@@ -95,7 +99,7 @@
         <div class="tab-content rounded-bottom">
             <div class="tab-pane p-3 active preview table-responsive" role="tabpanel" id="preview-24">
                 <p-table #dt [value]="masterBank" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15,20]"
-                    [globalFilterFields]="['norek','nama', 'alamat', 'notlp', 'saldo', 'userId']">
+                    [globalFilterFields]="['nama']" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                     <ng-template pTemplate="caption">
                         <div class="flex">
                             <span class="p-input-icon-left p-ml-auto">
@@ -108,30 +112,28 @@
                     </ng-template>
                     <ng-template pTemplate="header">
                         <tr>
-                            <th>Nomor Rekening</th>
-                            <th pSortableColumn="userId">User Id <p-sortIcon field="userId"></p-sortIcon></th>
-                            <th>Nama Nasabah
-                                <p-columnFilter type="text" field="nama" display="menu"></p-columnFilter>
-                            </th>
-                            <th>Alamat</th>
-                            <th>Nomor Telepon</th>
-                            <th>Saldo</th>
-                            <th>
+                            <th class="text-center">Nomor Rekening</th>
+                            <!-- <th pSortableColumn="userId">User Id <p-sortIcon field="userId"></p-sortIcon></th> -->
+                            <th class="text-center">Nama Nasabah</th>
+                            <th class="text-center">Alamat</th>
+                            <th class="text-center">Nomor Telepon</th>
+                            <th class="text-center" pSortableColumn="saldo">Saldo <p-sortIcon field="saldo"></p-sortIcon></th>
+                            <th class="text-center">
                                 Action
                             </th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-masterBank>
                         <tr>
-                            <td>{{masterBank.norek}}</td>
-                            <td>{{masterBank.userId}}</td>
-                            <td>{{masterBank.nama}}</td>
-                            <td>{{masterBank.alamat}}</td>
-                            <td>{{masterBank.notlp}}</td>
-                            <td>{{masterBank.saldo | currency:'IDR ':'symbol':'3.2-2'}}</td>
+                            <td class="text-center">{{masterBank.norek}}</td>
+                            <!-- <td>{{masterBank.userId}}</td> -->
+                            <td class="text-center">{{masterBank.nama}}</td>
+                            <td class="text-center">{{masterBank.alamat}}</td>
+                            <td class="text-center">{{masterBank.notlp}}</td>
+                            <td class="text-center">{{masterBank.saldo | currency:'IDR ':'symbol':'3.2-2'}}</td>
 
                             <!-- button edit dan delete -->
-                            <td class="row">
+                            <td class="text-center" class="row">
                                 <button pButton pRipple type="button" icon="pi pi-pencil"
                                     class="p-button-rounded p-button-info p-button-text col"
                                     (click)="showEdit(masterBank)"></button> &nbsp;
@@ -146,3 +148,37 @@
         </div>
 
         <c-card-body>
+
+        <!--tampilkan pesan toast -->
+<p-toast position="top-center"></p-toast>
+
+<!-- TAMPIL DIALOG (ERROR) TIDAK BISA HAPUS  -->
+<p-dialog #cek header="Gagal menghapus" [(visible)]="cekErrorDel" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false">
+    <c-card-body>
+        <div>
+            <p><b>Nasabah tidak dapat dihapus karena memiliki history transaksi</b></p>
+        </div>
+    </c-card-body>
+    <ng-template pTemplate="footer">
+        <button type="button" class="p-button-danger" pButton icon="pi pi-times" label="OK"
+            (click)="onResetNew()"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- TAMPIL DIALOG BERHASIL DELETE  -->
+<p-dialog #cek header="Berhasil menghapus" [(visible)]="berhasilDelete" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false">
+    <c-card-body>
+        <div>
+            <p><b>Data nasabah berhasil dihapus</b></p>
+        </div>
+        <!-- <option *ngFor="let item of users" value="{{ item.userId }}">
+            {{ item.userId }}: {{ item.nama }}
+        </option> -->
+    </c-card-body>
+    <ng-template pTemplate="footer">
+        <button type="button" class="p-button-primary" pButton icon="pi pi-times" label="OK"
+            (click)="onResetNew()"></button>
+    </ng-template>
+</p-dialog>

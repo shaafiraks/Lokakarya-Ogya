@@ -10,7 +10,7 @@
                 <p>Jumlah transaksi transfer hari ini : <b> {{transferHariIni}} transaksi </b></p>
                 <hr>
                 <p-table #dt [value]="transferHistory" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15,20]"
-                    [globalFilterFields]="['idHistoryBank', 'norek','nama', 'alamat', 'tanggal', 'uang', 'noRekTujuan', 'noTlp']">
+                    [globalFilterFields]="['nama']" >
                     <ng-template pTemplate="caption">
                         <div class="flex">
                             <span class="p-input-icon-left p-ml-auto">
@@ -23,30 +23,28 @@
                     </ng-template>
                     <ng-template pTemplate="header">
                         <tr>
-                            <th>Id History Bank</th>
-                            <th>Nomor Rekening</th>
-                            <th>Nama Nasabah
-                                <p-columnFilter type="text" field="nama" display="menu"></p-columnFilter>
-                            </th>
-                            <th pSortableColumn="tanggal">Tanggal
-                                <p-sortIcon field="tanggal"></p-sortIcon>
-                                <p-columnFilter type="text" field="tanggal" display="menu"></p-columnFilter>
-                            </th>
-                            <th>Nominal</th>
-                            <th>Keterangan</th>
-                            <th>Nomor Rekening Tujuan</th>
+                            <!-- <th>Id History Bank</th> -->
+                            <th class="text-center">Nomor Rekening Pengirim</th>
+                            <th class="text-center">Nama Pengirim</th>
+                            <th class="text-center" pSortableColumn="tanggal">Tanggal
+                                <p-sortIcon field="tanggal"></p-sortIcon></th>
+                            <th class="text-center">Nomor Rekening Penerima</th>
+                            <th class="text-center">Nama Penerima</th>
+                            <th class="text-center" pSortableColumn="uang">Nominal <p-sortIcon field="uang"></p-sortIcon></th>
+                            <th class="text-center">Keterangan</th>
                             <!-- <th>Nomor Telepon</th> -->
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-historyTransaksi>
                         <tr>
-                            <td>{{historyTransaksi.idHistoryBank}}</td>
-                            <td>{{historyTransaksi.norek}}</td>
-                            <td>{{historyTransaksi.nama}}</td>
-                            <td>{{historyTransaksi.tanggal | date: 'dd-MM-y h:mm a'}}</td>
-                            <td>{{historyTransaksi.uang | currency:'Rp. ':'symbol':'3.2-2'}}</td>
-                            <td>{{historyTransaksi.statusKet}}. Transfer</td>
-                            <td>{{historyTransaksi.noRekTujuan}}</td>
+                            <!-- <td>{{historyTransaksi.idHistoryBank}}</td> -->
+                            <td class="text-center">{{historyTransaksi.norek}}</td>
+                            <td class="text-center">{{historyTransaksi.nama}}</td>
+                            <td class="text-center">{{historyTransaksi.tanggal | date: 'dd-MM-y h:mm a'}}</td>
+                            <td class="text-center">{{historyTransaksi.noRekTujuan}}</td>
+                            <td class="text-center">{{historyTransaksi.namaTujuan}}</td>
+                            <td class="text-center">{{historyTransaksi.uang | currency:'IDR ':'symbol':'3.2-2'}}</td>
+                            <td class="text-center">{{historyTransaksi.statusKet}}. Transfer</td>
                             <!-- <td>{{historyTransaksi.noTlp}}</td> -->
                         </tr>
                     </ng-template>

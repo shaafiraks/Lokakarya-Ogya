@@ -3,26 +3,25 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MasterService {
-
   findAll(): Observable<any> {
-    return this.http.get("http://localhost:8080/masterpelanggan/findAllPlan", {
-      responseType: "json",
-    })
+    return this.http.get('http://localhost:8080/masterpelanggan/findAllPlan', {
+      responseType: 'json',
+    });
   }
 
   findAllUserId(): Observable<any> {
-    return this.http.get("http://localhost:8080/users/findAllPlan", {
-      responseType: "json",
-    })
+    return this.http.get('http://localhost:8080/users/findAllPlan', {
+      responseType: 'json',
+    });
   }
 
   findUsersByUserId(userId: number): Observable<any> {
-    return this.http.get("http://localhost:8080/users/findById?id=" + userId, {
-      responseType: "json",
-    })
+    return this.http.get('http://localhost:8080/users/findById?id=' + userId, {
+      responseType: 'json',
+    });
   }
 
   addMasterPelanggan(data: any): Observable<any> {
@@ -48,15 +47,16 @@ export class MasterService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    return this.http.delete('http://localhost:8080/masterpelanggan/deleteById?id=' + id);
+    return this.http.delete(
+      'http://localhost:8080/masterpelanggan/deleteById?id=' + id
+    );
   }
 
-  findUserById(userId:number): Observable<any> {
+  findUserById(userId: number): Observable<any> {
     return this.http.get(`http://localhost:8080/users/findById?id=${userId}`, {
-      responseType: "json",
-    })
+      responseType: 'json',
+    });
   }
 
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 }

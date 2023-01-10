@@ -55,6 +55,7 @@ export class SetorTunaiComponent implements OnInit {
   cekNorek: boolean = false;
   tampilForm: boolean = false;
   errorMessage:string = '';
+  tampilDataNasabah:boolean =false;
 
 
 
@@ -113,6 +114,7 @@ export class SetorTunaiComponent implements OnInit {
     this.tampilForm = false;
     this.nasabah = [];
     this.nominal = 0;
+    this.tampilDataNasabah=false;
   }
 
   //PANGGIL SEMUA DATA NASABAH
@@ -126,7 +128,7 @@ export class SetorTunaiComponent implements OnInit {
       console.log(data);
       this.transaksiService.getNasabah(this.norek).subscribe({
         next: (resp: any) => {
-          // this.display1 = true;
+          this.tampilDataNasabah= true;
           this.nasabah[0] = resp.data;
           console.log(resp);
           console.log(resp.data);

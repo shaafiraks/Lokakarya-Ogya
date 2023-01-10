@@ -1,74 +1,111 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap"
+  rel="stylesheet"
+/>
 
 <c-col xs="12">
+  <c-card class="mb-4">
+    <c-card-header>
+      <strong
+        >Laporan Pelunasan <span>({{ telpHistory?.length }} data)</span></strong
+      >
+    </c-card-header>
 
-    <c-card class="mb-4">
-        <c-card-header>
-            <strong>Laporan Pelunasan <span>({{ telpHistory?.length}} data)</span></strong>
-        </c-card-header>
-
-        <!-- section data tabel -->
-        <div class="tab-content rounded-bottom">
-            <div class="tab-pane p-3 active preview table-responsive" role="tabpanel" id="preview-24">
-                <p-table #dt [globalFilterFields]="['idHistory',]" [value]="telpHistory" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 15, 20]">
-                    <ng-template pTemplate="caption">
-                        <div class="flex">
-                            <span class="p-input-icon-left p-ml-auto">
-                                <i class="pi pi-search"></i>
-                                <input pInputText type="text" [(ngModel)]="searchQuery"
-                                    (input)="dt.filterGlobal($any($event.target)?.value, 'contains')" placeholder="Cari ID History">
-                            </span>
-                        </div>
-                    </ng-template>
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th pSortableColumn="idHistory" class="text-center">
+    <!-- section data tabel -->
+    <div class="tab-content rounded-bottom">
+      <div
+        class="tab-pane p-3 active preview table-responsive"
+        role="tabpanel"
+        id="preview-24"
+      >
+        <p-table
+          #dt
+          [globalFilterFields]="['nama']"
+          [value]="telpHistory"
+          [paginator]="true"
+          [rows]="5"
+          [rowsPerPageOptions]="[5, 10, 15, 20]"
+        >
+          <ng-template pTemplate="caption">
+            <div class="flex">
+              <span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input
+                  pInputText
+                  type="text"
+                  [(ngModel)]="searchQuery"
+                  (input)="
+                    dt.filterGlobal($any($event.target)?.value, 'contains')
+                  "
+                  placeholder="Cari nama pelanggan"
+                />
+              </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <!-- <th pSortableColumn="idHistory" class="text-center">
                                 ID History
                                 <p-sortIcon field="idHistory"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="idPelanggan" class="text-center">
-                                ID Pelanggan
-                                <p-sortIcon field="idPelanggan"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="tanggalBayar" class="text-center">
-                                Tanggal Bayar
-                                <p-sortIcon field="tanggalBayar"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="bulanTagihan" class="text-center">
-                                Bulan Tagihan
-                                <p-sortIcon field="bulanTagihan"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="tahunTagihan" class="text-center">
-                                Tahun Tagihan
-                                <p-sortIcon field="tahunTagihan"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="uang" class="text-center">
-                                Nominal Tagihan
-                                <p-sortIcon field="uang"></p-sortIcon>
-                            </th>
-                            <!-- <th>Action</th> -->
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-history>
-                        <tr>
-                            <!-- <td *ngFor="let col of cols">
+                            </th> -->
+              <!-- <th pSortableColumn="idPelanggan" class="text-center">
+                ID Pelanggan
+                <p-sortIcon field="idPelanggan"></p-sortIcon>
+              </th> -->
+              <th pSortableColumn="nama" class="text-center">
+                Nama
+                <p-sortIcon field="nama"></p-sortIcon>
+              </th>
+              <th pSortableColumn="tanggalBayar" class="text-center">
+                Tanggal Bayar
+                <p-sortIcon field="tanggalBayar"></p-sortIcon>
+              </th>
+              <th pSortableColumn="bulanTagihan" class="text-center">
+                Bulan Tagihan
+                <p-sortIcon field="bulanTagihan"></p-sortIcon>
+              </th>
+              <th pSortableColumn="tahunTagihan" class="text-center">
+                Tahun Tagihan
+                <p-sortIcon field="tahunTagihan"></p-sortIcon>
+              </th>
+              <th pSortableColumn="uang" class="text-center">
+                Nominal Tagihan
+                <p-sortIcon field="uang"></p-sortIcon>
+              </th>
+              <!-- <th>Action</th> -->
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-history>
+            <tr>
+              <!-- <td *ngFor="let col of cols">
                 {{ history[col.field] }}
                 </td> -->
-                            <td class="text-center">{{history.idHistory}}</td>
-                            <td class="text-center">{{history.idPelanggan}}</td>
-                            <td class="text-center">{{history.tanggalBayar| date: 'dd-MM-y'}}</td>
-                            <td class="text-center">{{history.bulanTagihan}}</td>
-                            <td class="text-center">{{history.tahunTagihan}}</td>
-                            <td class="text-center">{{history.uang | currency:'IDR ':'symbol':'3.2-2'}}</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-            </div>
-        </div>
+              <!-- <td class="text-center">{{history.idHistory}}</td> -->
+              <!-- <td class="text-center">{{ history.idPelanggan }}</td> -->
+              <td class="text-center">{{ history.nama }}</td>
+              <td class="text-center">
+                {{ history.tanggalBayar | date : "dd-MM-y" }}
+              </td>
+              <td class="text-center">{{ history.bulanTagihan }}</td>
+              <td class="text-center">{{ history.tahunTagihan }}</td>
+              <td class="text-center">
+                {{ history.uang | currency : "IDR " : "symbol" : "3.2-2" }}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
 
-        <c-card-body>
-            <strong>Total Pelunasan <span>({{ totalTagihan | currency:'IDR ':'symbol':'3.2-2'}})</span></strong>
-        </c-card-body>
-    </c-card></c-col>
+    <c-card-body>
+      <strong
+        >Total Pelunasan
+        <span
+          >({{ totalTagihan | currency : "IDR " : "symbol" : "3.2-2" }})</span
+        ></strong
+      >
+    </c-card-body>
+  </c-card></c-col
+>

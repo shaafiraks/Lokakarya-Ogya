@@ -3,10 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TelpHistoryService {
-
   findAll(): Observable<any> {
     return this.http.get('http://localhost:8080/historytelkom/findAllPlan', {
       responseType: 'json',
@@ -36,7 +35,9 @@ export class TelpHistoryService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    return this.http.delete('http://localhost:8080/historytelkom/deleteById?id=' + id);
+    return this.http.delete(
+      'http://localhost:8080/historytelkom/deleteById?id=' + id
+    );
   }
 
   getNominal(): Observable<any> {
@@ -45,5 +46,5 @@ export class TelpHistoryService {
     });
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 }

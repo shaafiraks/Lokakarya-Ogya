@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MasterBankService {
 
+  baseUrl = environment.BASE_API_URL;
+
   //service find all data nasabah
   findAll(): Observable<any> {
-    return this.http.get("http://localhost:8080/masterbank/findAllPlan", {
+    return this.http.get(this.baseUrl + 'masterbank/findAllPlan', {
       responseType: "json",
     })
   }
@@ -20,7 +23,7 @@ export class MasterBankService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://localhost:8080/masterbank/';
+    const urlPost = this.baseUrl + 'masterbank/';
     return this.http.post<any>(urlPost, data, { headers });
   }
 
@@ -30,7 +33,7 @@ export class MasterBankService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://localhost:8080/masterbank/';
+    const urlPost = this.baseUrl + 'masterbank/';
     return this.http.put<any>(urlPost, data, { headers });
   }
 
@@ -40,21 +43,21 @@ export class MasterBankService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    return this.http.delete('http://localhost:8080/masterbank/deleteById?id=' + id);
+    return this.http.delete(this.baseUrl + 'masterbank/deleteById?id=' + id);
   }
 
-  //service get all data user 
+  //service get all data user
   findAllUser(): Observable<any> {
-    return this.http.get("http://localhost:8080/users/findAllPlan", {
+    return this.http.get(this.baseUrl + 'users/findAllPlan', {
       responseType: "json",
     })
   }
 
   findUserById(userId:number): Observable<any> {
-    return this.http.get(`http://localhost:8080/users/findById?id=${userId}`, {
+    return this.http.get(this.baseUrl + `users/findById?id=${userId}`, {
       responseType: "json",
     })
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 }

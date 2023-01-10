@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ConfirmationService } from 'primeng/api';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, MinValidator, Validators } from '@angular/forms';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { MasterBankInterface } from './master-bank-interface';
 import { MasterBankService } from './master-bank.service'
 import { CurrencyPipe } from '@angular/common';
@@ -12,7 +12,7 @@ import { CurrencyPipe } from '@angular/common';
   providers: [CurrencyPipe]
 })
 export class MasterBankComponent implements OnInit {
-
+  
   //variabel-variabel untuk menampung data
   public cols: any = [];
   public masterBank: any = [];
@@ -26,8 +26,11 @@ export class MasterBankComponent implements OnInit {
   submitted = false;
   paramnorek: number = 0;
   searchQuery: string = '';
-
-  //function untuk delete 
+  cekError: boolean = false; //menampilkan error
+  cekErrorDel: boolean = false; //menampilkan error
+  berhasilDelete: boolean = false; //menampilkan error
+  
+  //menampilkan form untuk delete 
   showDelete(reference: MasterBankInterface) {
     this.form.setValue(reference);
     this.isEdit = false;
@@ -38,7 +41,7 @@ export class MasterBankComponent implements OnInit {
     this.masterBankform = true;
   }
 
-  //function untuk add
+  //menampilkan form untuk add
   showAdd() {
     this.isEdit = false;
     this.isAdd = true;
@@ -52,7 +55,7 @@ export class MasterBankComponent implements OnInit {
     this.masterBankform = true;
   }
 
-  //function untuk edit
+  //menampilkan form untuk edit
   showEdit(reference: MasterBankInterface) {
     this.isEdit = true;
     this.isAdd = false;
@@ -64,7 +67,6 @@ export class MasterBankComponent implements OnInit {
     this.masterBankform = true;
   }
 
-  //
   form: FormGroup = new FormGroup({
     norek: new FormControl(0),
     nama: new FormControl(''),
@@ -75,6 +77,7 @@ export class MasterBankComponent implements OnInit {
   });
 
   constructor(
+    private messageService: MessageService,
     private masterBankService: MasterBankService,
     private formBuilder: FormBuilder,
     private confirmationService: ConfirmationService,
@@ -84,6 +87,8 @@ export class MasterBankComponent implements OnInit {
   changeSelect(event: any) {
     // console.log(event.target.value);
     // console.log(this.users);
+
+    //memanggil service get by id dari user untuk add data data nasabah
     this.masterBankService.findUserById(event.target.value).subscribe({
       next: (res: any) => {
         this.selectedUser = res.data[0];
@@ -98,23 +103,31 @@ export class MasterBankComponent implements OnInit {
   }
 
   //konfirmasi delete 
-  GetConfirmDelete() {
-    this.confirmationService.confirm({
-      message: 'Data nasabah dengan nomor rekening = ' + this.form.controls['norek'].value + ' berhasil dihapus',
-      header: 'Nasabah Deleted',
-    });
-  }
+  // GetConfirmDelete() {
+  //   this.confirmationService.confirm({
+  //     message: 'Data nasabah dengan nomor rekening = ' + this.form.controls['norek'].value + ' berhasil dihapus',
+  //     header: 'Nasabah Deleted',
+  //   });
+  // }
 
   //konfirmasi add 
-  getConfirmAdd() {
+  GetConfirmAdd() {
     this.confirmationService.confirm({
       message: 'Berhasil menambahkan data nasabah dengan nama = ' + this.form.controls['nama'].value,
       header: 'Nasabah Created',
+      accept: () => {
+        this.onSubmit();
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Confirmed',
+          detail: 'Nasabah Added',
+        });
+      },
     });
   }
 
   //konfirmasi edit 
-  getConfirmEdit() {
+  GetConfirmEdit() {
     this.confirmationService.confirm({
       message: ' Data nasabah dengan nomor rekening = ' + this.form.controls['norek'].value + ' berhasil diubah',
       header: 'Nasabah Updated',
@@ -123,6 +136,8 @@ export class MasterBankComponent implements OnInit {
 
   //get data dari service
   getData() {
+
+    //memanggil service find all data master bank
     this.masterBankService.findAll().subscribe({
       next: (res: any) => {
         this.masterBank = res;
@@ -133,6 +148,7 @@ export class MasterBankComponent implements OnInit {
       }
     });
 
+    //memanggil service find all data user 
     this.masterBankService.findAllUser().subscribe({
       next: (res: any) => {
         this.users = res;
@@ -148,12 +164,13 @@ export class MasterBankComponent implements OnInit {
   ngOnInit(): void {
     this.getData();
 
+    //validasi di form
     this.form = this.formBuilder.group({
       norek: [0,],
       nama: ['', Validators.required],
       alamat: ['', Validators.required],
       notlp: [0, Validators.required],
-      saldo: [0, Validators.required],
+      saldo: [0, [Validators.required, Validators.min(10000)]],
       userId: [0,],
     })
   }
@@ -164,73 +181,79 @@ export class MasterBankComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
-    // console.log(this.form.controls["saldo"], "ini saldonya")
+
     if (this.form.invalid) {
       return;
     } else {
-      if (this.isAdd) {
+      if(this.isAdd){
         this.form.controls['nama'].enable();
         this.form.controls['alamat'].enable();
         this.form.controls['notlp'].enable();
       }
+
       if (this.isEdit) {
         this.form.controls['norek'].enable();
       }
+      
       let data = JSON.stringify(this.form.value);
-      // console.log(data, "zzzz");
-      if (this.isAdd) {
-        this.form.controls['nama'].disable();
-        this.form.controls['alamat'].disable();
-        this.form.controls['notlp'].disable();
-      }
+
       if (this.isEdit) {
         this.form.controls['norek'].disable();
       }
 
+      //add nasabah
       if (this.isAdd) {
         this.masterBankService.addNasabah(data).subscribe({
           next: (res: any) => {
             // console.log(res);
             this.masterBankform = false;
-            this.getConfirmAdd();
+            this.GetConfirmAdd();
             this.onReset();
           },
           error: (error) => {
-            console.error('ini error: ', error);
+            // console.error('ini error: ', error);
             alert(error.error.message);
           }
         });
       };
 
+      //edit data nasabah
       if (this.isEdit) {
         this.masterBankService.editNasabah(data).subscribe({
           next: (res: any) => {
             // console.log(res);
             this.masterBankform = false;
-            this.getConfirmEdit();
+            this.GetConfirmEdit();
             this.onReset();
           },
           error: (error) => {
-            console.error('ini error: ', error);
+            // console.error('ini error: ', error);
             alert(error.error.message);
           }
         });
       };
 
+      //delete nasabah
       if (this.isDelete) {
         this.masterBankService.deleteNasabah(this.form.controls['norek'].value).subscribe({
           next: (res: any) => {
-            // this.onReset();
+
             this.masterBankform = false;
-            //console.log(res);
-            this.getData();
+            // this.GetConfirmDelete();
+            this.cekErrorDel =false;
+            this.berhasilDelete = true;
+            this.onReset();
+
+            // console.log(res);
           },
           error: (error) => {
+            //this.gagalDelete = true;
+            this.cekErrorDel = true;
+            this.berhasilDelete = false;
             console.error('ini error: ', error);
           }
         });
       }
-
     }
   }
 
@@ -246,10 +269,34 @@ export class MasterBankComponent implements OnInit {
     this.getData();
   }
 
-  onDelete(): void {
-    this.submitted = false;
+  // onDelete(): void {
+  //   this.submitted = false;
+  //   this.masterBankform = false;
+  //   this.GetConfirmDelete();
+  // }
+
+  onResetNew(): void {
     this.masterBankform = false;
-    this.GetConfirmDelete();
+    this.cekError = false;
+    this.cekErrorDel = false;
+    this.berhasilDelete = false;
+    this.onReset()
+  }
+
+  deleteNasabah(){
+    this.masterBankService.deleteNasabah(this.form.controls['norek'].value).subscribe({
+      next: (res: any) => {
+        this.masterBankform = false;
+        this.berhasilDelete = true;
+        this.onReset();
+
+        // console.log(res);
+      },
+      error: (error) => {
+        this.cekErrorDel = true;
+        console.error('ini error: ', error);
+      }
+    });
   }
 
 }
