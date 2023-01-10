@@ -126,8 +126,14 @@
                         </div>
                         <div class="col-md-1"><b>:</b></div>
                         <div class="col-md-6">
-                            <p-multiSelect [options]="listMenu" formControlName="menuId" [(ngModel)]="valMenuId" optionLabel="nama"
-                            placeholder="Select a Menu ID"></p-multiSelect>
+                            <!-- <p-multiSelect [options]="listMenu" formControlName="menuId" [(ngModel)]="valMenuId" optionLabel="nama"
+                            placeholder="Select a Menu ID"></p-multiSelect> -->
+                             <p-dropdown [options]="listMenu" formControlName="menuId" [(ngModel)]="valMenuId" 
+                                placeholder="Select a Menu ID" optionLabel="nama" optionValue="menuId">
+                            </p-dropdown>
+                            <div *ngIf="submitted && f['menuId'].errors" class="invalid-feedback">
+                                <div *ngIf="f['menuId'].errors['required']">Menu ID is required</div>
+                            </div>
                         </div>
                     </div>
                     <br>

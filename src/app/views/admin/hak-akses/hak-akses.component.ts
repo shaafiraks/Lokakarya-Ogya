@@ -95,6 +95,8 @@ export class HakAksesComponent implements OnInit {
     createdBy: new FormControl(''),
     updatedDate: new FormControl(''),
     updatedBy: new FormControl(''),
+    username: new FormControl (''),
+    roleName: new FormControl (''),
 
   });
 
