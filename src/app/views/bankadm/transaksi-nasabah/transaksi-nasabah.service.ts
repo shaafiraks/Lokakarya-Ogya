@@ -3,14 +3,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TransaksiNasabahService {
-
   findAll(): Observable<any> {
-    return this.http.get("http://localhost:8080/transfernasabah/findAllPlan", {
-      responseType: "json",
-    })
+    return this.http.get(
+      'http://192.168.182.102:8080/transfernasabah/findAllPlan',
+      {
+        responseType: 'json',
+      }
+    );
   }
 
   addTransaksiNasabah(data: any): Observable<any> {
@@ -18,7 +20,7 @@ export class TransaksiNasabahService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://localhost:8080/transfernasabah/';
+    const urlPost = 'http://192.168.182.102:8080/transfernasabah/';
     return this.http.post<any>(urlPost, data, { headers });
   }
 
@@ -27,7 +29,7 @@ export class TransaksiNasabahService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://localhost:8080/transfernasabah/';
+    const urlPost = 'http://192.168.182.102:8080/transfernasabah/';
     return this.http.put<any>(urlPost, data, { headers });
   }
 
@@ -36,8 +38,10 @@ export class TransaksiNasabahService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    return this.http.delete('http://localhost:8080/transfernasabah/deleteById?id=' + id);
+    return this.http.delete(
+      'http://192.168.182.102:8080/transfernasabah/deleteById?id=' + id
+    );
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 }

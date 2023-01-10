@@ -3,17 +3,19 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TransaksiTelkomService {
-
   findAll(): Observable<any> {
-    return this.http.get('http://localhost:8080/transaksitelkom/findStatus1', {
-      responseType: 'json',
-    });
+    return this.http.get(
+      'http://192.168.182.102:8080/transaksitelkom/findStatus1',
+      {
+        responseType: 'json',
+      }
+    );
   }
   getTotal(): Observable<any> {
-    return this.http.get('http://localhost:8080/transaksitelkom/sumAll', {
+    return this.http.get('http://192.168.182.102:8080/transaksitelkom/sumAll', {
       responseType: 'json',
     });
   }
@@ -23,7 +25,7 @@ export class TransaksiTelkomService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://localhost:8080/transaksitelkom/';
+    const urlPost = 'http://192.168.182.102:8080/transaksitelkom/';
     return this.http.post<any>(urlPost, data, { headers });
   }
 
@@ -32,7 +34,7 @@ export class TransaksiTelkomService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://localhost:8080/transaksitelkom/';
+    const urlPost = 'http://192.168.182.102:8080/transaksitelkom/';
     return this.http.put<any>(urlPost, data, { headers });
   }
 
@@ -41,8 +43,10 @@ export class TransaksiTelkomService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    return this.http.delete('http://localhost:8080/transaksitelkom/deleteById?id=' + id);
+    return this.http.delete(
+      'http://192.168.182.102:8080/transaksitelkom/deleteById?id=' + id
+    );
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 }
