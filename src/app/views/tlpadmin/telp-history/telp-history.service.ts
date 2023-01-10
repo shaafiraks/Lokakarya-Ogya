@@ -7,12 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class TelpHistoryService {
   findAll(): Observable<any> {
-    return this.http.get(
-      'http://192.168.182.102:8080/historytelkom/findAllPlan',
-      {
-        responseType: 'json',
-      }
-    );
+    return this.http.get('http://localhost:8080/historytelkom/findAllPlan', {
+      responseType: 'json',
+    });
   }
 
   addTelpHistory(data: any): Observable<any> {
@@ -20,7 +17,7 @@ export class TelpHistoryService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://192.168.182.102:8080/historytelkom/';
+    const urlPost = 'http://localhost:8080/historytelkom/';
     return this.http.post<any>(urlPost, data, { headers });
   }
 
@@ -29,7 +26,7 @@ export class TelpHistoryService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://192.168.182.102:8080/historytelkom/';
+    const urlPost = 'http://localhost:8080/historytelkom/';
     return this.http.put<any>(urlPost, data, { headers });
   }
 
@@ -39,12 +36,12 @@ export class TelpHistoryService {
       Accept: 'application/json',
     });
     return this.http.delete(
-      'http://192.168.182.102:8080/historytelkom/deleteById?id=' + id
+      'http://localhost:8080/historytelkom/deleteById?id=' + id
     );
   }
 
   getNominal(): Observable<any> {
-    return this.http.get('http://192.168.182.102:8080/historytelkom/sumAll', {
+    return this.http.get('http://localhost:8080/historytelkom/sumAll', {
       responseType: 'json',
     });
   }

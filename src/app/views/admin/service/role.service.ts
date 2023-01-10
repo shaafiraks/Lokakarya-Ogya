@@ -9,7 +9,7 @@ export class RoleService {
   constructor(private http: HttpClient) {}
 
   get(): Observable<any> {
-    return this.http.get('http://192.168.182.102:8080/roles/findAll', {
+    return this.http.get('http://localhost:8080/roles/findAll', {
       responseType: 'json',
     });
   }
@@ -19,7 +19,7 @@ export class RoleService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://192.168.182.102:8080/roles/';
+    const urlPost = 'http://localhost:8080/roles/';
     return this.http.post<any>(urlPost, data, { headers });
   }
 
@@ -28,7 +28,7 @@ export class RoleService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://192.168.182.102:8080/roles/';
+    const urlPost = 'http://localhost:8080/roles/';
     return this.http.put<any>(urlPost, data, { headers });
   }
 
@@ -37,8 +37,6 @@ export class RoleService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    return this.http.delete(
-      'http://192.168.182.102:8080/roles/deleteById?id=' + id
-    );
+    return this.http.delete('http://localhost:8080/roles/deleteById?id=' + id);
   }
 }

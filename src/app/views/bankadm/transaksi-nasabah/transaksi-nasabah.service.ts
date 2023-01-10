@@ -7,12 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class TransaksiNasabahService {
   findAll(): Observable<any> {
-    return this.http.get(
-      'http://192.168.182.102:8080/transfernasabah/findAllPlan',
-      {
-        responseType: 'json',
-      }
-    );
+    return this.http.get('http://localhost:8080/transfernasabah/findAllPlan', {
+      responseType: 'json',
+    });
   }
 
   addTransaksiNasabah(data: any): Observable<any> {
@@ -20,7 +17,7 @@ export class TransaksiNasabahService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://192.168.182.102:8080/transfernasabah/';
+    const urlPost = 'http://localhost:8080/transfernasabah/';
     return this.http.post<any>(urlPost, data, { headers });
   }
 
@@ -29,7 +26,7 @@ export class TransaksiNasabahService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://192.168.182.102:8080/transfernasabah/';
+    const urlPost = 'http://localhost:8080/transfernasabah/';
     return this.http.put<any>(urlPost, data, { headers });
   }
 
@@ -39,7 +36,7 @@ export class TransaksiNasabahService {
       Accept: 'application/json',
     });
     return this.http.delete(
-      'http://192.168.182.102:8080/transfernasabah/deleteById?id=' + id
+      'http://localhost:8080/transfernasabah/deleteById?id=' + id
     );
   }
 

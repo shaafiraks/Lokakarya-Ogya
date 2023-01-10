@@ -7,12 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class HistoryTransaksiService {
   findAll(): Observable<any> {
-    return this.http.get(
-      'http://192.168.182.102:8080/historybank/findAllPlan',
-      {
-        responseType: 'json',
-      }
-    );
+    return this.http.get('http://localhost:8080/historybank/findAllPlan', {
+      responseType: 'json',
+    });
   }
 
   addHistory(data: any): Observable<any> {
@@ -20,7 +17,7 @@ export class HistoryTransaksiService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://192.168.182.102:8080/historybank/';
+    const urlPost = 'http://localhost:8080/historybank/';
     return this.http.post<any>(urlPost, data, { headers });
   }
 
@@ -29,7 +26,7 @@ export class HistoryTransaksiService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://192.168.182.102:8080/historybank/';
+    const urlPost = 'http://localhost:8080/historybank/';
     return this.http.put<any>(urlPost, data, { headers });
   }
 
@@ -39,13 +36,13 @@ export class HistoryTransaksiService {
       Accept: 'application/json',
     });
     return this.http.delete(
-      'http://192.168.182.102:8080/historybank/deleteById?id=' + id
+      'http://localhost:8080/historybank/deleteById?id=' + id
     );
   }
 
   findAllTransfer(): Observable<any> {
     return this.http.get(
-      'http://192.168.182.102:8080/historybank/getByStatusKet?statusKet=3',
+      'http://localhost:8080/historybank/getByStatusKet?statusKet=3',
       {
         responseType: 'json',
       }
@@ -54,7 +51,7 @@ export class HistoryTransaksiService {
 
   //aervice find transfer hari ini
   jumlahTransferHariIni(): Observable<any> {
-    return this.http.get('http://192.168.182.102:8080/historybank/sumStatus3', {
+    return this.http.get('http://localhost:8080/historybank/sumStatus3', {
       responseType: 'json',
     });
   }
@@ -62,7 +59,7 @@ export class HistoryTransaksiService {
   //service find all tarik history
   findAllTarik(): Observable<any> {
     return this.http.get(
-      'http://192.168.182.102:8080/historybank/getByStatusKet?statusKet=2',
+      'http://localhost:8080/historybank/getByStatusKet?statusKet=2',
       {
         responseType: 'json',
       }
@@ -71,7 +68,7 @@ export class HistoryTransaksiService {
 
   //service find tarik hari ini
   jumlahTarikHariIni(): Observable<any> {
-    return this.http.get('http://192.168.182.102:8080/historybank/sumStatus2', {
+    return this.http.get('http://localhost:8080/historybank/sumStatus2', {
       responseType: 'json',
     });
   }
@@ -79,7 +76,7 @@ export class HistoryTransaksiService {
   //service find all setor history
   findAllSetor(): Observable<any> {
     return this.http.get(
-      'http://192.168.182.102:8080/historybank/getByStatusKet?statusKet=1',
+      'http://localhost:8080/historybank/getByStatusKet?statusKet=1',
       {
         responseType: 'json',
       }
@@ -88,7 +85,7 @@ export class HistoryTransaksiService {
 
   //service find setor hari ini
   jumlahSetorHariIni(): Observable<any> {
-    return this.http.get('http://192.168.182.102:8080/historybank/sumStatus1', {
+    return this.http.get('http://localhost:8080/historybank/sumStatus1', {
       responseType: 'json',
     });
   }
@@ -96,7 +93,7 @@ export class HistoryTransaksiService {
   //service find all bayar telepon history
   findAllBayarTelepon(): Observable<any> {
     return this.http.get(
-      'http://192.168.182.102:8080/historybank/getByStatusKet?statusKet=4',
+      'http://localhost:8080/historybank/getByStatusKet?statusKet=4',
       {
         responseType: 'json',
       }
@@ -105,7 +102,7 @@ export class HistoryTransaksiService {
 
   //service find bayar telepon hari ini
   jumlahBayarTeleponHariIni(): Observable<any> {
-    return this.http.get('http://192.168.182.102:8080/historybank/sumStatus4', {
+    return this.http.get('http://localhost:8080/historybank/sumStatus4', {
       responseType: 'json',
     });
   }

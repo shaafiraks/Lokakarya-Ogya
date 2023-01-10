@@ -9,7 +9,7 @@ export class RoleMenuService {
   constructor(private http: HttpClient) {}
 
   get(): Observable<any> {
-    return this.http.get('http://192.168.182.102:8080/roleMenu/findAll', {
+    return this.http.get('http://localhost:8080/roleMenu/findAll', {
       responseType: 'json',
     });
   }
@@ -19,7 +19,7 @@ export class RoleMenuService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://192.168.182.102:8080/roleMenu/';
+    const urlPost = 'http://localhost:8080/roleMenu/';
     return this.http.post<any>(urlPost, data, { headers });
   }
 
@@ -28,7 +28,7 @@ export class RoleMenuService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://192.168.182.102:8080/roleMenu/';
+    const urlPost = 'http://localhost:8080/roleMenu/';
     return this.http.put<any>(urlPost, data, { headers });
   }
 
@@ -38,7 +38,7 @@ export class RoleMenuService {
       Accept: 'application/json',
     });
     return this.http.delete(
-      'http://192.168.182.102:8080/roleMenu/deleteById?id=' + id
+      'http://localhost:8080/roleMenu/deleteById?id=' + id
     );
   }
 }
