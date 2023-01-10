@@ -6,7 +6,7 @@
             </c-card-header>
             <c-card-body class="body-con">
                 <!-- INPUT NOREK -->
-                <form (ngSubmit)="showNasabah()" [formGroup]="form">
+                <form (ngSubmit)="showNasabah(); showTotalTagihan()" [formGroup]="form">
                     <div class="row container p-grid p-fluid">
                         <div class="form-group p-field col-md-6">
                             <label>Masukkan Nomor Rekening</label>
@@ -61,62 +61,58 @@
 <c-card style="margin-bottom: 50px;">
     <c-card-body>
         <p-table [value]="nasabah" styleClass="p-datatable-striped">
+            <ng-template pTemplate="header">
+                <div class="flex">
+            <tr>
+                <th [ngStyle]="{color:'var(--blue-500)'}" style="font-size: 120%;"><b>Info Nasabah :
+                    </b></th>
+            </tr>
+        </div>
+            <tr>
+                <th>Nama Pemilik Rekening</th>
+                <th>Nama Pelanggan</th>
+                <th>Nomor Telepon</th>
+                <th>Bulan tagihan</th>
+                <th>Tagihan</th>
+                <th>Action</th>
+            </tr>
+        </ng-template>  
             <ng-template pTemplate="body" let-nas>
                 <tr>
-                    <th [ngStyle]="{color:'var(--blue-500)'}" style="font-size: 120%;" colspan="3"><b>Info Nasabah :
-                        </b></th>
-                </tr>
-                <th colspan="3">
-                    <hr>
-                </th>
-                <tr>
-                    <th>Nama Pemilik Rekening</th>
-                    <th> : </th>
-                    <td><b>{{nas.namaRekening}}</b></td>
-                </tr>
-                <tr>
-                    <th>ID Pelanggan</th>
-                    <th> : </th>
-                    <td><b>{{nas.idPelanggan}}</b></td>
-                </tr>
-                <tr>
-                    <th>Nama Pelanggan</th>
-                    <th> : </th>
-                    <td><b>{{nas.namaPelanggan}}</b></td>
-                </tr>
-                <tr>
-                    <th>Nomor Telepon</th>
-                    <th> : </th>
+                    <td>{{nas.namaRekening}}</td>
+                    <td>{{nas.namaPelanggan}}</td>
                     <td>{{nas.noTelepon}}</td>
-                </tr>
-                <tr>
-                    <th>Bulan Tagihan</th>
-                    <th> : </th>
                     <td>{{nas.bulanTagihan}}</td>
+                    <td>{{nas.tagihan | currency:'IDR ':'symbol':'3.2-2'}}</td>
+                    <td><button type="button" pButton class="btn p-button-warning"
+                        (click)="showFormBayarTeleponPerBulan()">Bayar</button></td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <p-table [value]="totalTagihan">
+            <ng-template pTemplate="body" let-total>
+                <tr>
+                    <th><b>Total Tagihan Telepon :</b></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><b>{{total.tagihan | currency:'IDR ':'symbol':'3.2-2'}}</b></td>
+                    <td></td>
                 </tr>
                 <tr>
-                    <th><b>Total Tagihan Telepon</b></th>
-                    <th> : </th>
-                    <td *ngIf="nas.status == 2 "><b>Tidak Ada Tagihan</b></td>
-                    <td *ngIf="nas.status == 1 "><b>{{nas.tagihan | currency:'IDR ':'symbol':'3.2-2'}}</b></td>
-                </tr>
-                <tr>
-                    <td colspan="3" *ngIf="nas.status == 2"></td>
-                    <td colspan="3" *ngIf="nas.status == 1">
-                        <button type="button" pButton class="btn p-button-primary" (click)="showFormBayarTelepon()"
-                            style="width: 100%;
-                        text-align: center;
-                        font-weight: 800;">Bayar</button>
+                    <td colspan="6">
+                        <button type="button" pButton class="btn p-button-primary" style="width: 100%;">Bayar Semua Tagihan Telepon</button>
                     </td>
                 </tr>
             </ng-template>
         </p-table>
+        
     </c-card-body>
 </c-card>
 
 <!-- DIALOG TAMPIL DATA BAYAR TELEPON -->
 <p-dialog [ngStyle]="{color:'var(--blue-500)'}" header="Bayar Telepon: " [(visible)]="display1"
-    [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+    [style]="{width: '50vw'}" [draggable]="false" [resizable]="false" [modal]="true">
     <c-card-body>
         <p-table [value]="nasabah">
             <ng-template pTemplate="body" let-bayar>
@@ -141,7 +137,7 @@
                     <td><b>{{bayar.tagihan | currency:'IDR ':'symbol':'3.2-2'}}</b></td>
                 </tr>
                 <tr>
-                    <th><b>Sisa Saldo Anda </b></th>
+                    <th><b>Sisa Saldo Pemilik Rekening </b></th>
                     <th><b>:</b></th>
                     <td><b>{{bayar.saldo | currency:'IDR ':'symbol':'3.2-2'}}</b></td>
                 </tr>
@@ -180,7 +176,7 @@
 </p-confirmDialog>
 
 <!-- TAMPIL DIALOG (ERROR) NO REK TIDAK DITEMUKAN  -->
-<p-dialog #cek header="Info" [(visible)]="cekError" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+<p-dialog #cek header="Info" [(visible)]="cekError" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false" [modal]="true">
     <c-card-body>
         <div>
             <p style="margin-top: 20px;"><b>{{errorMessage}}</b></p>
@@ -193,14 +189,14 @@
 
 </p-dialog>
 
-<!-- TAMPIL FORM TARIK TUNAI  -->
-<p-dialog header="Bayar Telepon : " [(visible)]="tampilForm" [draggable]="false"
+<!-- TAMPIL FORM BAYAR TELEPON  -->
+<p-dialog header="Bayar Telepon : " [(visible)]="tampilForm" [draggable]="false" [modal]="true"
     [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false">
     <c-card-body>
         <form (ngSubmit)="onBayarTelepon()" [formGroup]="form">
             <div class="row container p-grid p-fluid">
                 <div class="form-group col-md-5">
-                    <label>Masukkan Nomor Rekening Anda</label>
+                    <label>Masukkan Nomor Rekening</label>
                 </div>
                 <div class="col-md-1"><b>:</b></div>
                 <div class="form-group p-field col-md-6 p-md-3">
@@ -210,7 +206,7 @@
                     </p-inputNumber>
                     <!-- Untuk menampilkan pesan error -->
                     <div *ngIf="submitted && f['noRekening'].errors" class="invalid-feedback">
-                        <div *ngIf="f['noRekening'].errors['required']"> Masukkan nomor rekening Anda </div>
+                        <div *ngIf="f['noRekening'].errors['required']"> Masukkan nomor rekening </div>
                     </div>
                 </div>
             </div>
@@ -227,6 +223,72 @@
                     <!-- Untuk menampilkan pesan error -->
                     <div *ngIf="submitted && f['noTelepon'].errors" class="invalid-feedback">
                         <div *ngIf="f['noTelepon'].errors['required']"> Masukkan nomor Telepon </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row btn-div ">
+                <div class="col">
+                    <button pButton type="button" class="btn btn-sm p-button-secondary" (click)="onBatal()">Batal
+                    </button>&nbsp;
+                    <button pButton type="submit" class="btn btn-sm p-button-primary"
+                    (click)="showFormBayarTelepon()">Bayar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </c-card-body>
+</p-dialog>
+
+<!-- TAMPIL FORM BAYAR TELEPON PER-BULAN -->
+<p-dialog header="Bayar Telepon : " [(visible)]="tampilFormPerBulan" [draggable]="false" [modal]="true"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false">
+    <c-card-body>
+        <form (ngSubmit)="onBayarTeleponPerBulan()" [formGroup]="form">
+            <div class="row container p-grid p-fluid">
+                <div class="form-group col-md-5">
+                    <label>Masukkan Nomor Rekening</label>
+                </div>
+                <div class="col-md-1"><b>:</b></div>
+                <div class="form-group p-field col-md-6 p-md-1">
+                    <p-inputNumber type="text" name="noRekening" [(ngModel)]="noRekening"
+                        [ngClass]="{'is-invalid' : submitted && f['noRekening'].errors}" formControlName="noRekening"
+                        placeholder="No. Rek Asal" class="p-inputtext-sm" [useGrouping]="false">
+                    </p-inputNumber>
+                    <!-- Untuk menampilkan pesan error -->
+                    <div *ngIf="submitted && f['noRekening'].errors" class="invalid-feedback">
+                        <div *ngIf="f['noRekening'].errors['required']"> Masukkan nomor rekening </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row container p-grid p-fluid">
+                <div class="form-group p-field col-md-5">
+                    <label>Nomor Telepon</label>
+                </div>
+                <div class="col-md-1"><b>:</b></div>
+                <div class="form-group p-field col-md-6 p-md-1">
+                    <p-inputNumber type="text" name="noTelepon" [(ngModel)]="noTelepon"
+                        [ngClass]="{'is-invalid' : submitted && f['noTelepon'].errors}" formControlName="noTelepon"
+                        placeholder="No.Telepon" [useGrouping]="false" class="p-inputtext-sm">
+                    </p-inputNumber>
+                    <!-- Untuk menampilkan pesan error -->
+                    <div *ngIf="submitted && f['noTelepon'].errors" class="invalid-feedback">
+                        <div *ngIf="f['noTelepon'].errors['required']"> Masukkan nomor Telepon </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row container p-grid p-fluid">
+                <div class="form-group p-field col-md-5">
+                    <label>Tagihan Bulan Ke </label>
+                </div>
+                <div class="col-md-1"><b>:</b></div>
+                <div class="form-group p-field col-md-6 p-md-1">
+                    <p-inputNumber type="text" name="noTelepon" [(ngModel)]="bulanKe"
+                        [ngClass]="{'is-invalid' : submitted && f['bulanKe'].errors}" formControlName="bulanTagihan"
+                        placeholder="Bulan tagihan" [useGrouping]="false" class="p-inputtext-sm">
+                    </p-inputNumber>
+                    <!-- Untuk menampilkan pesan error -->
+                    <div *ngIf="submitted && f['bulanKe'].errors" class="invalid-feedback">
+                        <div *ngIf="f['bulanKe'].errors['required']"> Masukkan nomor Telepon </div>
                     </div>
                 </div>
             </div>

@@ -82,4 +82,22 @@ export class TransaksiService {
       }
     );
   }
+
+  //PANGGIL API SERVICE BAYAR TELEPON PERBULAN
+  postBayarteleponPerBulan(noRekening: number, noTelepon:number, bulanKe:number):Observable<any>{
+    return this.http.post(`http://localhost:8080/transaksiNasabah/bayarTelponPerbulan?Nomor%20Rekening=${noRekening}&No%20Telepon=${noTelepon}&Bulan%20Tagihan=${bulanKe}`,
+    {
+    responseType: "json",
+  });
+  }
+
+  getTotalTagihan(noRekening: number, noTelepon: number): Observable<any> {
+    // return this.http.get(`http://localhost:8080/transaksiNasabah/findByNoRekAndNoTelp?Nomor%20Rekening=${noRekening}&No%20Telepon=${noTelepon}`, 
+    return this.http.get(`http://localhost:8080/transaksiNasabah/findTotalTagihan?Nomor%20Rekening=${noRekening}&No%20Telepon=${noTelepon}`, 
+    {
+      responseType: "json",
+
+    });
+  }
+
 }

@@ -26,6 +26,9 @@ export class MasterBankComponent implements OnInit {
   submitted = false;
   paramnorek: number = 0;
   searchQuery: string = '';
+  cekError: boolean = false; //menampilkan error
+  cekErrorDel: boolean = false; //menampilkan error
+  berhasilDelete: boolean = false; //menampilkan error
   
   //menampilkan form untuk delete 
   showDelete(reference: MasterBankInterface) {
@@ -100,12 +103,12 @@ export class MasterBankComponent implements OnInit {
   }
 
   //konfirmasi delete 
-  GetConfirmDelete() {
-    this.confirmationService.confirm({
-      message: 'Data nasabah dengan nomor rekening = ' + this.form.controls['norek'].value + ' berhasil dihapus',
-      header: 'Nasabah Deleted',
-    });
-  }
+  // GetConfirmDelete() {
+  //   this.confirmationService.confirm({
+  //     message: 'Data nasabah dengan nomor rekening = ' + this.form.controls['norek'].value + ' berhasil dihapus',
+  //     header: 'Nasabah Deleted',
+  //   });
+  // }
 
   //konfirmasi add 
   GetConfirmAdd() {
@@ -234,16 +237,23 @@ export class MasterBankComponent implements OnInit {
       if (this.isDelete) {
         this.masterBankService.deleteNasabah(this.form.controls['norek'].value).subscribe({
           next: (res: any) => {
-            this.onReset();
+
             this.masterBankform = false;
-            //console.log(res);
+            // this.GetConfirmDelete();
+            this.cekErrorDel =false;
+            this.berhasilDelete = true;
+            this.onReset();
+
+            // console.log(res);
           },
           error: (error) => {
+            //this.gagalDelete = true;
+            this.cekErrorDel = true;
+            this.berhasilDelete = false;
             console.error('ini error: ', error);
           }
         });
       }
-
     }
   }
 
@@ -259,10 +269,34 @@ export class MasterBankComponent implements OnInit {
     this.getData();
   }
 
-  onDelete(): void {
-    this.submitted = false;
+  // onDelete(): void {
+  //   this.submitted = false;
+  //   this.masterBankform = false;
+  //   this.GetConfirmDelete();
+  // }
+
+  onResetNew(): void {
     this.masterBankform = false;
-    this.GetConfirmDelete();
+    this.cekError = false;
+    this.cekErrorDel = false;
+    this.berhasilDelete = false;
+    this.onReset()
+  }
+
+  deleteNasabah(){
+    this.masterBankService.deleteNasabah(this.form.controls['norek'].value).subscribe({
+      next: (res: any) => {
+        this.masterBankform = false;
+        this.berhasilDelete = true;
+        this.onReset();
+
+        // console.log(res);
+      },
+      error: (error) => {
+        this.cekErrorDel = true;
+        console.error('ini error: ', error);
+      }
+    });
   }
 
 }

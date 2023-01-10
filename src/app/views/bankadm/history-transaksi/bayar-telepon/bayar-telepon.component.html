@@ -24,26 +24,26 @@
                     <ng-template pTemplate="header">
                         <tr>
                             <!-- <th>Id History Bank</th> -->
-                            <th>Nomor Rekening</th>
-                            <th>Nama Nasabah</th>
-                            <th pSortableColumn="tanggal">Tanggal
+                            <th class="text-center">Nomor Rekening</th>
+                            <th class="text-center">Nama Nasabah</th>
+                            <th class="text-center" pSortableColumn="tanggal">Tanggal
                                 <p-sortIcon field="tanggal"></p-sortIcon></th>
-                            <th pSortableColumn="uang">Nominal <p-sortIcon field="uang"></p-sortIcon></th>
+                            <th class="text-center" pSortableColumn="uang">Nominal <p-sortIcon field="uang"></p-sortIcon></th>
                             <!-- <th>Nomor Rekening Tujuan</th> -->
-                            <th>Nomor Telepon</th>
-                            <th>Keterangan</th>
+                            <th class="text-center">Nomor Telepon</th>
+                            <th class="text-center">Keterangan</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-historyTransaksi>
                         <tr>
                             <!-- <td>{{historyTransaksi.idHistoryBank}}</td> -->
-                            <td>{{historyTransaksi.norek}}</td>
-                            <td>{{historyTransaksi.nama}}</td>
-                            <td>{{historyTransaksi.tanggal | date: 'dd-MM-y h:mm a'}}</td>
-                            <td>{{historyTransaksi.uang | currency:'IDR ':'symbol':'3.2-2'}}</td>
+                            <td class="text-center">{{historyTransaksi.norek}}</td>
+                            <td class="text-center">{{historyTransaksi.nama}}</td>
+                            <td class="text-center">{{historyTransaksi.tanggal | date: 'dd-MM-y h:mm a'}}</td>
+                            <td class="text-center">{{historyTransaksi.uang | currency:'IDR ':'symbol':'3.2-2'}}</td>
                             <!-- <td>{{historyTransaksi.noRekTujuan}}</td> -->
-                            <td>{{historyTransaksi.noTlp}}</td>
-                            <td>{{historyTransaksi.statusKet}}. Bayar Telepon</td>
+                            <td class="text-center">{{historyTransaksi.noTlp}}</td>
+                            <td class="text-center">{{historyTransaksi.statusKet}}. Bayar Telepon</td>
                         </tr>
                     </ng-template>
                 </p-table>

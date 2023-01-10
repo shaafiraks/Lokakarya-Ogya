@@ -40,6 +40,7 @@ export class HistoryTransaksiService {
     );
   }
 
+  //seervice find all data transfer
   findAllTransfer(): Observable<any> {
     return this.http.get(
       'http://localhost:8080/historybank/getByStatusKet?statusKet=3',
