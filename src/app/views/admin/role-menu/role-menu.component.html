@@ -26,7 +26,7 @@
         <!-- section u show data tabel -->
         <c-card-body>
             <p-table #dt [value]="roleMenu" dataKey="id" [paginator]="true" [rows]="5"
-                [rowsPerPageOptions]="[5, 10, 15, 20]" [globalFilterFields]="['menuId','roleId','roleMenuId',]" [loading]="loading"
+                [rowsPerPageOptions]="[5, 10, 15, 20]" [globalFilterFields]="['menuName','roleName','roleMenuName',]" [loading]="loading"
                 [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                 <ng-template pTemplate="caption">
@@ -42,49 +42,11 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="roleMenuId" style="min-width:11rem">Role Menu ID <p-sortIcon
-                                field="roleMenuId"></p-sortIcon></th>
                         <th style="min-width:8rem">
-                            Role ID
-                            <p-columnFilter field="roleId" display="menu" matchMode="in" [showMatchModes]="false"
-                                [showOperator]="false" [showAddButton]="false">
-                                <ng-template pTemplate="header">
-                                    <div class="px-3 pt-3 pb-0">
-                                        <span class="font-bold">Users</span>
-                                    </div>
-                                </ng-template>
-                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                    <p-multiSelect [ngModel]="value" [options]="listRole" placeholder="Any"
-                                        (onChange)="filter($event.value)" optionValue="roleId" optionLabel="nama">
-                                        <ng-template let-option pTemplate="item">
-                                            <div class="p-multiselect-representative-option">
-                                                <span class="ml-1">{{option.roleId}} : {{option.nama}}</span>
-                                            </div>
-                                        </ng-template>
-                                    </p-multiSelect>
-                                </ng-template>
-                            </p-columnFilter>
+                            Role Name
                         </th>
                         <th style="min-width:10rem">
-                            Menu ID
-                            <p-columnFilter field="menuId" display="menu" matchMode="in" [showMatchModes]="false"
-                                [showOperator]="false" [showAddButton]="false">
-                                <ng-template pTemplate="header">
-                                    <div class="px-3 pt-3 pb-0">
-                                        <span class="font-bold">Users</span>
-                                    </div>
-                                </ng-template>
-                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                    <p-multiSelect [ngModel]="value" [options]="listMenu" placeholder="Any"
-                                        (onChange)="filter($event.value)" optionValue="menuId" optionLabel="nama">
-                                        <ng-template let-option pTemplate="item">
-                                            <div class="p-multiselect-representative-option">
-                                                <span class="ml-1">{{option.menuId}} : {{option.nama}}</span>
-                                            </div>
-                                        </ng-template>
-                                    </p-multiSelect>
-                                </ng-template>
-                            </p-columnFilter>
+                            Menu Name
                         </th>
                         <th>Is Active</th>
                         <th>Program Name</th>
@@ -92,62 +54,25 @@
                             field="createdDate"></p-sortIcon></th>
                         <th style="min-width:10rem">
                             Created By
-                            <p-columnFilter field="createdBy" display="menu" matchMode="in" [showMatchModes]="false"
-                                [showOperator]="false" [showAddButton]="false">
-                                <ng-template pTemplate="header">
-                                    <div class="px-3 pt-3 pb-0">
-                                        <span class="font-bold">Users</span>
-                                    </div>
-                                </ng-template>
-                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                    <p-multiSelect [ngModel]="value" [options]="listUser" placeholder="Any"
-                                        (onChange)="filter($event.value)" optionValue="username" optionLabel="username">
-                                        <ng-template let-option pTemplate="item">
-                                            <div class="p-multiselect-representative-option">
-                                                <span class="ml-1">{{option.username}}</span>
-                                            </div>
-                                        </ng-template>
-                                    </p-multiSelect>
-                                </ng-template>
-                            </p-columnFilter>
                         </th>
                         <th pSortableColumn="updatedDate">Updated Date<p-sortIcon
                             field="updatedDate"></p-sortIcon></th>
                         <th style="min-width:11rem">
                             Updated By
-                            <p-columnFilter field="updatedBy" display="menu" matchMode="in" [showMatchModes]="false"
-                                [showOperator]="false" [showAddButton]="false">
-                                <ng-template pTemplate="header">
-                                    <div class="px-3 pt-3 pb-0">
-                                        <span class="font-bold">Users</span>
-                                    </div>
-                                </ng-template>
-                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                    <p-multiSelect [ngModel]="value" [options]="listUser" placeholder="Any"
-                                        (onChange)="filter($event.value)" optionValue="username" optionLabel="username">
-                                        <ng-template let-option pTemplate="item">
-                                            <div class="p-multiselect-representative-option">
-                                                <span class="ml-1">{{option.username}}</span>
-                                            </div>
-                                        </ng-template>
-                                    </p-multiSelect>
-                                </ng-template>
-                            </p-columnFilter>
                         </th>
                         <th style="min-width:9rem">Action</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-roleMenu>
                     <tr>
-                        <td>{{roleMenu.roleMenuId}}</td>
-                        <td>{{roleMenu.roleId}}</td>
-                        <td>{{roleMenu.menuId}}</td>
-                        <td>{{roleMenu.isActive}}</td>
-                        <td>{{roleMenu.programName}}</td>
-                        <td>{{roleMenu.createdDate | date: 'dd/MM/y'}}</td>
-                        <td>{{roleMenu.createdBy}}</td>
-                        <td>{{roleMenu.updatedDate | date: 'dd/MM/y'}}</td>
-                        <td>{{roleMenu.updatedBy}}</td>
+                        <td class="text-center">{{roleMenu.roleName}}</td>
+                        <td class="text-center">{{roleMenu.menuName}}</td> 
+                        <td class="text-center">{{roleMenu.isActive}}</td>
+                        <td class="text-center">{{roleMenu.programName}}</td>
+                        <td class="text-center">{{roleMenu.createdDate | date: 'dd/MM/y'}}</td>
+                        <td class="text-center">{{roleMenu.createdBy}}</td>
+                        <td class="text-center">{{roleMenu.updatedDate | date: 'dd/MM/y'}}</td>
+                        <td class="text-center">{{roleMenu.updatedBy}}</td>
                         <td>
                             <button pButton pRipple type="button" icon="pi pi-pencil" pTooltip="Edit"
                                 class="p-button-rounded p-button-info p-button-text" tooltipPosition="top"
@@ -201,11 +126,8 @@
                         </div>
                         <div class="col-md-1"><b>:</b></div>
                         <div class="col-md-6">
-                            <p-dropdown [options]="listMenu" formControlName="menuId" [(ngModel)]="valMenuId"
-                                placeholder="Select a Menu ID" optionLabel="nama" optionValue="menuId"></p-dropdown>
-                            <div *ngIf="submitted && f['menuId'].errors" class="invalid-feedback">
-                                <div *ngIf="f['menuId'].errors['required']">Menu ID is required</div>
-                            </div>
+                            <p-multiSelect [options]="listMenu" formControlName="menuId" [(ngModel)]="valMenuId" optionLabel="nama"
+                            placeholder="Select a Menu ID"></p-multiSelect>
                         </div>
                     </div>
                     <br>
@@ -215,8 +137,8 @@
                         </div>
                         <div class="col-md-1"><b>:</b></div>
                         <div class="col-md-6">
-                            <input type="text" formControlName="isActive" pInputText [(ngModel)]="valIsActive"
-                                [ngClass]="{'is-invalid': submitted && f['isActive'].errors}" />
+                            <p-radioButton formControlName="isActive" value="Yes" label="Yes" [(ngModel)]="valIsActive"></p-radioButton>
+                            <p-radioButton formControlName="isActive" value="No" label="No" [(ngModel)]="valIsActive"></p-radioButton>
                         </div>
                     </div>
                     <br>

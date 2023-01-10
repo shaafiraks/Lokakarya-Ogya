@@ -16,11 +16,13 @@ import { UserService } from '../service/user.service';
 export class RoleMenuComponent implements OnInit {
 
   //deklarasi variabel
+  public role: any = [];
   public roleMenu: any = [];
   public listRole: any = [];
   public listUser: any = [];
   public listMenu: any = [];
-  roleMenuform: boolean = false;
+  public roleMenuform: any = [];
+  public roleform: any = [];
   header: string = "";
   isEdit: boolean = false;
   isAdd: boolean = false;
@@ -29,6 +31,7 @@ export class RoleMenuComponent implements OnInit {
   submitted = false;
   username = localStorage.getItem('username');
   keteranganForm = '';
+  valNama = '';
   valRoleId = '';
   valMenuId = '';
   valProgramName = '';

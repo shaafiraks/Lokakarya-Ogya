@@ -26,7 +26,7 @@
         <!-- section u show data tabel -->
         <c-card-body>
             <p-table #dt [value]="hakAkses" dataKey="id" [paginator]="true" [rows]="5"
-                [rowsPerPageOptions]="[5, 10, 15, 20]" [globalFilterFields]="['userId','hakAksesId','roleId',]" [loading]="loading"
+                [rowsPerPageOptions]="[5, 10, 15, 20]" [globalFilterFields]="['userId']" [loading]="loading"
                 [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                 <ng-template pTemplate="caption">
@@ -45,93 +45,21 @@
                         <th pSortableColumn="hakAksesId" style="min-width:11rem">Hak Akses ID <p-sortIcon
                                 field="hakAksesId"></p-sortIcon></th>
                         <th style="min-width:8rem">
-                            User ID
-                            <p-columnFilter field="userId" display="menu" matchMode="in" [showMatchModes]="false"
-                                [showOperator]="false" [showAddButton]="false">
-                                <ng-template pTemplate="header">
-                                    <div class="px-3 pt-3 pb-0">
-                                        <span class="font-bold">Users</span>
-                                    </div>
-                                </ng-template>
-                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                    <p-multiSelect [ngModel]="value" [options]="listUser" placeholder="Any"
-                                        (onChange)="filter($event.value)" optionValue="userId" optionLabel="username">
-                                        <ng-template let-option pTemplate="item">
-                                            <div class="p-multiselect-representative-option">
-                                                <span class="ml-1">{{option.userId}} : {{option.username}}</span>
-                                            </div>
-                                        </ng-template>
-                                    </p-multiSelect>
-                                </ng-template>
-                            </p-columnFilter>
+                            Username
                         </th>
                         <th style="min-width:8rem">
-                            Role ID
-                            <p-columnFilter field="roleId" display="menu" matchMode="in" [showMatchModes]="false"
-                                [showOperator]="false" [showAddButton]="false">
-                                <ng-template pTemplate="header">
-                                    <div class="px-3 pt-3 pb-0">
-                                        <span class="font-bold">Users</span>
-                                    </div>
-                                </ng-template>
-                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                    <p-multiSelect [ngModel]="value" [options]="listRole" placeholder="Any"
-                                        (onChange)="filter($event.value)" optionValue="roleId" optionLabel="nama">
-                                        <ng-template let-option pTemplate="item">
-                                            <div class="p-multiselect-representative-option">
-                                                <span class="ml-1">{{option.roleId}} : {{option.nama}}</span>
-                                            </div>
-                                        </ng-template>
-                                    </p-multiSelect>
-                                </ng-template>
-                            </p-columnFilter>
+                            Role Name
                         </th>
                         <th>Program Name</th>
                         <th pSortableColumn="createdDate">Created Date<p-sortIcon
                             field="createdDate"></p-sortIcon></th>
                         <th style="min-width:10rem">
                             Created By
-                            <p-columnFilter field="createdBy" display="menu" matchMode="in" [showMatchModes]="false"
-                                [showOperator]="false" [showAddButton]="false">
-                                <ng-template pTemplate="header">
-                                    <div class="px-3 pt-3 pb-0">
-                                        <span class="font-bold">Users</span>
-                                    </div>
-                                </ng-template>
-                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                    <p-multiSelect [ngModel]="value" [options]="listUser" placeholder="Any"
-                                        (onChange)="filter($event.value)" optionValue="username" optionLabel="username">
-                                        <ng-template let-option pTemplate="item">
-                                            <div class="p-multiselect-representative-option">
-                                                <span class="ml-1">{{option.username}}</span>
-                                            </div>
-                                        </ng-template>
-                                    </p-multiSelect>
-                                </ng-template>
-                            </p-columnFilter>
                         </th>
                         <th pSortableColumn="updatedDate">Updated Date<p-sortIcon
                             field="updatedDate"></p-sortIcon></th>
                         <th style="min-width:11rem">
                             Updated By
-                            <p-columnFilter field="updatedBy" display="menu" matchMode="in" [showMatchModes]="false"
-                                [showOperator]="false" [showAddButton]="false">
-                                <ng-template pTemplate="header">
-                                    <div class="px-3 pt-3 pb-0">
-                                        <span class="font-bold">Users</span>
-                                    </div>
-                                </ng-template>
-                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                    <p-multiSelect [ngModel]="value" [options]="listUser" placeholder="Any"
-                                        (onChange)="filter($event.value)" optionValue="username" optionLabel="username">
-                                        <ng-template let-option pTemplate="item">
-                                            <div class="p-multiselect-representative-option">
-                                                <span class="ml-1">{{option.username}}</span>
-                                            </div>
-                                        </ng-template>
-                                    </p-multiSelect>
-                                </ng-template>
-                            </p-columnFilter>
                         </th>
                         <th style="min-width:9rem">Action</th>
                     </tr>
@@ -139,8 +67,8 @@
                 <ng-template pTemplate="body" let-akses>
                     <tr>
                         <td>{{akses.hakAksesId}}</td>
-                        <td>{{akses.userId}}</td>
-                        <td>{{akses.roleId}}</td>
+                        <td> {{akses.username}}</td>
+                        <td> {{akses.roleName}}</td>
                         <td>{{akses.programName}}</td>
                         <td>{{akses.createdDate | date: 'dd/MM/y'}}</td>
                         <td>{{akses.createdBy}}</td>
