@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransaksiNasabahService {
+
+  baseUrl = environment.BASE_API_URL;
+
   findAll(): Observable<any> {
-    return this.http.get('http://localhost:8080/transfernasabah/findAllPlan', {
+    return this.http.get(this.baseUrl + 'transfernasabah/findAllPlan', {
       responseType: 'json',
     });
   }
@@ -17,7 +21,7 @@ export class TransaksiNasabahService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://localhost:8080/transfernasabah/';
+    const urlPost = this.baseUrl + 'transfernasabah/';
     return this.http.post<any>(urlPost, data, { headers });
   }
 
@@ -26,7 +30,7 @@ export class TransaksiNasabahService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    const urlPost = 'http://localhost:8080/transfernasabah/';
+    const urlPost = this.baseUrl + 'transfernasabah/';
     return this.http.put<any>(urlPost, data, { headers });
   }
 
@@ -36,7 +40,7 @@ export class TransaksiNasabahService {
       Accept: 'application/json',
     });
     return this.http.delete(
-      'http://localhost:8080/transfernasabah/deleteById?id=' + id
+      this.baseUrl + 'transfernasabah/deleteById?id=' + id
     );
   }
 
