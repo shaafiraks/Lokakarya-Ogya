@@ -51,6 +51,7 @@ import {AccordionModule} from 'primeng/accordion';     //accordion and accordion
 import {ConfirmationService, MenuItem, MessageService} from 'primeng/api';
 import { CurrencyPipe } from '@angular/common';
 
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };
@@ -93,6 +94,7 @@ const APP_CONTAINERS = [
     BadgeModule,
     ListGroupModule,
     CardModule,
+    
   ],
   providers: [ ConfirmationService, MessageService, CurrencyPipe,
     {

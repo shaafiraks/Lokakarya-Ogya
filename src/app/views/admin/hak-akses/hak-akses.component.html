@@ -26,7 +26,7 @@
         <!-- section u show data tabel -->
         <c-card-body>
             <p-table #dt [value]="hakAkses" dataKey="id" [paginator]="true" [rows]="5"
-                [rowsPerPageOptions]="[5, 10, 15, 20]" [globalFilterFields]="['userId','hakAksesId','roleId',]" [loading]="loading"
+                [rowsPerPageOptions]="[5, 10, 15, 20]" [globalFilterFields]="['userId']" [loading]="loading"
                 [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                 <ng-template pTemplate="caption">
@@ -45,8 +45,8 @@
                         <th pSortableColumn="hakAksesId" style="min-width:11rem">Hak Akses ID <p-sortIcon
                                 field="hakAksesId"></p-sortIcon></th>
                         <th style="min-width:8rem">
-                            User ID
-                            <p-columnFilter field="userId" display="menu" matchMode="in" [showMatchModes]="false"
+                            Username
+                            <!-- <p-columnFilter field="userId" display="menu" matchMode="in" [showMatchModes]="false"
                                 [showOperator]="false" [showAddButton]="false">
                                 <ng-template pTemplate="header">
                                     <div class="px-3 pt-3 pb-0">
@@ -54,7 +54,7 @@
                                     </div>
                                 </ng-template>
                                 <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                    <p-multiSelect [ngModel]="value" [options]="listUser" placeholder="Any"
+                                    <p-multiSelect [ngModel]="value" [options]="listUser" placeholder="username"
                                         (onChange)="filter($event.value)" optionValue="userId" optionLabel="username">
                                         <ng-template let-option pTemplate="item">
                                             <div class="p-multiselect-representative-option">
@@ -63,11 +63,11 @@
                                         </ng-template>
                                     </p-multiSelect>
                                 </ng-template>
-                            </p-columnFilter>
+                            </p-columnFilter> -->
                         </th>
                         <th style="min-width:8rem">
-                            Role ID
-                            <p-columnFilter field="roleId" display="menu" matchMode="in" [showMatchModes]="false"
+                            Role Name
+                            <!-- <p-columnFilter field="roleId" display="menu" matchMode="in" [showMatchModes]="false"
                                 [showOperator]="false" [showAddButton]="false">
                                 <ng-template pTemplate="header">
                                     <div class="px-3 pt-3 pb-0">
@@ -84,7 +84,7 @@
                                         </ng-template>
                                     </p-multiSelect>
                                 </ng-template>
-                            </p-columnFilter>
+                            </p-columnFilter> -->
                         </th>
                         <th>Program Name</th>
                         <th pSortableColumn="createdDate">Created Date<p-sortIcon
@@ -139,8 +139,14 @@
                 <ng-template pTemplate="body" let-akses>
                     <tr>
                         <td>{{akses.hakAksesId}}</td>
-                        <td>{{akses.userId}}</td>
-                        <td>{{akses.roleId}}</td>
+                        <td> {{akses.username}}</td>
+                        <td> {{akses.roleName}}</td>
+                        <!-- <td>{{akses.userId}}</td> -->
+                        <!-- <td>{{akses.roleId}}</td> -->
+                        <!-- <td class="text-center" *ngIf="akses.roleId==1">{{akses.roleId}}:useradm</td>
+                        <td class="text-center" *ngIf="akses.roleId==2">{{akses.roleId}}:bankadm</td>
+                        <td class="text-center" *ngIf="akses.roleId==3">{{akses.roleId}}:telpadm</td>
+                        <td class="text-center" *ngIf="akses.roleId==4">{{akses.roleId}}:nasabah</td> -->
                         <td>{{akses.programName}}</td>
                         <td>{{akses.createdDate | date: 'dd/MM/y'}}</td>
                         <td>{{akses.createdBy}}</td>
