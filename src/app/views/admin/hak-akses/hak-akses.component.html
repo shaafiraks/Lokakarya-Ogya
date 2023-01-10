@@ -8,10 +8,10 @@
     <!-- button confirm ketika delete data -->
     <p-confirmDialog #cd [style]="{width: '50vw'}">
         <ng-template pTemplate="footer">
-            <button *ngIf="isDelete || isEdit" pButton pRipple type="button" icon="pi pi-times" label="No" class="p-button-text"
-                (click)="cd.reject()"></button>
-            <p-button *ngIf="isDelete || isEdit" type="button" icon="pi pi-check" label="Yes" styleClass="p-button-primary"
-                (click)="cd.accept()"></p-button>
+            <button *ngIf="isDelete || isEdit" pButton pRipple type="button" icon="pi pi-times" label="No"
+                class="p-button-text" (click)="cd.reject()"></button>
+            <p-button *ngIf="isDelete || isEdit" type="button" icon="pi pi-check" label="Yes"
+                styleClass="p-button-primary" (click)="cd.accept()"></p-button>
             <p-button *ngIf="isAdd" type="button" icon="pi pi-check" label="Ok" styleClass="p-button-primary"
                 (click)="cd.accept()"></p-button>
         </ng-template>
@@ -26,8 +26,8 @@
         <!-- section u show data tabel -->
         <c-card-body>
             <p-table #dt [value]="hakAkses" dataKey="id" [paginator]="true" [rows]="5"
-                [rowsPerPageOptions]="[5, 10, 15, 20]" [globalFilterFields]="['userId','hakAksesId','roleId',]" [loading]="loading"
-                [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[5, 10, 15, 20]" [globalFilterFields]="['username','hakAksesId','roleName',]"
+                [loading]="loading" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                 <ng-template pTemplate="caption">
                     <div class="flex">
@@ -42,10 +42,8 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="hakAksesId" style="min-width:11rem">Hak Akses ID <p-sortIcon
-                                field="hakAksesId"></p-sortIcon></th>
-                        <th style="min-width:8rem">
-                            User ID
+                        <th style="min-width:10rem">
+                            Username
                             <p-columnFilter field="userId" display="menu" matchMode="in" [showMatchModes]="false"
                                 [showOperator]="false" [showAddButton]="false">
                                 <ng-template pTemplate="header">
@@ -66,7 +64,7 @@
                             </p-columnFilter>
                         </th>
                         <th style="min-width:8rem">
-                            Role ID
+                            Role
                             <p-columnFilter field="roleId" display="menu" matchMode="in" [showMatchModes]="false"
                                 [showOperator]="false" [showAddButton]="false">
                                 <ng-template pTemplate="header">
@@ -87,8 +85,7 @@
                             </p-columnFilter>
                         </th>
                         <th>Program Name</th>
-                        <th pSortableColumn="createdDate">Created Date<p-sortIcon
-                            field="createdDate"></p-sortIcon></th>
+                        <th pSortableColumn="createdDate">Created Date<p-sortIcon field="createdDate"></p-sortIcon></th>
                         <th style="min-width:10rem">
                             Created By
                             <p-columnFilter field="createdBy" display="menu" matchMode="in" [showMatchModes]="false"
@@ -110,8 +107,7 @@
                                 </ng-template>
                             </p-columnFilter>
                         </th>
-                        <th pSortableColumn="updatedDate">Updated Date<p-sortIcon
-                            field="updatedDate"></p-sortIcon></th>
+                        <th pSortableColumn="updatedDate">Updated Date<p-sortIcon field="updatedDate"></p-sortIcon></th>
                         <th style="min-width:11rem">
                             Updated By
                             <p-columnFilter field="updatedBy" display="menu" matchMode="in" [showMatchModes]="false"
@@ -138,9 +134,8 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-akses>
                     <tr>
-                        <td>{{akses.hakAksesId}}</td>
-                        <td>{{akses.userId}}</td>
-                        <td>{{akses.roleId}}</td>
+                        <td>{{akses.username}}</td>
+                        <td>{{akses.roleName}}</td>
                         <td>{{akses.programName}}</td>
                         <td>{{akses.createdDate | date: 'dd/MM/y'}}</td>
                         <td>{{akses.createdBy}}</td>
@@ -181,28 +176,37 @@
                 <div class="form-group">
                     <div class="row container">
                         <div class="col-md-5">
-                            <label><b>Username</b></label>
+                            <label><b>Role</b></label>
                         </div>
                         <div class="col-md-1"><b>:</b></div>
                         <div class="col-md-6">
-                            <p-dropdown [options]="listUser" formControlName="userId" [(ngModel)]="valUserId"
-                                placeholder="Select a User" optionLabel="username" optionValue="userId"></p-dropdown>
-                            <div *ngIf="submitted && f['userId'].errors" class="invalid-feedback">
-                                <div *ngIf="f['userId'].errors['required']">User ID is required</div>
+                            <p-dropdown [options]="listRole" formControlName="roleId" [(ngModel)]="valRoleId"
+                                placeholder="Select a Role" optionLabel="nama" optionValue="roleId" scrollHeight="100px"
+                                [ngClass]="{'is-invalid': submitted && f['roleId'].errors}"></p-dropdown>
+                            <div *ngIf="submitted && f['roleId'].errors" class="invalid-feedback">
+                                <div *ngIf="f['roleId'].errors['required']">Role ID is required</div>
                             </div>
                         </div>
                     </div>
                     <br>
                     <div class="row container">
                         <div class="col-md-5">
-                            <label><b>Role</b></label>
+                            <label><b>Username</b></label>
                         </div>
                         <div class="col-md-1"><b>:</b></div>
                         <div class="col-md-6">
-                            <p-dropdown [options]="listRole" formControlName="roleId" [(ngModel)]="valRoleId"
-                                placeholder="Select a Role" optionLabel="nama" optionValue="roleId"></p-dropdown>
-                            <div *ngIf="submitted && f['roleId'].errors" class="invalid-feedback">
-                                <div *ngIf="f['roleId'].errors['required']">Role ID is required</div>
+                            <p-multiSelect *ngIf="isAdd" [options]="listUser" formControlName="userId"
+                                [(ngModel)]="valUserId" defaultLabel="Select a User" optionLabel="username"
+                                optionValue="userId" display="chip" scrollHeight="90px"
+                                [ngClass]="{'is-invalid': submitted && f['userId'].errors}"></p-multiSelect>
+                            <p-dropdown *ngIf="isEdit" [options]="listUser" formControlName="userId"
+                                [(ngModel)]="valUserId" placeholder="Select a User" optionLabel="username"
+                                optionValue="userId" scrollHeight="100px"
+                                [ngClass]="{'is-invalid': submitted && f['userId'].errors}"></p-dropdown>
+                            <!-- <p-dropdown [options]="listUser" formControlName="userId" [(ngModel)]="valUserId"
+                                placeholder="Select a User" optionLabel="username" optionValue="userId"></p-dropdown> -->
+                            <div *ngIf="submitted && f['userId'].errors" class="invalid-feedback">
+                                <div *ngIf="f['userId'].errors['required']">User ID is required</div>
                             </div>
                         </div>
                     </div>

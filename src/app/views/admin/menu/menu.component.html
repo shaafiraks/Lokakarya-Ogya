@@ -8,10 +8,10 @@
     <!-- button confirm ketika delete data -->
     <p-confirmDialog #cd [style]="{width: '50vw'}">
         <ng-template pTemplate="footer">
-            <button *ngIf="isDelete || isEdit" pButton pRipple type="button" icon="pi pi-times" label="No" class="p-button-text"
-                (click)="cd.reject()"></button>
-            <p-button *ngIf="isDelete || isEdit" type="button" icon="pi pi-check" label="Yes" styleClass="p-button-primary"
-                (click)="cd.accept()"></p-button>
+            <button *ngIf="isDelete || isEdit" pButton pRipple type="button" icon="pi pi-times" label="No"
+                class="p-button-text" (click)="cd.reject()"></button>
+            <p-button *ngIf="isDelete || isEdit" type="button" icon="pi pi-check" label="Yes"
+                styleClass="p-button-primary" (click)="cd.accept()"></p-button>
             <p-button *ngIf="isAdd" type="button" icon="pi pi-check" label="Ok" styleClass="p-button-primary"
                 (click)="cd.accept()"></p-button>
         </ng-template>
@@ -42,9 +42,6 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="menuId" style="min-width:8rem">Menu ID<p-sortIcon
-                                field="menuId"></p-sortIcon>
-                        </th>
                         <th style="min-width:8rem">
                             Nama
                             <p-columnFilter field="nama" display="menu" matchMode="in" [showMatchModes]="false"
@@ -69,8 +66,7 @@
                         <th>Icon</th>
                         <th>Url</th>
                         <th>Program Name</th>
-                        <th pSortableColumn="createdDate">Created Date<p-sortIcon
-                            field="createdDate"></p-sortIcon></th>
+                        <th pSortableColumn="createdDate">Created Date<p-sortIcon field="createdDate"></p-sortIcon></th>
                         <th style="min-width:10rem">
                             Created By
                             <p-columnFilter field="createdBy" display="menu" matchMode="in" [showMatchModes]="false"
@@ -92,8 +88,7 @@
                                 </ng-template>
                             </p-columnFilter>
                         </th>
-                        <th pSortableColumn="updatedDate">Updated Date<p-sortIcon
-                            field="updatedDate"></p-sortIcon></th>
+                        <th pSortableColumn="updatedDate">Updated Date<p-sortIcon field="updatedDate"></p-sortIcon></th>
                         <th style="min-width:11rem">
                             Updated By
                             <p-columnFilter field="updatedBy" display="menu" matchMode="in" [showMatchModes]="false"
@@ -120,7 +115,6 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-menu>
                     <tr>
-                        <td>{{menu.menuId}}</td>
                         <td>{{menu.nama}}</td>
                         <td>{{menu.icon}}</td>
                         <td>{{menu.url}}</td>
