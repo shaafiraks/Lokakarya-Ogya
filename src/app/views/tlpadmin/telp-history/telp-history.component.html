@@ -22,7 +22,7 @@
       >
         <p-table
           #dt
-          [globalFilterFields]="['idHistory']"
+          [globalFilterFields]="['nama']"
           [value]="telpHistory"
           [paginator]="true"
           [rows]="5"
@@ -39,7 +39,7 @@
                   (input)="
                     dt.filterGlobal($any($event.target)?.value, 'contains')
                   "
-                  placeholder="Cari ID History"
+                  placeholder="Cari nama pelanggan"
                 />
               </span>
             </div>
@@ -50,10 +50,10 @@
                                 ID History
                                 <p-sortIcon field="idHistory"></p-sortIcon>
                             </th> -->
-              <th pSortableColumn="idPelanggan" class="text-center">
+              <!-- <th pSortableColumn="idPelanggan" class="text-center">
                 ID Pelanggan
                 <p-sortIcon field="idPelanggan"></p-sortIcon>
-              </th>
+              </th> -->
               <th pSortableColumn="nama" class="text-center">
                 Nama
                 <p-sortIcon field="nama"></p-sortIcon>
@@ -83,7 +83,7 @@
                 {{ history[col.field] }}
                 </td> -->
               <!-- <td class="text-center">{{history.idHistory}}</td> -->
-              <td class="text-center">{{ history.idPelanggan }}</td>
+              <!-- <td class="text-center">{{ history.idPelanggan }}</td> -->
               <td class="text-center">{{ history.nama }}</td>
               <td class="text-center">
                 {{ history.tanggalBayar | date : "dd-MM-y" }}
