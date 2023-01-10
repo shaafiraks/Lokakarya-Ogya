@@ -7,7 +7,6 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class RoleService {
-<<<<<<< HEAD
   baseUrl = environment.BASE_API_URL;
 
   constructor(private http: HttpClient) { }
@@ -16,14 +15,6 @@ export class RoleService {
     return this.http.get(this.baseUrl + 'roles/findAll',{
       responseType: "json",
     })
-=======
-  constructor(private http: HttpClient) {}
-
-  get(): Observable<any> {
-    return this.http.get('http://localhost:8080/roles/findAll', {
-      responseType: 'json',
-    });
->>>>>>> d41ce87ae26e124241e4c285f5ac183b27dbb94c
   }
 
   add(data: any): Observable<any> {
@@ -31,13 +22,8 @@ export class RoleService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-<<<<<<< HEAD
     const urlPost = this.baseUrl + 'roles/';
     return this.http.post<any>(urlPost,data, { headers});
-=======
-    const urlPost = 'http://localhost:8080/roles/';
-    return this.http.post<any>(urlPost, data, { headers });
->>>>>>> d41ce87ae26e124241e4c285f5ac183b27dbb94c
   }
 
   edit(data: any): Observable<any> {
@@ -45,13 +31,8 @@ export class RoleService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-<<<<<<< HEAD
     const urlPost = this.baseUrl + 'roles/';
     return this.http.put<any>(urlPost,data, { headers});
-=======
-    const urlPost = 'http://localhost:8080/roles/';
-    return this.http.put<any>(urlPost, data, { headers });
->>>>>>> d41ce87ae26e124241e4c285f5ac183b27dbb94c
   }
 
   delete(id: number): Observable<any> {
