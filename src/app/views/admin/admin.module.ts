@@ -24,7 +24,9 @@ import {
   FormModule,
   GridModule,
   ListGroupModule,
-  SharedModule
+  PaginationModule,
+  SharedModule,
+  
 } from '@coreui/angular';
 
 import { AdminRoutingModule } from './admin-routing.module'
@@ -39,6 +41,7 @@ import { RoleComponent } from './role/role.component';
 import { RoleMenuComponent } from './role-menu/role-menu.component';
 import { HakAksesComponent } from './hak-akses/hak-akses.component';
 import { SubMenuComponent } from './sub-menu/sub-menu.component';
+import { PaginatorModule } from 'primeng/paginator';
 
 @NgModule({
   declarations: [
@@ -82,6 +85,7 @@ import { SubMenuComponent } from './sub-menu/sub-menu.component';
     MultiSelectModule,
     RadioButtonModule,
     CheckboxModule,
+    PaginatorModule
   ]
 })
 export class AdminModule {

@@ -42,4 +42,18 @@ export class RoleMenuService {
     });
     return this.http.delete(this.baseUrl + 'roleMenu/deleteById?id=' + id);
   }
+
+// getPaginator(page: number, size: number): Observable<any> {
+//   var headers = new HttpHeaders({
+//     'Content-Type': 'application/json',
+//     Accept: 'application/json',
+//   });
+//   return this.http.get (this.baseUrl + 'findAllWithPagination?page={page}&size={size}');
+// }
+
+getPagination(page: number, size:number):Observable<any>{
+  return this.http.get(this.baseUrl + `roleMenu/findAllWithPagination?page=${page}&size=${size}`,{
+    responseType: "json",
+  })
+}
 }
