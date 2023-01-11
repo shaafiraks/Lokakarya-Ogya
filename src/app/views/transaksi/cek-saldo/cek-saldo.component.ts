@@ -70,8 +70,9 @@ export class CekSaldoComponent implements OnInit {
 
         },
         error: (error) => {
-          this.messageError();
+          // this.messageError();
           console.log(error);
+          this.errorMessage= error.error.message;
           // alert('Id tidak ditemukan')
           // this.onReset();
         },
@@ -130,6 +131,7 @@ export class CekSaldoComponent implements OnInit {
       error: (error) => {
         this.cekNorek= true;
         console.log(error);
+        this.errorMessage= error.error.message;
         // alert('Id tidak ditemukan')
         // this.onReset();
       },
