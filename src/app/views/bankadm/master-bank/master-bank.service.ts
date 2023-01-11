@@ -17,6 +17,13 @@ export class MasterBankService {
     })
   }
 
+  //service find all with paging
+  findAllPaginations(page: number , size: number): Observable<any> {
+    return this.http.get(this.baseUrl + `masterbank/findAllWithPagination?page=${page}&size=${size}`, {
+      responseType: "json",
+    })
+  }
+
   //service add data nasabah baru
   addNasabah(data: any): Observable<any> {
     var headers = new HttpHeaders({

@@ -6,7 +6,7 @@
     </div>
 
     <!-- button confirm ketika delete data -->
-    <p-confirmDialog #cd [style]="{width: '50vw'}">
+    <p-confirmDialog #cd [style]="{width: '50vw'}" styleClass="iconClose">
         <ng-template pTemplate="footer">
             <button *ngIf="isDelete || isEdit" pButton pRipple type="button" icon="pi pi-times" label="No"
                 class="p-button-text" (click)="cd.reject()"></button>
@@ -165,7 +165,7 @@
 
 <!-- section show data tabel pada saat add dan edit   -->
 <p-dialog header="Sub Menu Form" [(visible)]="subMenuform" [responsive]="true" showEffect="fade" [modal]="true"
-    [closable]="true" [dismissableMask]="true">
+    [closable]="true" [dismissableMask]="true" styleClass="iconClose">
     <div>
         <hr>
         <div *ngIf="isEdit">
@@ -208,7 +208,7 @@
 
                     <div class="row container">
                         <div class="col-md-5">
-                            <label><b>Menu ID</b></label>
+                            <label><b>Menu</b></label>
                         </div>
                         <div class="col-md-1"><b>:</b></div>
                         <div class="col-md-6">

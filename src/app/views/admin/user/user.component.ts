@@ -20,6 +20,7 @@ export class UserComponent implements OnInit {
 
   //deklarasi variabel
   public users: any[] = [];
+  currentPage: number = 0;
   userform: boolean = false;
   header: string = '';
   isEdit: boolean = false;
@@ -71,6 +72,7 @@ export class UserComponent implements OnInit {
 
   //Menampilkan form edit data
   showEdit(reference: UserInterface) {
+    console.log(this.currentPage);
     this.isEdit = true;
     this.isAdd = false;
     this.isDelete = false;
@@ -103,7 +105,7 @@ export class UserComponent implements OnInit {
   form: FormGroup = new FormGroup({
     userId: new FormControl(0),
     username: new FormControl(''),
-    password: new FormControl(''),
+    // password: new FormControl(''),
     nama: new FormControl(''),
     alamat: new FormControl(''),
     email: new FormControl(''),
@@ -231,14 +233,9 @@ export class UserComponent implements OnInit {
           Validators.maxLength(20),
         ],
       ],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(20),
-        ],
-      ],
+      // password: ['',[
+      //   Validators.required,
+      // ],],
       email: ['', [Validators.required, Validators.email]],
       nama: ['', [Validators.required]],
       alamat: [''],

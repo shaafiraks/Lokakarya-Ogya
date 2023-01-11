@@ -92,7 +92,6 @@ export class RoleComponent implements OnInit {
     createdBy: new FormControl(''),
     updatedDate: new FormControl(''),
     updatedBy: new FormControl(''),
-    roleMenu: new FormControl(''),
 
   });
 
@@ -215,7 +214,6 @@ export class RoleComponent implements OnInit {
       createdBy: ['',],
       updatedDate: ['',],
       updatedBy: ['',],
-      roleMenu: ['',],
     })
   }
 
