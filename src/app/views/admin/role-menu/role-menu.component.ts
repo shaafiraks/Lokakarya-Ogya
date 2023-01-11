@@ -217,20 +217,6 @@ export class RoleMenuComponent implements OnInit {
   }
 
   //mengambil data dari service
-<<<<<<< HEAD
-  getData() {
-    this.roleMenuService.get().subscribe({
-      next: (res: any) => {
-        this.roleMenuPagination = res.data;
-        this.loading = false;
-        // console.log(res.data);
-      },
-      error: (error) => {
-        console.error('ini error: ', error);
-      }
-    });
-=======
->>>>>>> 1334e70e2f6716a7c5ea92cc21cce94af85228cd
 
   getData() {
     let searchReq = new SearchRequest();
@@ -275,7 +261,7 @@ export class RoleMenuComponent implements OnInit {
     });
   }
 
-  getDataPagination(event: PaginatorInterface){
+  getDataPagination(event: PaginatorInterface) {
     this.roleMenuService.getPagination(event.page, event.rows).subscribe({
       next: (res: any) => {
         this.roleMenu = res.data;
@@ -285,13 +271,13 @@ export class RoleMenuComponent implements OnInit {
       },
       error: (error) => {
         console.error('ini error: ', error);
-      }
+      },
     });
   }
 
   ngOnInit(): void {
     // this.getData();
-    this.getDataPagination({page: 0, rows: 10});
+    this.getDataPagination({ page: 0, rows: 10 });
 
     //menampilkan isi form add&edit
     this.form = this.formBuilder.group({
@@ -438,7 +424,7 @@ export class RoleMenuComponent implements OnInit {
       this.form.reset();
     }
     // this.getData();
-    this.getDataPagination({page: this.currentPage, rows: 10});
+    this.getDataPagination({ page: this.currentPage, rows: 10 });
   }
 
   clear(table: Table) {

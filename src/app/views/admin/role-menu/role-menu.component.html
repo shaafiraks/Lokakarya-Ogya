@@ -4,7 +4,6 @@
     <button pButton pRipple type="button" label="Add Role Menu" icon="pi pi-plus" class="p-button-warning"
       class="p-button-warning" (click)="showAdd()"></button>
   </div>
-
   <!-- button confirm ketika delete data -->
   <p-confirmDialog #cd [style]="{width: '50vw'}">
     <ng-template pTemplate="footer">
@@ -16,13 +15,11 @@
         (click)="cd.accept()"></p-button>
     </ng-template>
   </p-confirmDialog>
-
   <!-- show tabel -->
   <c-card class="mb-4">
     <c-card-header>
       <strong>Role Menu List <span>({{ roleMenu?.length}} data)</span></strong>
     </c-card-header>
-
     <!-- section u show data tabel -->
     <c-card-body>
       <p-table #dt [value]="roleMenu" dataKey="id" [paginator]="true" [rows]="5" [lazy]="true"
@@ -40,40 +37,12 @@
               (click)="clear(dt)"></button>
           </div>
         </ng-template>
-<<<<<<< HEAD
-    </p-confirmDialog>
-
-    <!-- show tabel -->
-    <c-card class="mb-4">
-        <c-card-header>
-            <strong>Role Menu List <span>({{ totalRecords }} data)</span></strong>
-        </c-card-header>
-
-        <!-- section u show data tabel -->
-        <c-card-body>
-            <p-table #dt [value]="roleMenu" dataKey="id" [rows]="rowsPerPage" [totalRecords]="totalRecords"
-                [globalFilterFields]="['menuName','roleName','roleMenuId',]"
-                 [showCurrentPageReport]="true"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                <ng-template pTemplate="caption">
-                    <div class="flex">
-                        <span class="p-input-icon-left p-ml-auto">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text" [(ngModel)]="searchQuery"
-                                (input)="dt.filterGlobal($any($event.target)?.value, 'contains')" placeholder="Search">
-                        </span>
-                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
-                            (click)="clear(dt)"></button>
-                    </div>
-                </ng-template>
-=======
         <ng-template pTemplate="header">
           <tr>
             <th style="min-width:8rem">
               Role
               <p-columnFilter field="roleId" display="menu" matchMode="in" [showMatchModes]="false"
                 [showOperator]="false" [showAddButton]="false">
->>>>>>> 1334e70e2f6716a7c5ea92cc21cce94af85228cd
                 <ng-template pTemplate="header">
                   <div class="px-3 pt-3 pb-0">
                     <span class="font-bold">Users</span>
@@ -100,13 +69,6 @@
                     <span class="font-bold">Users</span>
                   </div>
                 </ng-template>
-<<<<<<< HEAD
-            </p-table>
-            <p-paginator [rows]="rowsPerPage" [totalRecords]="totalRecords" (onPageChange)="getDataPagination($event)"
-            [rowsPerPageOptions]="[5,10,15,20]"></p-paginator>
-        </c-card-body>
-    </c-card>
-=======
                 <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                   <p-multiSelect [ngModel]="value" [options]="listMenu" placeholder="Any"
                     (onChange)="filter($event.value)" optionValue="menuId" optionLabel="nama">
@@ -160,7 +122,6 @@
       </p-table>
     </c-card-body>
   </c-card>
->>>>>>> 1334e70e2f6716a7c5ea92cc21cce94af85228cd
 </c-col>
 
 <!-- section show data tabel pada saat add dan edit   -->
@@ -252,6 +213,4 @@
     </div>
   </div>
 </p-dialog>
-
-<!--tampilkan pesan toast -->
 <p-toast position="top-center"></p-toast>
