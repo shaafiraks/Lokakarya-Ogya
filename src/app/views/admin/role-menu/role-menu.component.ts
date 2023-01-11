@@ -20,6 +20,7 @@ import { MenuService } from '../service/menu.service';
 import { RoleMenuInterface } from './role-menu-interface';
 import { Table } from 'primeng/table';
 import { UserService } from '../service/user.service';
+import { PaginatorInterface } from '../pagination-interface';
 
 @Component({
   selector: 'app-role-menu',
@@ -30,15 +31,23 @@ export class RoleMenuComponent implements OnInit {
   //deklarasi variabel
   public role: any = [];
   public roleMenu: any = [];
+  public roleMenuPagination: any = [];
   public listRole: any = [];
   public listUser: any = [];
   public listMenu: any = [];
   multipleMenu: any[] = [];
+  page: number = 0;
+  size: number = 0;
+  totalRecords: number = 0;
   roleMenuform: boolean = false;
   header: string = '';
   isEdit: boolean = false;
   isAdd: boolean = false;
   isDelete: boolean = false;
+  roleMenuPaging: any = [];
+  totalRecord: any = [];
+  rowsPerPage: any = [];
+  currentPage: any = [];
   now = new Date();
   submitted = false;
   username = localStorage.getItem('username');
@@ -218,6 +227,7 @@ export class RoleMenuComponent implements OnInit {
     searchReq._sortOrder = 'DESC';
 
     this.getRoleMenuData(0, 5, searchReq);
+
     this.roleService.get().subscribe({
       next: (res: any) => {
         this.listRole = res.data;
@@ -252,8 +262,23 @@ export class RoleMenuComponent implements OnInit {
     });
   }
 
+  getDataPagination(event: PaginatorInterface) {
+    this.roleMenuService.getPagination(event.page, event.rows).subscribe({
+      next: (res: any) => {
+        this.roleMenu = res.data;
+        this.totalRecords = res.totalRowCount;
+        this.rowsPerPage = res.size;
+        this.currentPage = res.page;
+      },
+      error: (error) => {
+        console.error('ini error: ', error);
+      },
+    });
+  }
+
   ngOnInit(): void {
-    this.getData();
+    // this.getData();
+    this.getDataPagination({ page: 0, rows: 10 });
 
     //menampilkan isi form add&edit
     this.form = this.formBuilder.group({
@@ -399,7 +424,8 @@ export class RoleMenuComponent implements OnInit {
     } else {
       this.form.reset();
     }
-    this.getData();
+    // this.getData();
+    this.getDataPagination({ page: this.currentPage, rows: 10 });
   }
 
   clear(table: Table) {
