@@ -227,6 +227,7 @@ export class RoleMenuComponent implements OnInit {
     searchReq._sortOrder = 'DESC';
 
     this.getRoleMenuData(0, 5, searchReq);
+
     this.roleService.get().subscribe({
       next: (res: any) => {
         this.listRole = res.data;
