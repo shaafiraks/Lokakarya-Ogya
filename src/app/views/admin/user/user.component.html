@@ -44,11 +44,7 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="userId" style="min-width:8rem">User ID <p-sortIcon
-                                field="userId"></p-sortIcon>
-                        </th>
                         <th>Username</th>
-                        <th>Password</th>
                         <th style="min-width:12rem">Nama</th>
                         <th>Alamat</th>
                         <th>Email</th>
@@ -105,9 +101,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-user>
                     <tr>
-                        <td>{{user.userId}}</td>
                         <td>{{user.username}}</td>
-                        <td>{{user.password}}</td>
                         <td>{{user.nama}}</td>
                         <td>{{user.alamat}}</td>
                         <td>{{user.email}}</td>
