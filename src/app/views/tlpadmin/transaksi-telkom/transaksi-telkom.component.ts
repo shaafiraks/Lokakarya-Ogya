@@ -26,6 +26,7 @@ export class TransaksiTelkomComponent implements OnInit {
   public pelanggan: any = [];
   public totalTunggakan: any = 0;
   public totalData: any;
+  public listIdPelanggan: any = [];
   transaksiform: boolean = false;
   header: string = '';
   isEdit: boolean = false;
@@ -35,6 +36,7 @@ export class TransaksiTelkomComponent implements OnInit {
   berhasilAdd: boolean = false; //menampilkan error
   public dateValue: Date | undefined;
   searchQuery: string = '';
+  valIdPelanggan = '';
 
   //menampilkan dialog delete
   showdelete(reference: TransaksiTelkomInterface) {
@@ -166,15 +168,18 @@ export class TransaksiTelkomComponent implements OnInit {
     this.masterPelangganService.findAll().subscribe({
       next: (res: any) => {
         this.pelanggan = res;
+        this.listIdPelanggan = res;
         // console.log(res);
       },
       error: (error) => {
         console.error('ini error: ', error);
       },
     });
+
     this.transaksiTelkomService.getTotal().subscribe({
       next: (res: any) => {
         this.totalTunggakan = res;
+
         // console.log(res);
       },
       error: (error) => {

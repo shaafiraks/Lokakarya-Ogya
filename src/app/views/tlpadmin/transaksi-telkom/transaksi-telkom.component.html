@@ -69,6 +69,7 @@
               class="form-select"
               formControlName="idPelanggan"
               aria-label="select pelanggan"
+              [ngClass]="{ 'is-invalid': submitted && f['idPelanggan'].errors }"
             >
               <option value="">(choose)</option>
               <option
@@ -87,8 +88,39 @@
               </div>
             </div>
 
+            <!-- coba primeng -->
+
+            <!-- <label>Nama</label>
+            <br />
+            <p-dropdown
+              class="dropdowntransaksi"
+              [options]="listIdPelanggan"
+              formControlName="idPelanggan"
+              [(ngModel)]="valIdPelanggan"
+              placeholder="Pilih nama pelanggan"
+              optionLabel="nama"
+              optionValue="idPelanggan"
+              [ngClass]="{ 'is-invalid': submitted && f['idPelanggan'].errors }"
+            ></p-dropdown>
+
+            <div
+              *ngIf="submitted && f['idPelanggan'].errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f['idPelanggan'].errors['required']">
+                ID Pelanggan kosong
+              </div>
+            </div>
+            <br /> -->
+
             <label>Bulan Tagihan</label>
-            <select class="form-select" formControlName="bulanTagihan">
+            <select
+              class="form-select"
+              formControlName="bulanTagihan"
+              [ngClass]="{
+                'is-invalid': submitted && f['bulanTagihan'].errors
+              }"
+            >
               <option value="">(choose)</option>
               <option value="1">1</option>
               <option value="2">2</option>
@@ -115,7 +147,13 @@
             <label>Tahun Tagihan</label>
             <!-- <input type="number" formControlName="tahunTagihan" class="form-control"
                             [ngClass]="{'is-invalid':submitted && f['tahunTagihan'].errors}" /> -->
-            <select class="form-select" formControlName="tahunTagihan">
+            <select
+              class="form-select"
+              formControlName="tahunTagihan"
+              [ngClass]="{
+                'is-invalid': submitted && f['tahunTagihan'].errors
+              }"
+            >
               <option value="">(choose)</option>
               <option value="2022">2022</option>
               <option value="2023">2023</option>
