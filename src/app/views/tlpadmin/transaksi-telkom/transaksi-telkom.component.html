@@ -10,20 +10,6 @@
     </button>
   </div>
 
-  <!-- section confirmation -->
-  <p-confirmDialog #cd [style]="{ width: '50vw' }">
-    <ng-template pTemplate="footer">
-      <!-- <button type="button" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button> -->
-      <button
-        type="button"
-        pButton
-        icon="pi pi-check"
-        label="OK"
-        (click)="cd.accept()"
-      ></button>
-    </ng-template>
-  </p-confirmDialog>
-
   <!-- section form -->
   <p-dialog
     header="{{ header }}"
@@ -206,6 +192,7 @@
               Reset
             </button>
           </div>
+
           <div *ngIf="isDelete" class="form-group mt-4" align="center">
             <button
               pButton
@@ -357,3 +344,62 @@
     </c-card-body>
   </c-card>
 </c-col>
+
+<p-confirmDialog #cd [style]="{ width: '50vw' }">
+  <ng-template pTemplate="footer">
+    <button
+      *ngIf="isDelete || isEdit"
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-times"
+      label="No"
+      class="p-button-text"
+      (click)="cd.reject()"
+    ></button>
+    <p-button
+      *ngIf="isDelete || isEdit"
+      type="button"
+      icon="pi pi-check"
+      label="Yes"
+      styleClass="p-button-primary"
+      (click)="cd.accept()"
+    ></p-button>
+    <p-button
+      *ngIf="isAdd"
+      type="button"
+      icon="pi pi-check"
+      label="Ok"
+      styleClass="p-button-primary"
+      (click)="cd.accept()"
+    ></p-button>
+  </ng-template>
+</p-confirmDialog>
+
+<!-- TAMPIL DIALOG (ERROR) TIDAK BISA ADD  -->
+<p-dialog
+  #cek
+  header="Gagal menambahkan"
+  [(visible)]="cekErrorAdd"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <c-card-body>
+    <div>
+      <p><b>Pengguna sudah memiliki tagihan</b></p>
+    </div>
+  </c-card-body>
+  <ng-template pTemplate="footer">
+    <button
+      type="button"
+      class="p-button-danger"
+      pButton
+      icon="pi pi-times"
+      label="Tutup"
+      (click)="onResetNew()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<!-- <p-toast></p-toast> -->

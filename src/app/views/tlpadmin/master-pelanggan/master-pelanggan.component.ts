@@ -7,7 +7,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ConfirmationService } from 'primeng/api';
+import {
+  ConfirmationService,
+  ConfirmEventType,
+  MessageService,
+} from 'primeng/api';
 import { MasterPelangganInterface } from './master-pelanggan-interface';
 import { MasterService } from './master.service';
 
@@ -47,9 +51,10 @@ export class MasterPelangganComponent implements OnInit {
     this.isEdit = false;
     this.isAdd = false;
     this.isDelete = true;
-    this.header = 'Hapus Pelanggan';
+    this.getConfirmDelete();
+    // this.header = 'Hapus Pelanggan';
     this.form.disable();
-    this.masterform = true;
+    // this.masterform = true;
   }
 
   //menampilkan dialog add
@@ -91,7 +96,8 @@ export class MasterPelangganComponent implements OnInit {
   constructor(
     private masterPelangganService: MasterService,
     private formBuilder: FormBuilder,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ) {}
 
   // untuk auto input berdasarkan dropdown
@@ -112,12 +118,40 @@ export class MasterPelangganComponent implements OnInit {
     });
   }
 
-  // GetConfirmDelete() {
-  //   this.confirmationService.confirm({
-  //     message: 'Pelanggan dengan ID ' + this.form.controls['idPelanggan'].value + ' telah berhasil dihapus',
-  //     header: 'Pelanggan dihapus',
-  //   });
-  // }
+  getConfirmDelete() {
+    this.isEdit = false;
+    this.isAdd = false;
+    this.isDelete = true;
+    this.confirmationService.confirm({
+      message:
+        'Are you sure want to delete Hak Akses with idTransaksi = ' +
+        this.form.controls['idPelanggan'].value +
+        '?',
+      header: 'Confirm Delete',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.onSubmit();
+      },
+      reject: (type: any) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Rejected',
+              detail: 'You have rejected',
+            });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'Cancelled',
+              detail: 'You have cancelled',
+            });
+            break;
+        }
+      },
+    });
+  }
 
   // menampilkan confirm dialog add
   GetConfirmAdd() {
