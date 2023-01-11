@@ -95,7 +95,6 @@ export class MenuComponent implements OnInit {
     createdBy: new FormControl(''),
     updatedDate: new FormControl(''),
     updatedBy: new FormControl(''),
-    subMenu: new FormControl(''),
 
   });
 
@@ -223,8 +222,6 @@ export class MenuComponent implements OnInit {
       createdBy: ['',],
       updatedDate: ['',],
       updatedBy: ['',],
-      subMenu: [','],
-
     })
 
   }

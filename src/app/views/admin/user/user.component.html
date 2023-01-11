@@ -1,12 +1,12 @@
 <!-- menambahkan button add data -->
 <c-col xs="12">
-    <div class="mb-4" style="text-align: right; margin: 15px 15px 0px 15px">
+    <!-- <div class="mb-4" style="text-align: right; margin: 15px 15px 0px 15px">
         <button pButton pRipple type="button" label="Add User" icon="pi pi-plus" class="p-button-warning"
             (click)="showAdd()"></button>
-    </div>
+    </div> -->
 
     <!-- button confirm ketika delete data -->
-    <p-confirmDialog #cd [style]="{ width: '50vw' }">
+    <p-confirmDialog #cd [style]="{ width: '50vw' }" styleClass="iconClose">
         <ng-template pTemplate="footer">
             <button *ngIf="isDelete || isEdit" pButton pRipple type="button" icon="pi pi-times" label="No" class="p-button-text"
                 (click)="cd.reject()"></button>
@@ -26,10 +26,11 @@
 
         <!-- section u show data tabel -->
         <c-card-body>
-            <p-table #dt [value]="users" dataKey="id" [paginator]="true" [rows]="5"
+            <p-table #dt [value]="users" dataKey="id" [paginator]="true" [rows]="5" [first]="3"
                 [rowsPerPageOptions]="[5, 10, 15, 20]" [globalFilterFields]="['nama', 'userId','username', 'alamat']" [loading]="loading"
                 [showCurrentPageReport]="true"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                >
                 <ng-template pTemplate="caption">
                     <div class="flex">
                         <span class="p-input-icon-left p-ml-auto">
@@ -43,6 +44,9 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
+                        <th pSortableColumn="userId" style="min-width:8rem">User ID <p-sortIcon
+                                field="userId"></p-sortIcon>
+                        </th>
                         <th>Username</th>
                         <th style="min-width:12rem">Nama</th>
                         <th>Alamat</th>
@@ -100,6 +104,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-user>
                     <tr>
+                        <td>{{user.userId}}</td>
                         <td>{{user.username}}</td>
                         <td>{{user.nama}}</td>
                         <td>{{user.alamat}}</td>
@@ -132,7 +137,7 @@
 
 <!-- section untuk show data tabel pada saat add dan edit   -->
 <p-dialog header="User From" [(visible)]="userform" [responsive]="true" showEffect="fade" [modal]="true"
-    [closable]="true" [dismissableMask]="true">
+    [closable]="true" [dismissableMask]="true" styleClass="iconClose">
     <div>
         <hr />
         <div *ngIf="isEdit">
@@ -163,7 +168,28 @@
                         </div>
                     </div>
                     <br />
-                    <br />
+                    <!-- <div *ngIf="isAdd" class="row container">
+                        <div class="col-md-5">
+                            <label><b>Password</b></label>
+                        </div>
+                        <div class="col-md-1"><b>:</b></div>
+                        <div class="col-md-6">
+                            <p-password [(ngModel)]="valPassword" formControlName="password" [toggleMask]="true"
+                                [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+                                [feedback]="false"></p-password>
+                            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                                <div *ngIf="f['password'].errors['required']">
+                                    Password is required
+                                </div>
+                                <div *ngIf="f['password'].errors['minlength']">Password
+                                    min {{f["password"].errors["minlength"]["requiredLength"]}} character</div>
+                                <div *ngIf="f['password'].errors['maxlength']">Password
+                                    max {{f["password"].errors["maxlength"]["requiredLength"]}} character
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br *ngIf="isAdd" /> -->
                     <div class="row container">
                         <div class="col-md-5">
                             <label><b>Nama</b></label>

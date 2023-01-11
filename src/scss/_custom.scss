@@ -63,8 +63,14 @@ button {
 //     padding-bottom: 5rem !important;
 // }
 
-.pi-times {
-    color: white;
+// .pi-times {
+//     color: white;
+// }
+
+.iconClose {
+    .pi-times {
+        color: white;
+    }
 }
 
 .borderStyle {
