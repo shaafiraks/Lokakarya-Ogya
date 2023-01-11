@@ -8,5 +8,4 @@ export interface MenuInterface {
     createdBy : string;
     updatedDate : Date;
     updatedBy : string;
-    subMenu : string;
 }

@@ -6,5 +6,4 @@ export interface RoleInterface {
     createdBy : string;
     updatedDate : Date;
     updatedBy : string;
-    roleMenu : string;
 }

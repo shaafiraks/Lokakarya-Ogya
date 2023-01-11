@@ -6,7 +6,7 @@
     </div>
 
     <!-- button confirm ketika delete data -->
-    <p-confirmDialog #cd [style]="{width: '50vw'}">
+    <p-confirmDialog #cd [style]="{width: '50vw'}" styleClass="iconClose">
         <ng-template pTemplate="footer">
             <button *ngIf="isDelete || isEdit" pButton pRipple type="button" icon="pi pi-times" label="No"
                 class="p-button-text" (click)="cd.reject()"></button>
@@ -25,9 +25,9 @@
 
         <!-- section u show data tabel -->
         <c-card-body>
-            <p-table #dt [value]="menu" dataKey="id" [paginator]="true" [rows]="5"
-                [rowsPerPageOptions]="[5, 10, 15, 20]" [globalFilterFields]="['nama', 'menuId',]" [loading]="loading"
-                [showCurrentPageReport]="true"
+            <p-table #dt [value]="menu" dataKey="id" [paginator]="true" [rows]="5" [lazy]="true"
+            (onLazyLoad)="nextPage($event)" [rowsPerPageOptions]="[5, 10, 15, 20]" [totalRecords]="totalRows"
+            [globalFilterFields]="['nama', 'menuId',]" [loading]="loading" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                 <ng-template pTemplate="caption">
                     <div class="flex">
@@ -91,7 +91,7 @@
 
 <!-- section show data tabel pada saat add dan edit   -->
 <p-dialog header="Menu Form" [(visible)]="menuform" [responsive]="true" showEffect="fade" [modal]="true"
-    [closable]="true" [dismissableMask]="true">
+    [closable]="true" [dismissableMask]="true" styleClass="iconClose">
     <div>
         <hr>
         <div *ngIf="isEdit">

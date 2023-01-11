@@ -11,7 +11,13 @@ export class RoleMenuService {
 
   constructor(private http: HttpClient) {}
 
-  get(
+  get():Observable<any>{
+    return this.http.get(this.baseUrl + 'roleMenu/findAll',{
+      responseType: "json",
+    })
+  }
+
+  getPage(
     page: number | undefined,
     size: number | undefined,
     search: any
@@ -25,6 +31,19 @@ export class RoleMenuService {
         page +
         '&size=' +
         size,
+      {
+        responseType: 'json',
+      }
+    );
+  }
+
+  //** jika listnya menjadi post */
+  getPost(search: any): Observable<any> {
+    let bodyString = JSON.stringify(search); // Stringify payload
+
+    return this.http.post(
+      this.baseUrl + 'roleMenu/findAllWithPagination',
+      bodyString,
       {
         responseType: 'json',
       }
@@ -57,17 +76,20 @@ export class RoleMenuService {
     return this.http.delete(this.baseUrl + 'roleMenu/deleteById?id=' + id);
   }
 
-// getPaginator(page: number, size: number): Observable<any> {
-//   var headers = new HttpHeaders({
-//     'Content-Type': 'application/json',
-//     Accept: 'application/json',
-//   });
-//   return this.http.get (this.baseUrl + 'findAllWithPagination?page={page}&size={size}');
-// }
+  // getPaginator(page: number, size: number): Observable<any> {
+  //   var headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     Accept: 'application/json',
+  //   });
+  //   return this.http.get (this.baseUrl + 'findAllWithPagination?page={page}&size={size}');
+  // }
 
-getPagination(page: number, size:number):Observable<any>{
-  return this.http.get(this.baseUrl + `roleMenu/findAllWithPagination?page=${page}&size=${size}`,{
-    responseType: "json",
-  })
-}
+  getPagination(page: number, size: number): Observable<any> {
+    return this.http.get(
+      this.baseUrl + `roleMenu/findAllWithPagination?page=${page}&size=${size}`,
+      {
+        responseType: 'json',
+      }
+    );
+  }
 }
