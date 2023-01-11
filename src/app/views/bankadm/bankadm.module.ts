@@ -35,6 +35,7 @@ import { TarikComponent } from './history-transaksi/tarik/tarik.component';
 import { TransferComponent } from './history-transaksi/transfer/transfer.component';
 import { BayarTeleponComponent } from './history-transaksi/bayar-telepon/bayar-telepon.component';
 import { ToastModule } from 'primeng/toast';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import { ToastModule } from 'primeng/toast';
     CalendarModule,
     InputTextModule,
     ToastModule,
+    PaginatorModule,
   ]
 })
 export class BankadmModule { }
