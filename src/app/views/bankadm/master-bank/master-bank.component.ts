@@ -4,6 +4,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { MasterBankInterface } from './master-bank-interface';
 import { MasterBankService } from './master-bank.service'
 import { CurrencyPipe } from '@angular/common';
+import {PaginationInterface} from '../paginations-interface';
 
 @Component({
   selector: 'app-master-bank',
@@ -16,6 +17,7 @@ export class MasterBankComponent implements OnInit {
   //variabel-variabel untuk menampung data
   public cols: any = [];
   public masterBank: any = [];
+  public masterBankPagination: any = [];
   public users: any = [];
   public selectedUser: any = [];
   masterBankform: boolean = false;
@@ -29,6 +31,9 @@ export class MasterBankComponent implements OnInit {
   cekError: boolean = false; //menampilkan error
   cekErrorDel: boolean = false; //menampilkan error
   berhasilDelete: boolean = false; //menampilkan error
+  totalRecords : number = 0;
+  rowsPerPage : number = 0;
+  currentPage : number = 0 ;
   
   //menampilkan form untuk delete 
   showDelete(reference: MasterBankInterface) {
@@ -160,9 +165,35 @@ export class MasterBankComponent implements OnInit {
     });
   }
 
+  getDataPaginations(event : PaginationInterface){
+    //memanggil service find all with pagination
+    this.masterBankService.findAllPaginations(event.page, event.rows).subscribe({
+      next: (res:any) => {
+        this.masterBankPagination = res.data;
+        this.totalRecords = res.totalRowCount;
+        this.rowsPerPage = res.size;
+        this.currentPage = res.page;
+      },
+      error: (error) => {
+        console.error('ini error: ', error);
+      }
+    });
+
+     //memanggil service find all data user 
+     this.masterBankService.findAllUser().subscribe({
+      next: (res: any) => {
+        this.users = res;
+        // console.log(res);
+      },
+      error: (error) => {
+        console.error('ini error: ', error);
+      }
+    });
+  }
 
   ngOnInit(): void {
-    this.getData();
+    // this.getData();
+    this.getDataPaginations({page : 0, rows: 5})
 
     //validasi di form
     this.form = this.formBuilder.group({
@@ -266,7 +297,9 @@ export class MasterBankComponent implements OnInit {
     } else {
       this.form.reset();
     }
-    this.getData();
+    // this.getData();
+    this.getDataPaginations({page:this.currentPage, rows:5})
+
   }
 
   // onDelete(): void {

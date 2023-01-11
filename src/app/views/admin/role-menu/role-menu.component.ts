@@ -1,32 +1,53 @@
+import { SearchRequest } from './../../../models/search.request.model';
+import { SearchCriteria } from './../../../models/search.crtiteria.model';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ConfirmationService, ConfirmEventType, MessageService } from 'primeng/api';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  ConfirmationService,
+  ConfirmEventType,
+  LazyLoadEvent,
+  MessageService,
+} from 'primeng/api';
 import { RoleService } from '../service/role.service';
 import { RoleMenuService } from '../service/role-menu.service';
 import { MenuService } from '../service/menu.service';
 import { RoleMenuInterface } from './role-menu-interface';
 import { Table } from 'primeng/table';
 import { UserService } from '../service/user.service';
+import { PaginatorInterface } from '../pagination-interface';
 
 @Component({
   selector: 'app-role-menu',
   templateUrl: './role-menu.component.html',
-  styleUrls: ['./role-menu.component.scss']
+  styleUrls: ['./role-menu.component.scss'],
 })
 export class RoleMenuComponent implements OnInit {
-
   //deklarasi variabel
   public role: any = [];
   public roleMenu: any = [];
+  public roleMenuPagination: any = [];
   public listRole: any = [];
   public listUser: any = [];
   public listMenu: any = [];
   multipleMenu: any[] = [];
+  page: number = 0;
+  size: number = 0;
+  totalRecords: number = 0;
   roleMenuform: boolean = false;
-  header: string = "";
+  header: string = '';
   isEdit: boolean = false;
   isAdd: boolean = false;
   isDelete: boolean = false;
+  roleMenuPaging: any = [];
+  totalRecord: any = [];
+  rowsPerPage: any = [];
+  currentPage: any = [];
   now = new Date();
   submitted = false;
   username = localStorage.getItem('username');
@@ -38,7 +59,12 @@ export class RoleMenuComponent implements OnInit {
   valIsActive = '';
   searchQuery: string = '';
   loading: boolean = true;
-  currentDate = `${this.now.getFullYear()}-${this.padTo2Digits(this.now.getMonth() + 1)}-${this.padTo2Digits(this.now.getDate())}`;
+  currentDate = `${this.now.getFullYear()}-${this.padTo2Digits(
+    this.now.getMonth() + 1
+  )}-${this.padTo2Digits(this.now.getDate())}`;
+
+  totalRows: number = 0;
+  private isDirty: boolean = false;
 
   //format tanggal angka 2 digit
   padTo2Digits(num: number) {
@@ -52,8 +78,8 @@ export class RoleMenuComponent implements OnInit {
     private formBuilder: FormBuilder,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private userService: UserService,
-  ) { }
+    private userService: UserService
+  ) {}
 
   //menampilkan confirm untuk delete data
   showDelete(reference: RoleMenuInterface) {
@@ -69,7 +95,7 @@ export class RoleMenuComponent implements OnInit {
     this.isEdit = false;
     this.isAdd = true;
     this.isDelete = false;
-    this.header = "Add Role Menu";
+    this.header = 'Add Role Menu';
     this.form.reset();
     this.form.enable();
     this.form.controls['createdBy'].setValue(this.username);
@@ -83,7 +109,7 @@ export class RoleMenuComponent implements OnInit {
     this.isEdit = true;
     this.isAdd = false;
     this.isDelete = false;
-    this.header = "Edit Role Menu";
+    this.header = 'Edit Role Menu';
     this.form.enable();
     this.form.setValue(reference);
     this.form.controls['updatedBy'].setValue(this.username);
@@ -105,7 +131,6 @@ export class RoleMenuComponent implements OnInit {
     updatedBy: new FormControl(''),
     roleName: new FormControl(''),
     menuName: new FormControl(''),
-
   });
 
   //konfirmasi berhasil add ketika klik submit
@@ -127,7 +152,9 @@ export class RoleMenuComponent implements OnInit {
   //konfirmasi berhasil edit ketika klik submit
   getConfirmEdit() {
     this.confirmationService.confirm({
-      message: 'Are you sure want to updated Role Menu data with Role Menu ID = ' + this.form.controls['roleMenuId'].value,
+      message:
+        'Are you sure want to updated Role Menu data with Role Menu ID = ' +
+        this.form.controls['roleMenuId'].value,
       header: 'Role Menu Updated',
       accept: () => {
         this.onSubmit();
@@ -190,17 +217,16 @@ export class RoleMenuComponent implements OnInit {
   }
 
   //mengambil data dari service
+
   getData() {
-    this.roleMenuService.get().subscribe({
-      next: (res: any) => {
-        this.roleMenu = res.data;
-        this.loading = false;
-        // console.log(res.data);
-      },
-      error: (error) => {
-        console.error('ini error: ', error);
-      }
-    });
+    let searchReq = new SearchRequest();
+    searchReq._offSet = 0;
+    searchReq._page = 0;
+    searchReq._size = 5;
+    searchReq._sortField = 'createdDate';
+    searchReq._sortOrder = 'DESC';
+
+    this.getRoleMenuData(0, 5, searchReq);
 
     this.roleService.get().subscribe({
       next: (res: any) => {
@@ -210,7 +236,7 @@ export class RoleMenuComponent implements OnInit {
       },
       error: (error) => {
         console.error('ini error: ', error);
-      }
+      },
     });
 
     this.menuService.get().subscribe({
@@ -221,7 +247,7 @@ export class RoleMenuComponent implements OnInit {
       },
       error: (error) => {
         console.error('ini error: ', error);
-      }
+      },
     });
 
     this.userService.get().subscribe({
@@ -232,28 +258,42 @@ export class RoleMenuComponent implements OnInit {
       },
       error: (error) => {
         console.error('ini error: ', error);
-      }
+      },
     });
+  }
 
+  getDataPagination(event: PaginatorInterface) {
+    this.roleMenuService.getPagination(event.page, event.rows).subscribe({
+      next: (res: any) => {
+        this.roleMenu = res.data;
+        this.totalRecords = res.totalRowCount;
+        this.rowsPerPage = res.size;
+        this.currentPage = res.page;
+      },
+      error: (error) => {
+        console.error('ini error: ', error);
+      },
+    });
   }
 
   ngOnInit(): void {
-    this.getData();
+    // this.getData();
+    this.getDataPagination({ page: 0, rows: 10 });
 
     //menampilkan isi form add&edit
     this.form = this.formBuilder.group({
-      roleMenuId: ['',],
-      roleId: ['', [Validators.required,],],
-      menuId: ['', [Validators.required,],],
-      isActive: ['', [Validators.required,],],
-      programName: ['',],
-      createdDate: ['',],
-      createdBy: ['',],
-      updatedDate: ['',],
-      updatedBy: ['',],
-      roleName: ['',],
-      menuName: ['',],
-    })
+      roleMenuId: [''],
+      roleId: ['', [Validators.required]],
+      menuId: ['', [Validators.required]],
+      isActive: ['', [Validators.required]],
+      programName: [''],
+      createdDate: [''],
+      createdBy: [''],
+      updatedDate: [''],
+      updatedBy: [''],
+      roleName: [''],
+      menuName: [''],
+    });
   }
 
   //inisialisasi ts untuk dipanggil di html
@@ -294,9 +334,9 @@ export class RoleMenuComponent implements OnInit {
                 detail: error.error.message,
               });
               // alert(error.error.message);
-            }
+            },
           });
-        };
+        }
       }
       this.form.controls['menuId'].setValue(this.multipleMenu);
 
@@ -344,31 +384,32 @@ export class RoleMenuComponent implements OnInit {
               detail: error.error.message,
             });
             // alert(error.error.message);
-          }
-        });
-      };
-
-      if (this.isDelete) {
-        this.roleMenuService.delete(this.form.controls['roleMenuId'].value).subscribe({
-          next: (res: any) => {
-            this.messageService.add({
-              severity: 'info',
-              summary: 'Confirmed',
-              detail: 'Record deleted',
-            });
-            this.onReset();
           },
-          error: (error) => {
-            console.error('ini error: ', error);
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error Message',
-              detail: error.error.message,
-            });
-          }
         });
       }
 
+      if (this.isDelete) {
+        this.roleMenuService
+          .delete(this.form.controls['roleMenuId'].value)
+          .subscribe({
+            next: (res: any) => {
+              this.messageService.add({
+                severity: 'info',
+                summary: 'Confirmed',
+                detail: 'Record deleted',
+              });
+              this.onReset();
+            },
+            error: (error) => {
+              console.error('ini error: ', error);
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error Message',
+                detail: error.error.message,
+              });
+            },
+          });
+      }
     }
   }
 
@@ -383,11 +424,101 @@ export class RoleMenuComponent implements OnInit {
     } else {
       this.form.reset();
     }
-    this.getData();
+    // this.getData();
+    this.getDataPagination({ page: this.currentPage, rows: 10 });
   }
 
   clear(table: Table) {
-    table.clear();
+    this.searchQuery = '';
+    table.reset();
   }
 
+  nextPage(event: LazyLoadEvent) {
+    console.log(event.filters);
+    if (this.isDirty) {
+      alert('You have unsaved changes!!!');
+      console.log(event);
+    } else {
+      let searchReq = new SearchRequest();
+      searchReq._offSet = event.first;
+      searchReq._page = event.first;
+      searchReq._size = event.rows;
+      searchReq._sortField =
+        event.sortField === null ? 'createdDate' : event.sortField;
+      searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
+      searchReq._filters = [];
+
+      let currentPage = event.first;
+      if (event.first !== undefined && event.rows !== undefined) {
+        searchReq._page = Math.ceil(event.first / event.rows);
+        currentPage = Math.ceil(event.first / event.rows);
+      }
+
+      //Process filter object
+      let filterObj = <any>event.filters;
+      console.log('filter by : ', filterObj);
+      let fieldName: string = '';
+      let fieldValue: string = '';
+
+      if (filterObj !== undefined) {
+        if (filterObj.hasOwnProperty('menuId')) {
+          fieldName = 'menuId';
+          if (filterObj['menuId'][0]['value'] == null) {
+            if (typeof filterObj['global'] != 'undefined') {
+              fieldValue = filterObj['global']['value'];
+            } else {
+              fieldValue = '';
+            }
+          } else {
+            fieldValue = filterObj['menuId'][0]['value'];
+          }
+
+          let criteria = new SearchCriteria();
+          criteria._name = fieldName;
+          criteria._value = fieldValue;
+          searchReq._filters.push(criteria);
+        }
+        if (filterObj.hasOwnProperty('roleId')) {
+          fieldName = 'roleId';
+          if (filterObj['roleId'][0]['value'] == null) {
+            if (typeof filterObj['global'] != 'undefined') {
+              fieldValue = filterObj['global']['value'];
+            } else {
+              fieldValue = '';
+            }
+          } else {
+            fieldValue = filterObj['roleId'][0]['value'];
+          }
+          let criteria = new SearchCriteria();
+          criteria._name = fieldName;
+          criteria._value = fieldValue;
+          searchReq._filters.push(criteria);
+        }
+      }
+
+      //console.log(JSON.stringify(searchReq));
+
+      this.getRoleMenuData(currentPage, event.rows, searchReq);
+    }
+  }
+
+  getRoleMenuData(
+    pageSize: number | undefined,
+    pageNumber: number | undefined,
+    search?: any
+  ) {
+    console.log(search);
+    this.loading = true;
+    this.roleMenuService.get(pageSize, pageNumber, search).subscribe({
+      next: (res: any) => {
+        this.roleMenu = res.data;
+        this.loading = false;
+        this.totalRows = res.totalRowCount;
+        // console.log(res.data);
+      },
+      error: (error) => {
+        console.error('ini error: ', error);
+      },
+    });
+  }
 }

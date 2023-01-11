@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfirmationService } from 'primeng/api';
+import {
+  ConfirmationService,
+  ConfirmEventType,
+  MessageService,
+} from 'primeng/api';
 import { TransaksiTelkomInterface } from './transaksi-telkom-interface';
 import { TransaksiTelkomService } from './transaksi-telkom.service';
 import { MasterService } from '../master-pelanggan/master.service';
@@ -27,6 +31,8 @@ export class TransaksiTelkomComponent implements OnInit {
   isEdit: boolean = false;
   isAdd: boolean = false;
   isDelete: boolean = false;
+  cekErrorAdd: boolean = false; //menampilkan error
+  berhasilAdd: boolean = false; //menampilkan error
   public dateValue: Date | undefined;
   searchQuery: string = '';
 
@@ -36,9 +42,10 @@ export class TransaksiTelkomComponent implements OnInit {
     this.isEdit = false;
     this.isAdd = false;
     this.isDelete = true;
-    this.header = 'Hapus Transaksi';
+    this.getConfirmDelete();
+    // this.header = 'Hapus Transaksi';
     this.form.disable();
-    this.transaksiform = true;
+    // this.transaksiform = true;
   }
 
   //menampilkan dialog add
@@ -84,17 +91,43 @@ export class TransaksiTelkomComponent implements OnInit {
     private transaksiTelkomService: TransaksiTelkomService,
     private masterPelangganService: MasterService,
     private formBuilder: FormBuilder,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ) {}
 
-  // menampilkan confirm dialog add
-  GetConfirmDelete() {
+  // menampilkan confirm dialog delete
+  getConfirmDelete() {
+    this.isEdit = false;
+    this.isAdd = false;
+    this.isDelete = true;
     this.confirmationService.confirm({
       message:
-        'Transaksi dengan ID: ' +
+        'Are you sure want to delete Hak Akses with idTransaksi = ' +
         this.form.controls['idTransaksi'].value +
-        ' telah berhasil dihapus',
-      header: 'Transaksi dihapus',
+        '?',
+      header: 'Confirm Delete',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.onSubmit();
+      },
+      reject: (type: any) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Rejected',
+              detail: 'You have rejected',
+            });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'Cancelled',
+              detail: 'You have cancelled',
+            });
+            break;
+        }
+      },
     });
   }
 
@@ -224,12 +257,19 @@ export class TransaksiTelkomComponent implements OnInit {
           next: (res: any) => {
             console.log(res);
             this.transaksiform = false;
+            this.cekErrorAdd = false;
             this.getConfirmAdd();
             this.onReset();
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Tambah data berhasil',
+              detail: 'Data transaksi telah ditambahkan',
+            });
           },
           error: (error) => {
+            this.cekErrorAdd = true;
             console.error('ini error: ', error);
-            alert(error.error.message);
+            // alert(error.error.message);
           },
         });
       }
@@ -281,9 +321,31 @@ export class TransaksiTelkomComponent implements OnInit {
     this.refreshPage();
   }
 
+  onResetNew(): void {
+    this.cekErrorAdd = false;
+    this.onReset();
+  }
   onDelete(): void {
     this.submitted = false;
     this.transaksiform = false;
-    this.GetConfirmDelete();
+    this.getConfirmDelete();
+  }
+
+  deleteMasterPelanggan() {
+    this.masterPelangganService
+      .deleteMasterPelanggan(this.form.controls['idTransaksi'].value)
+      .subscribe({
+        next: (res: any) => {
+          this.transaksiform = false;
+          this.berhasilAdd = true;
+          this.onReset();
+
+          // console.log(res);
+        },
+        error: (error) => {
+          this.cekErrorAdd = true;
+          console.error('ini error: ', error);
+        },
+      });
   }
 }
