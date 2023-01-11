@@ -212,11 +212,12 @@ export class RoleMenuComponent implements OnInit {
   getData() {
     let searchReq = new SearchRequest();
     searchReq._offSet = 0;
-    searchReq._size = 10;
-    searchReq._sortField = 'ROLE_ID';
-    searchReq._sortOrder = 'ASC';
+    searchReq._page = 0;
+    searchReq._size = 5;
+    searchReq._sortField = 'createdDate';
+    searchReq._sortOrder = 'DESC';
 
-    this.getRoleMenuData(0, 10, searchReq);
+    this.getRoleMenuData(0, 5, searchReq);
     this.roleService.get().subscribe({
       next: (res: any) => {
         this.listRole = res.data;
@@ -402,7 +403,8 @@ export class RoleMenuComponent implements OnInit {
   }
 
   clear(table: Table) {
-    table.clear();
+    this.searchQuery = '';
+    table.reset();
   }
 
   nextPage(event: LazyLoadEvent) {
@@ -415,7 +417,8 @@ export class RoleMenuComponent implements OnInit {
       searchReq._offSet = event.first;
       searchReq._page = event.first;
       searchReq._size = event.rows;
-      searchReq._sortField = event.sortField;
+      searchReq._sortField =
+        event.sortField === null ? 'createdDate' : event.sortField;
       searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
       searchReq._filters = [];
 
