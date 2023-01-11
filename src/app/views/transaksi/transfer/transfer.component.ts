@@ -190,7 +190,7 @@ export class TransferComponent implements OnInit {
     this.tampilForm = false;
   }
 
-  onTutupDialog(){
+  onBatalError(){
     this.cekError = false
   }
 
