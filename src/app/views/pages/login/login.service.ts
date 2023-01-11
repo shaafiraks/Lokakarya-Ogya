@@ -12,7 +12,7 @@ export class LoginService {
 
   //ambil data dari database
   login(username: String, password: String): Observable<any> {
-    return this.http.get(
+    return this.http.post(
       this.baseUrl +
         'users/login?identity=' +
         username +
