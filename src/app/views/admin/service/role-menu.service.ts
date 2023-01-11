@@ -11,7 +11,13 @@ export class RoleMenuService {
 
   constructor(private http: HttpClient) {}
 
-  get(
+  get():Observable<any>{
+    return this.http.get(this.baseUrl + 'roleMenu/findAll',{
+      responseType: "json",
+    })
+  }
+
+  getPage(
     page: number | undefined,
     size: number | undefined,
     search: any

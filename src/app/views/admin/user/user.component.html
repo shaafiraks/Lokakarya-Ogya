@@ -26,9 +26,9 @@
 
         <!-- section u show data tabel -->
         <c-card-body>
-            <p-table #dt [value]="users" dataKey="id" [paginator]="true" [rows]="5" [first]="3"
-                [rowsPerPageOptions]="[5, 10, 15, 20]" [globalFilterFields]="['nama', 'userId','username', 'alamat']" [loading]="loading"
-                [showCurrentPageReport]="true"
+            <p-table #dt [value]="users" dataKey="id" [paginator]="true" [rows]="5" [lazy]="true"
+            (onLazyLoad)="nextPage($event)" [rowsPerPageOptions]="[5, 10, 15, 20]" [totalRecords]="totalRows"
+            [globalFilterFields]="['nama', 'userId','username', 'alamat']" [loading]="loading" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 >
                 <ng-template pTemplate="caption">
