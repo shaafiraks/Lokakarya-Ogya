@@ -186,6 +186,11 @@ export class BayarTeleponComponent implements OnInit {
     this.form.controls['noTelepon'].enable();
   }
 
+  //KLIK BATAL SAAT DIALOG ERROR
+  onBatalError(){
+    this.cekError =false;
+  }
+
   //PANGGIL DATA NASABAH
   showNasabah(): void {
     this.submitted = true;
@@ -254,21 +259,22 @@ export class BayarTeleponComponent implements OnInit {
   }
 
   //MENAMPILKAN FORM BAYAR TELEPON PER-BULAN
-  showFormBayarTeleponPerBulan(){
+  showFormBayarTeleponPerBulan(bulanTagihan : any){
     this.tampilFormPerBulan = true;
     this.form.controls['noRekening'].disable();
     this.form.controls['noTelepon'].disable();
-    // this.form.controls['bulanTagihan'].disable();
-    
+    this.form.controls['bulanTagihan'].setValue(bulanTagihan);
+    this.form.controls['bulanTagihan'].disable();
+    console.log(bulanTagihan);
   }
 
 
   //BATAL FORM BAYAR TELEPON
   onBatal(){
     this.tampilForm = false;
+    this.tampilFormPerBulan = false;
     this.form.controls['noRekening'].enable();
     this.form.controls['noTelepon'].enable();
-    
   }
   
 

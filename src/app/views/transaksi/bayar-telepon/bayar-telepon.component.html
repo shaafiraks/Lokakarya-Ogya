@@ -59,22 +59,17 @@
 
 <!-- MUNCUL DATA NASABAH  -->
 <c-card style="margin-bottom: 50px;" *ngIf="tampilDatatagihan">
+    <c-card-header><p [ngStyle]="{color:'var(--blue-500)'}" style="font-size: 120%;" ><b>Info Tagihan Telepon :</b></p></c-card-header>
     <c-card-body>
         <p-table [value]="nasabah" styleClass="p-datatable-striped">
             <ng-template pTemplate="header" let-nas>
-                <div class="flex">
-            <tr>
-                <th [ngStyle]="{color:'var(--blue-500)'}" style="font-size: 120%;"><b>
-                    Info Tagihan Telepon :</b></th>
-            </tr>
-        </div>
             <tr>
                 <th>Nama Pemilik Rekening</th>
                 <th>Nama Pelanggan</th>
                 <th>Nomor Telepon</th>
                 <th>Bulan tagihan</th>
                 <th>Tagihan</th>
-                <!-- <th>Action</th> -->
+                <th *ngIf="nasabah?.length > 1">Action</th>
             </tr>
         </ng-template>  
             <ng-template pTemplate="body" let-nas>
@@ -84,20 +79,28 @@
                     <td class="td1">{{nas.noTelepon}}</td>
                     <td class="td1">{{nas.bulanTagihan}}</td>
                     <td class="td1">{{nas.tagihan | currency:'IDR ':'symbol':'3.2-2'}}</td>
+                    <td *ngIf="nasabah?.length > 1">
+                        <button type="button" 
+                        pButton class="btn p-button-warning" 
+                        (click)="showFormBayarTeleponPerBulan(nas.bulanTagihan)">
+                        <b>Bayar</b></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary" >
+                <tr>
+                    <td [ngStyle]="{color:'var(--blue-500)'}">{{nasabah? nasabah.length : 0 }} Tagihan Telepon.</td>
                 </tr>
             </ng-template>
         </p-table>
         <p-table [value]="totalTagihan">
             <ng-template pTemplate="body" let-total>
                 <tr style="background-color: aliceblue;">
-                    <td colspan="5"><b>Total Tagihan Telepon :</b></td>
+                    <td colspan="5"><b [ngStyle]="{color:'var(--blue-500)'}">Total Tagihan Telepon :</b></td>
                     <td style="text-align: right !important;"><b>{{total.tagihan | currency:'IDR ':'symbol':'3.2-2'}}</b></td>
                 </tr>
                 <tr>
-                    <td colspan="3" *ngIf="total.tagihan != null">
-                        <button type="button" pButton class="btn p-button-warning" style="width: 100%;" (click)="showFormBayarTeleponPerBulan()"><b>Bayar Tagihan Per-Bulan</b></button>
-                    </td>
-                    <td colspan="3" *ngIf="total.tagihan != null">
+                    <td *ngIf="total.tagihan != null" colspan="100%">
                         <button type="button" pButton class="btn p-button-primary" style="width: 100%;" (click)="showFormBayarTelepon()"><b>Bayar Semua Tagihan Telepon</b></button>
                     </td>
                 </tr>
@@ -247,7 +250,8 @@
 
 <!-- TAMPIL FORM BAYAR TELEPON  -->
 <p-dialog header="Bayar Telepon : " [(visible)]="tampilForm" [draggable]="false" [modal]="true"
-    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false">
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false"
+    [closable]="false">
     <c-card-body>
         <form (ngSubmit)="onBayarTelepon()" [formGroup]="form">
             <div class="row container p-grid p-fluid">
@@ -297,7 +301,8 @@
 
 <!-- TAMPIL FORM BAYAR TELEPON PER-BULAN -->
 <p-dialog header="Bayar Telepon : " [(visible)]="tampilFormPerBulan" [draggable]="false" [modal]="true"
-    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false">
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [resizable]="false"
+    [closable]="false">
     <c-card-body>
         <form (ngSubmit)="onBayarTeleponPerBulan()" [formGroup]="form">
             <div class="row container p-grid p-fluid">

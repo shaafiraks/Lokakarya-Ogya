@@ -68,7 +68,7 @@ export class TarikTunaiComponent implements OnInit {
   // classButton: string = "";
   // bgConfirmColor: string = "";
   submitted: boolean = false;
-  cekNorek: boolean = false;
+  cekError: boolean = false;
   // merah: any = 'background-color: aqua;';
   tampilForm: boolean = false;
   stateOptions1: any = [];
@@ -112,25 +112,25 @@ export class TarikTunaiComponent implements OnInit {
 
             },
             error: (error) => {
-              this.cekNorek = true;
+              this.cekError = true;
               this.tampilForm = false;
               this.errorMessage = error.error.message
               // this.messageErrorNoRek();
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: (error.error.message) }); console.log(error);
+              // this.messageService.add({ severity: 'error', summary: 'Error', detail: (error.error.message) }); console.log(error);
               // alert('Id tidak ditemukan')
             },
           });
         },
-        reject: (type: any) => {
-          switch (type) {
-            case ConfirmEventType.REJECT:
-              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
-              break;
-            case ConfirmEventType.CANCEL:
-              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
-              break;
-          }
-        }
+        // reject: (type: any) => {
+        //   switch (type) {
+        //     case ConfirmEventType.REJECT:
+        //       this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+        //       break;
+        //     case ConfirmEventType.CANCEL:
+        //       this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+        //       break;
+        //   }
+        // }
       });
     }
 
@@ -147,7 +147,7 @@ export class TarikTunaiComponent implements OnInit {
   //RESET FORM DAN SET FALSE PADA BOOLEAN
   onReset() {
     this.submitted = false;
-    this.cekNorek = false;
+    this.cekError = false;
     this.display1 = false;
     this.form.reset();
     this.tampilForm = false;
@@ -155,6 +155,11 @@ export class TarikTunaiComponent implements OnInit {
     this.nominal = 0;
     this.tampilFormPilihanNominal = false;
     this.tampilDataNasabah= false;
+  }
+
+  //RESET PADA DIALOG ERROR
+  onResetError(){
+    this.cekError = false;
   }
 
   //PANGGIL SEMUA DATA NASABAH
