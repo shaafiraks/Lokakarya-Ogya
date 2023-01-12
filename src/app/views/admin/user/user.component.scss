@@ -11,6 +11,17 @@
     border: 1px solid white;
 }
 
+.p-button-custom {
+    border: 1px solid white;
+    background-color: rgb(219, 219, 219);
+    color: black
+}
+
+.p-button-custom:hover {
+    background-color: rgb(165, 165, 165);
+    color: black
+}
+
 .buttonStyle:enabled:hover {
     background: #ffab2c;
 }

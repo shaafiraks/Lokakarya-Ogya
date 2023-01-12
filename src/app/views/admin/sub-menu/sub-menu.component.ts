@@ -380,16 +380,16 @@ export class SubMenuComponent implements OnInit {
       let fieldValue: string = '';
 
       if (filterObj !== undefined) {
-        if (filterObj.hasOwnProperty('menuId')) {
-          fieldName = 'menuId';
-          if (filterObj['menuId'][0]['value'] == null) {
+        if (filterObj.hasOwnProperty('menuNama')) {
+          fieldName = 'menuNama';
+          if (filterObj['menuNama'][0]['value'] == null) {
             if (typeof filterObj['global'] != 'undefined') {
               fieldValue = filterObj['global']['value'];
             } else {
               fieldValue = '';
             }
           } else {
-            fieldValue = filterObj['menuId'][0]['value'];
+            fieldValue = filterObj['menuNama'][0]['value'];
           }
 
           let criteria = new SearchCriteria();
@@ -397,16 +397,16 @@ export class SubMenuComponent implements OnInit {
           criteria._value = fieldValue;
           searchReq._filters.push(criteria);
         }
-        if (filterObj.hasOwnProperty('roleId')) {
-          fieldName = 'roleId';
-          if (filterObj['roleId'][0]['value'] == null) {
+        if (filterObj.hasOwnProperty('nama')) {
+          fieldName = 'nama';
+          if (filterObj['nama'][0]['value'] == null) {
             if (typeof filterObj['global'] != 'undefined') {
               fieldValue = filterObj['global']['value'];
             } else {
               fieldValue = '';
             }
           } else {
-            fieldValue = filterObj['roleId'][0]['value'];
+            fieldValue = filterObj['nama'][0]['value'];
           }
           let criteria = new SearchCriteria();
           criteria._name = fieldName;
