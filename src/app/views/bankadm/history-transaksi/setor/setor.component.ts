@@ -132,4 +132,20 @@ export class SetorComponent implements OnInit {
       },
     });
   }
+
+  downloadDataSetor(): void {
+    this.setorService.downloadSetor().subscribe({
+      next: (res) => {
+        let binaryData = [];
+        binaryData.push(res);
+        var fileUrl = URL.createObjectURL(new Blob(binaryData, { type: 'application/pdf' }));
+        window.open(fileUrl);
+        // saveAs(res, 'Setor History.pdf');
+        console.log(res);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 }

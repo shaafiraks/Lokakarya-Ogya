@@ -1,16 +1,4 @@
 <c-col xs="12">
-  <!-- menambahkan button add nasabah -->
-  <div class="mb-4" style="text-align: right; margin: 15px 15px 0px 15px">
-    <button
-      pButton
-      pRipple
-      type="button"
-      label="Add Nasabah"
-      icon="pi pi-plus"
-      class="p-button-warning"
-      (click)="showAdd()"
-    ></button>
-  </div>
 
   <!-- konfirmasi button -->
   <p-confirmDialog #cd [style]="{ width: '50vw' }">
@@ -200,6 +188,11 @@
                   placeholder="Search by Name"
                 />
               </span>
+              <button pButton pRipple type="button" label="Add Nasabah" icon="pi pi-plus" class="btn-caption"
+                            (click)="showAdd()"></button>
+                        <button pButton pRipple type="button" styleClass="p-button-lg" label="Download" iconPos="right"
+                            icon="pi pi-arrow-down" class="p-button-custom btn-caption"
+                            (click)="downloadDataMasterBank()"></button>
             </div>
           </ng-template>
           <ng-template pTemplate="header">
