@@ -53,3 +53,20 @@
     margin-top: -50px;
     margin-right: 5px;
 }
+
+td {
+    padding: 0.5rem 1rem !important;
+}
+
+@media (max-width: 768px) {
+    .responsive-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: 0;
+        padding-left: 1px;
+        padding-right: 10px;
+        /* hide label */
+    }
+}
