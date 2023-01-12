@@ -11,6 +11,23 @@
     border: 1px solid white;
 }
 
+.p-button-custom {
+    border: 1px solid white;
+    background-color: rgb(219, 219, 219);
+    color: black
+}
+
+.p-button-custom:hover {
+    background-color: rgb(165, 165, 165);
+    color: black
+}
+
+.btn-caption {
+    float: right;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 .buttonStyle:enabled:hover {
     background: #ffab2c;
 }

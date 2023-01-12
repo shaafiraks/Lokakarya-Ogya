@@ -206,17 +206,6 @@ export class RoleComponent implements OnInit {
 
   }
 
-  getDownload(){
-    this.roleService.download().subscribe({
-      next: (data: any) => {
-        saveAs(data, 'Role.pdf');
-      },
-      error: (error) => {
-        console.error('ini error', error);
-      },
-    });
-  }
-
   ngOnInit(): void {
     this.getData();
 
@@ -367,16 +356,16 @@ export class RoleComponent implements OnInit {
       let fieldValue: string = '';
 
       if (filterObj !== undefined) {
-        if (filterObj.hasOwnProperty('menuId')) {
-          fieldName = 'menuId';
-          if (filterObj['menuId'][0]['value'] == null) {
+        if (filterObj.hasOwnProperty('nama')) {
+          fieldName = 'nama';
+          if (filterObj['nama'][0]['value'] == null) {
             if (typeof filterObj['global'] != 'undefined') {
               fieldValue = filterObj['global']['value'];
             } else {
               fieldValue = '';
             }
           } else {
-            fieldValue = filterObj['menuId'][0]['value'];
+            fieldValue = filterObj['nama'][0]['value'];
           }
 
           let criteria = new SearchCriteria();
@@ -384,22 +373,22 @@ export class RoleComponent implements OnInit {
           criteria._value = fieldValue;
           searchReq._filters.push(criteria);
         }
-        if (filterObj.hasOwnProperty('roleId')) {
-          fieldName = 'roleId';
-          if (filterObj['roleId'][0]['value'] == null) {
-            if (typeof filterObj['global'] != 'undefined') {
-              fieldValue = filterObj['global']['value'];
-            } else {
-              fieldValue = '';
-            }
-          } else {
-            fieldValue = filterObj['roleId'][0]['value'];
-          }
-          let criteria = new SearchCriteria();
-          criteria._name = fieldName;
-          criteria._value = fieldValue;
-          searchReq._filters.push(criteria);
-        }
+        // if (filterObj.hasOwnProperty('roleId')) {
+        //   fieldName = 'roleId';
+        //   if (filterObj['roleId'][0]['value'] == null) {
+        //     if (typeof filterObj['global'] != 'undefined') {
+        //       fieldValue = filterObj['global']['value'];
+        //     } else {
+        //       fieldValue = '';
+        //     }
+        //   } else {
+        //     fieldValue = filterObj['roleId'][0]['value'];
+        //   }
+        //   let criteria = new SearchCriteria();
+        //   criteria._name = fieldName;
+        //   criteria._value = fieldValue;
+        //   searchReq._filters.push(criteria);
+        // }
       }
 
       //console.log(JSON.stringify(searchReq));
@@ -424,6 +413,22 @@ export class RoleComponent implements OnInit {
       },
       error: (error) => {
         console.error('ini error: ', error);
+      },
+    });
+  }
+
+  downloadData(): void {
+    this.roleService.getFilePdf().subscribe({
+      next: (resp) => {
+        let binaryData = [];
+        binaryData.push(resp);
+        var fileUrl = URL.createObjectURL(new Blob(binaryData, { type: 'application/pdf' }));
+        window.open(fileUrl);
+        // saveAs(resp, 'Data-User.pdf');
+        console.log(resp);
+      },
+      error: (error) => {
+        console.log(error);
       },
     });
   }

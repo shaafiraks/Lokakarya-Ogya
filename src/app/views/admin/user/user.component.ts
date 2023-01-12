@@ -6,7 +6,7 @@ import { ConfirmationService, ConfirmEventType, LazyLoadEvent, MessageService } 
 import { Table } from 'primeng/table';
 import { SearchRequest } from 'src/app/models/search.request.model';
 import { SearchCriteria } from 'src/app/models/search.crtiteria.model';
-import * as saveAs from 'file-saver';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-user',
@@ -51,6 +51,7 @@ export class UserComponent implements OnInit {
 
   totalRows: number = 0;
   private isDirty: boolean = false;
+
 
   //format tanggal angka 2 digit
   padTo2Digits(num: number) {
@@ -222,17 +223,6 @@ export class UserComponent implements OnInit {
 
     this.getUserData(0, 5, searchReq);
 
-  }
-
-  getDownload(){
-    this.userService.download().subscribe({
-      next: (data: any) => {
-        saveAs(data, 'User.pdf');
-      },
-      error: (error) => {
-        console.error('ini error', error);
-      },
-    });
   }
 
   ngOnInit(): void {
@@ -414,16 +404,16 @@ export class UserComponent implements OnInit {
       let fieldValue: string = '';
 
       if (filterObj !== undefined) {
-        if (filterObj.hasOwnProperty('menuId')) {
-          fieldName = 'menuId';
-          if (filterObj['menuId'][0]['value'] == null) {
+        if (filterObj.hasOwnProperty('username')) {
+          fieldName = 'username';
+          if (filterObj['username'][0]['value'] == null) {
             if (typeof filterObj['global'] != 'undefined') {
               fieldValue = filterObj['global']['value'];
             } else {
               fieldValue = '';
             }
           } else {
-            fieldValue = filterObj['menuId'][0]['value'];
+            fieldValue = filterObj['username'][0]['value'];
           }
 
           let criteria = new SearchCriteria();
@@ -431,16 +421,16 @@ export class UserComponent implements OnInit {
           criteria._value = fieldValue;
           searchReq._filters.push(criteria);
         }
-        if (filterObj.hasOwnProperty('roleId')) {
-          fieldName = 'roleId';
-          if (filterObj['roleId'][0]['value'] == null) {
+        if (filterObj.hasOwnProperty('nama')) {
+          fieldName = 'nama';
+          if (filterObj['nama'][0]['value'] == null) {
             if (typeof filterObj['global'] != 'undefined') {
               fieldValue = filterObj['global']['value'];
             } else {
               fieldValue = '';
             }
           } else {
-            fieldValue = filterObj['roleId'][0]['value'];
+            fieldValue = filterObj['nama'][0]['value'];
           }
           let criteria = new SearchCriteria();
           criteria._name = fieldName;
@@ -474,4 +464,23 @@ export class UserComponent implements OnInit {
       },
     });
   }
+
+  // file: any;
+
+  downloadData(): void {
+    this.userService.getFilePdf().subscribe({
+      next: (resp) => {
+        let binaryData = [];
+        binaryData.push(resp);
+        var fileUrl = URL.createObjectURL(new Blob(binaryData, { type: 'application/pdf' }));
+        window.open(fileUrl);
+        // saveAs(resp, 'Data-User.pdf');
+        console.log(resp);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
 }

@@ -111,6 +111,11 @@ export class CekSaldoComponent implements OnInit {
   }
 
   showNasabah2(){
+    this.submitted = true;
+    if (this.form.invalid) {
+      return;
+    }
+    else {
     this.transaksiService.getNasabah(this.norek)
     .pipe(catchError(err => {
       if (err.status === 0) {
@@ -137,4 +142,5 @@ export class CekSaldoComponent implements OnInit {
       },
     });
   }
+}
 }

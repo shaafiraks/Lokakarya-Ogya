@@ -17,6 +17,14 @@ export class UserService {
     })
   }
 
+  getFilePdf():Observable<any>{
+    const token = 'my JWT';
+    const headers = new HttpHeaders().set('authorization','Bearer '+token);
+    return this.http.get(this.baseUrl + 'users/exportToPdfALL',
+    {headers, responseType: 'blob'}
+    )
+  }
+
   getPage(
     page: number | undefined,
     size: number | undefined,

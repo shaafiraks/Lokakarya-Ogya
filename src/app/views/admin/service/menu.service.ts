@@ -63,11 +63,11 @@ export class MenuService {
     return this.http.delete(this.baseUrl + 'menu/deleteById?id=' + id);
   }
 
-  download(): Observable<any>{
-    return this.http.get(
-      this.baseUrl + 'menu/exportToPdfALL',{
-        responseType: 'blob',
-      }
-    );
+  getFilePdf():Observable<any>{
+    const token = 'my JWT';
+    const headers = new HttpHeaders().set('authorization','Bearer '+token);
+    return this.http.get(this.baseUrl + 'menu/exportToPdfALL',
+    {headers, responseType: 'blob'}
+    )
   }
 }
