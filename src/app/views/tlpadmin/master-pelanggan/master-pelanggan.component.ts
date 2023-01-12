@@ -17,6 +17,7 @@ import { SearchCriteria } from 'src/app/models/search.crtiteria.model';
 import { SearchRequest } from 'src/app/models/search.request.model';
 import { MasterPelangganInterface } from './master-pelanggan-interface';
 import { MasterService } from './master.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-master-pelanggan',
@@ -221,6 +222,17 @@ export class MasterPelangganComponent implements OnInit {
       },
       error: (error) => {
         console.error('ini error: ', error);
+      },
+    });
+  }
+
+  getDownload() {
+    this.masterPelangganService.download().subscribe({
+      next: (data: any) => {
+        saveAs(data, 'Master Pelanggan.pdf');
+      },
+      error: (error) => {
+        console.error('ini error', error);
       },
     });
   }
