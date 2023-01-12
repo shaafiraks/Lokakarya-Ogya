@@ -206,17 +206,6 @@ export class RoleComponent implements OnInit {
 
   }
 
-  getDownload(){
-    this.roleService.download().subscribe({
-      next: (data: any) => {
-        saveAs(data, 'Role.pdf');
-      },
-      error: (error) => {
-        console.error('ini error', error);
-      },
-    });
-  }
-
   ngOnInit(): void {
     this.getData();
 
@@ -424,6 +413,22 @@ export class RoleComponent implements OnInit {
       },
       error: (error) => {
         console.error('ini error: ', error);
+      },
+    });
+  }
+
+  downloadData(): void {
+    this.roleService.getFilePdf().subscribe({
+      next: (resp) => {
+        let binaryData = [];
+        binaryData.push(resp);
+        var fileUrl = URL.createObjectURL(new Blob(binaryData, { type: 'application/pdf' }));
+        window.open(fileUrl);
+        // saveAs(resp, 'Data-User.pdf');
+        console.log(resp);
+      },
+      error: (error) => {
+        console.log(error);
       },
     });
   }

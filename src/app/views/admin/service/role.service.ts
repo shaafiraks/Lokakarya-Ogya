@@ -63,11 +63,11 @@ export class RoleService {
     return this.http.delete(this.baseUrl + 'roles/deleteById?id=' + id);
   }
 
-  download(): Observable<any>{
-    return this.http.get(
-      this.baseUrl + 'roles/exportToPdfALL',{
-        responseType: 'blob',
-      }
-    );
+  getFilePdf():Observable<any>{
+    const token = 'my JWT';
+    const headers = new HttpHeaders().set('authorization','Bearer '+token);
+    return this.http.get(this.baseUrl + 'roles/exportToPdfALL',
+    {headers, responseType: 'blob'}
+    )
   }
 }

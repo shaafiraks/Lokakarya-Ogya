@@ -15,6 +15,17 @@ align-items: center;
     background: #ffab2c;
 }
 
+.p-button-custom {
+    border: 1px solid white;
+    background-color: rgb(219, 219, 219);
+    color: black
+}
+
+.p-button-custom:hover {
+    background-color: rgb(165, 165, 165);
+    color: black
+}
+
 .card-header {
     background-color:#64748B ;
     color:#ffff;
