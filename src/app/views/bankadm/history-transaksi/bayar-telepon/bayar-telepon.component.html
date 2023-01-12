@@ -9,8 +9,10 @@
             <div class="tab-pane p-3 active preview table-responsive" role="tabpanel" id="preview-24">
                 <p>Jumlah transaksi bayar telepon hari ini : <b> {{bayarTeleponHariIni}} transaksi</b></p>
                 <hr>
-                <p-table #dt [value]="bayarTeleponHistory" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15,20]"
-                    [globalFilterFields]="['nama']">
+                <p-table #dt [value]="bayarTeleponPage" dataKey="id" [paginator]="true" [rows]="5" [lazy]="true"
+        (onLazyLoad)="nextPage($event)" [rowsPerPageOptions]="[5, 10, 15, 20]" [totalRecords]="totalRows"
+        [globalFilterFields]="['nama']" [loading]="loading" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                     <ng-template pTemplate="caption">
                         <div class="flex">
                             <span class="p-input-icon-left p-ml-auto">
@@ -25,10 +27,10 @@
                         <tr>
                             <!-- <th>Id History Bank</th> -->
                             <th class="text-center">Nomor Rekening</th>
-                            <th class="text-center">Nama Nasabah</th>
+                            <th class="text-center">Nama Nasabah <p-columnFilter type="text" field="nama" display="menu"></p-columnFilter></th>
                             <th class="text-center" pSortableColumn="tanggal">Tanggal
                                 <p-sortIcon field="tanggal"></p-sortIcon></th>
-                            <th class="text-center" pSortableColumn="uang">Nominal <p-sortIcon field="uang"></p-sortIcon></th>
+                            <th class="text-center">Nominal</th>
                             <!-- <th>Nomor Rekening Tujuan</th> -->
                             <th class="text-center">Nomor Telepon</th>
                             <th class="text-center">Keterangan</th>

@@ -9,6 +9,26 @@ import { environment } from 'src/environments/environment';
 export class TransaksiTelkomService {
   baseUrl = environment.BASE_API_URL;
 
+  getPage(
+    page: number | undefined,
+    size: number | undefined,
+    search: any
+  ): Observable<any> {
+    let bodyString = JSON.stringify(search); // Stringify payload
+    console.log(bodyString);
+
+    return this.http.get(
+      this.baseUrl +
+        'transaksitelkom/findAllWithPagination?page=' +
+        page +
+        '&size=' +
+        size,
+      {
+        responseType: 'json',
+      }
+    );
+  }
+
   findAll(): Observable<any> {
     return this.http.get(this.baseUrl + 'transaksitelkom/findStatus1', {
       responseType: 'json',

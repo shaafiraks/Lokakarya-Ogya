@@ -7,6 +7,7 @@ import { Page404Component } from './views/pages/page404/page404.component';
 import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
+import { LoadingPageComponent } from './views/pages/loading-page/loading-page.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
     redirectTo: 'dashboard',
     pathMatch: 'full'
   },
+  
   {
     path: '',
     component: DefaultLayoutComponent,
@@ -139,7 +141,15 @@ const routes: Routes = [
       title: 'Register Page'
     }
   },
-  {path: '**', redirectTo: 'dashboard'}
+  { 
+    path: 'loading', 
+    component: LoadingPageComponent, 
+  },
+  {
+    path: '**', 
+    redirectTo: 'dashboard'
+  },
+  
 ];
 
 @NgModule({

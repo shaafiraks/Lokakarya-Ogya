@@ -203,12 +203,17 @@
       >
         <p-table
           #dt
-          [globalFilterFields]="['nama', 'noTelp', 'alamat']"
+          [value]="masterPelanggan"
           dataKey="id"
-          [value]="pelanggan"
           [paginator]="true"
           [rows]="5"
+          [lazy]="true"
+          (onLazyLoad)="nextPage($event)"
           [rowsPerPageOptions]="[5, 10, 15, 20]"
+          [totalRecords]="totalRows"
+          [globalFilterFields]="['nama', 'noTelp', 'alamat']"
+          [loading]="loading"
+          [showCurrentPageReport]="true"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         >
           <!-- <ng-template pTemplate="caption">

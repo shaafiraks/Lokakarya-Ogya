@@ -171,7 +171,7 @@
   <c-card class="mb-4">
     <c-card-header>
       <strong
-        >Data Nasabah<span>({{ masterBankPage?.length }} data)</span></strong
+        >Data Nasabah<span>({{ masterBank?.length }} data)</span></strong
       >
     </c-card-header>
 
@@ -184,7 +184,7 @@
       >
       <p-table #dt [value]="masterBankPage" dataKey="id" [paginator]="true" [rows]="5" [lazy]="true"
         (onLazyLoad)="nextPage($event)" [rowsPerPageOptions]="[5, 10, 15, 20]" [totalRecords]="totalRows"
-        [globalFilterFields]="['name','alamat']" [loading]="loading" [showCurrentPageReport]="true"
+        [globalFilterFields]="['nama','alamat']" [loading]="loading" [showCurrentPageReport]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
           <ng-template pTemplate="caption">
             <div class="flex">
@@ -206,7 +206,7 @@
             <tr>
               <th class="text-center">Nomor Rekening</th>
               <!-- <th pSortableColumn="userId">User Id <p-sortIcon field="userId"></p-sortIcon></th> -->
-              <th class="text-center" pSortableColumn="nama" >Nama Nasabah <p-sortIcon field="nama"></p-sortIcon></th>
+              <th class="text-center">Nama Nasabah<p-columnFilter type="text" field="nama" display="menu"></p-columnFilter></th>
               <th class="text-center">Alamat</th>
               <th class="text-center">Nomor Telepon</th>
               <th class="text-center" pSortableColumn="saldo">

@@ -70,4 +70,12 @@ export class UserService {
     });
     return this.http.delete(this.baseUrl + 'users/deleteById?id=' + id);
   }
+
+  download(): Observable<any>{
+    return this.http.get(
+      this.baseUrl + 'users/exportToPdfALL',{
+        responseType: 'blob',
+      }
+    );
+  }
 }

@@ -6,7 +6,6 @@ import { ConfirmationService, ConfirmEventType, LazyLoadEvent, MessageService } 
 import { Table } from 'primeng/table';
 import { SearchRequest } from 'src/app/models/search.request.model';
 import { SearchCriteria } from 'src/app/models/search.crtiteria.model';
-import { environment } from 'src/environments/environment.prod';
 import { saveAs } from 'file-saver';
 
 @Component({
@@ -23,7 +22,6 @@ export class UserComponent implements OnInit {
   ) { }
 
   //deklarasi variabel
-  baseUrl = environment.BASE_API_URL;
   public users: any[] = [];
   currentPage: number = 0;
   userform: boolean = false;
@@ -53,7 +51,6 @@ export class UserComponent implements OnInit {
 
   totalRows: number = 0;
   private isDirty: boolean = false;
-  urlDownload: any;
 
 
   //format tanggal angka 2 digit
@@ -226,20 +223,9 @@ export class UserComponent implements OnInit {
 
     this.getUserData(0, 5, searchReq);
 
-    // this.userService.get().subscribe({
-    //   next: (res: any) => {
-    //     this.users = res.data;
-    //     this.loading = false;
-    //     // console.log(res.data);
-    //   },
-    //   error: (error) => {
-    //     console.error('ini error: ', error);
-    //   },
-    // });
   }
 
   ngOnInit(): void {
-    this.urlDownload = this.baseUrl + 'users/exportToPdfALL';
     this.getData();
 
     //menampilkan isi form add&edit

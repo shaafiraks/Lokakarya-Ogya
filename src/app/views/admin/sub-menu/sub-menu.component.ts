@@ -8,6 +8,7 @@ import { UserService } from '../service/user.service';
 import { MenuService } from '../service/menu.service';
 import { SearchCriteria } from 'src/app/models/search.crtiteria.model';
 import { SearchRequest } from 'src/app/models/search.request.model';
+import * as saveAs from 'file-saver';
 
 @Component({
   selector: 'app-sub-subMenu',
@@ -225,6 +226,17 @@ export class SubMenuComponent implements OnInit {
       }
     });
 
+  }
+
+  getDownload(){
+    this.subMenuService.download().subscribe({
+      next: (data: any) => {
+        saveAs(data, 'Sub Menu.pdf');
+      },
+      error: (error) => {
+        console.error('ini error', error);
+      },
+    });
   }
 
   ngOnInit(): void {
