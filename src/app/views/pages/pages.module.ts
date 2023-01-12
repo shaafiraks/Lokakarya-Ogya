@@ -11,6 +11,8 @@ import { IconModule } from '@coreui/icons-angular';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import {ToastModule} from 'primeng/toast';
+import { LoadingPageComponent } from './loading-page/loading-page.component';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 
 @NgModule({
@@ -18,7 +20,8 @@ import {ToastModule} from 'primeng/toast';
     LoginComponent,
     RegisterComponent,
     Page404Component,
-    Page500Component
+    Page500Component,
+    LoadingPageComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +32,8 @@ import {ToastModule} from 'primeng/toast';
     IconModule,
     FormModule,
     FormsModule,
-    ToastModule
+    ToastModule,
+    ProgressSpinnerModule,
   ]
 })
 export class PagesModule {
