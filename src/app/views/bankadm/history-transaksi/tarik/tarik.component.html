@@ -21,6 +21,9 @@
                                     (input)="dt.filterGlobal($any($event.target)?.value, 'contains')"
                                     placeholder="Search by Name">
                             </span>
+                            <button pButton pRipple type="button" styleClass="p-button-lg" label="Download" iconPos="right"
+                            icon="pi pi-arrow-down" class="p-button-custom btn-caption"
+                            (click)="downloadDataTarik()"></button>
                         </div>
                     </ng-template>
                     <ng-template pTemplate="header">

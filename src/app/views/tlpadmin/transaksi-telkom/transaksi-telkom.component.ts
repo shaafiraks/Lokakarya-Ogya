@@ -221,7 +221,7 @@ export class TransaksiTelkomComponent implements OnInit {
   getDownload() {
     this.transaksiTelkomService.download().subscribe({
       next: (data: any) => {
-        saveAs(data, 'Laporan Penunggakan.pdf');
+        saveAs(data, 'Transaksi.pdf');
       },
       error: (error) => {
         console.error('ini error', error);

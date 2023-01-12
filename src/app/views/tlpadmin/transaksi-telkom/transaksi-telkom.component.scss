@@ -23,3 +23,20 @@
 .dropdowntransaksi {
   width: 100%;
 }
+
+.p-button-custom {
+  border: 1px solid white;
+  background-color: rgb(219, 219, 219);
+  color: black;
+  float: right;
+}
+
+.p-button-custom:hover {
+  background-color: rgb(165, 165, 165);
+  color: black;
+}
+
+.btn-add {
+  font-weight: 600;
+  float: right;
+}

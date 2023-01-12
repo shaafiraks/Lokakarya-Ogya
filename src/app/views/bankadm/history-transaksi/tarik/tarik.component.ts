@@ -133,4 +133,20 @@ export class TarikComponent implements OnInit {
       },
     });
   }
+
+  downloadDataTarik(): void {
+    this.tarikService.downloadTarik().subscribe({
+      next: (res) => {
+        let binaryData = [];
+        binaryData.push(res);
+        var fileUrl = URL.createObjectURL(new Blob(binaryData, { type: 'application/pdf' }));
+        window.open(fileUrl);
+        // saveAs(res, 'Tarik History.pdf');
+        console.log(res);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 }

@@ -133,4 +133,20 @@ export class BayarTeleponComponent implements OnInit {
       },
     });
   }
+
+  downloadDataBayarTelepon(): void {
+    this.bayarTeleponService.downloadBayarTelepon().subscribe({
+      next: (res) => {
+        let binaryData = [];
+        binaryData.push(res);
+        var fileUrl = URL.createObjectURL(new Blob(binaryData, { type: 'application/pdf' }));
+        window.open(fileUrl);
+        // saveAs(res, 'Bayar Telepon History.pdf');
+        console.log(res);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 }

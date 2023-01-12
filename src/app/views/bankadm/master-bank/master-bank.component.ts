@@ -386,5 +386,20 @@ export class MasterBankComponent implements OnInit {
       },
     });
   }
+  downloadDataMasterBank(): void {
+    this.masterBankService.downloadMasterBank().subscribe({
+      next: (res) => {
+        let binaryData = [];
+        binaryData.push(res);
+        var fileUrl = URL.createObjectURL(new Blob(binaryData, { type: 'application/pdf' }));
+        window.open(fileUrl);
+        // saveAs(res, 'Data Nasabah.pdf');
+        console.log(res);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 }
 

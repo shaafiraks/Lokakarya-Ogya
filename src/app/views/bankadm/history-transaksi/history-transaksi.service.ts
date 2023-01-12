@@ -10,8 +10,10 @@ export class HistoryTransaksiService {
 
   baseUrl = environment.BASE_API_URL;
 
-   //service find all setor history
-   findAllSetor(): Observable<any> {
+//============================================== S E T O R =========================================================
+   
+  //service find all setor history
+  findAllSetor(): Observable<any> {
     return this.http.get(this.baseUrl + 'historybank/getByStatusKet?statusKet=1', {
       responseType: "json",
     })
@@ -41,6 +43,15 @@ export class HistoryTransaksiService {
     );
   }
 
+  //service download pdf
+  downloadSetor(): Observable<any>{
+    return this.http.get(this.baseUrl + 'historybank/exportToPdfALLSetor',{
+      responseType: "blob",
+    })
+  }
+
+  //============================================== T A R I K =========================================================
+  
   //service find all tarik history
   findAllTarik(): Observable<any> {
     return this.http.get(this.baseUrl + 'historybank/getByStatusKet?statusKet=2', {
@@ -71,6 +82,15 @@ export class HistoryTransaksiService {
       }
     );
   }
+
+  //service download pdf
+  downloadTarik(): Observable<any>{
+    return this.http.get(this.baseUrl + 'historybank/exportToPdfALLTarik',{
+      responseType: "blob",
+    })
+  }
+
+  //============================================== T R A N S F E R =========================================================
 
   //seervice find all data transfer
   findAllTransfer(): Observable<any> {
@@ -103,6 +123,15 @@ export class HistoryTransaksiService {
     );
   }
   
+  //service download pdf
+  downloadTransfer(): Observable<any>{
+    return this.http.get(this.baseUrl + 'historybank/exportToPdfALLTransfer',{
+      responseType: "blob",
+    })
+  }
+
+  //============================================== B A Y A R   T E L E P O N =========================================================
+
   //service find all bayar telepon history
   findAllBayarTelepon(): Observable<any> {
     return this.http.get(this.baseUrl + 'historybank/getByStatusKet?statusKet=4', {
@@ -133,6 +162,15 @@ export class HistoryTransaksiService {
       }
     );
   }
+
+  //service download pdf
+  downloadBayarTelepon(): Observable<any>{
+    return this.http.get(this.baseUrl + 'historybank/exportToPdfALLBayarTelepon',{
+      responseType: "blob",
+    })
+  }
+
+  //============================================== C R U D =========================================================
 
   findAll(): Observable<any> {
     return this.http.get(this.baseUrl + 'historybank/findAllPlan', {
