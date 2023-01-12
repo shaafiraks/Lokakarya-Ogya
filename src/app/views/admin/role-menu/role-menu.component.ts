@@ -86,7 +86,6 @@ export class RoleMenuComponent implements OnInit {
     this.getConfirmDelete();
   }
 
-
   //Menampilkan form tambah data
   showAdd() {
     this.isEdit = false;
@@ -259,7 +258,7 @@ export class RoleMenuComponent implements OnInit {
     });
   }
 
-  getDownload(){
+  getDownload() {
     this.roleMenuService.download().subscribe({
       next: (data: any) => {
         saveAs(data, 'Role Menu.pdf');

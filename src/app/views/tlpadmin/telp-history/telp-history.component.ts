@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { SearchRequest } from 'src/app/models/search.request.model';
 import { SearchCriteria } from 'src/app/models/search.crtiteria.model';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-telp-history',
@@ -172,6 +173,17 @@ export class TelpHistoryComponent implements OnInit {
       },
       error: (error) => {
         console.error('ini error: ', error);
+      },
+    });
+  }
+
+  getDownload() {
+    this.telpHistoryService.download().subscribe({
+      next: (data: any) => {
+        saveAs(data, 'Laporan Pelunasan.pdf');
+      },
+      error: (error) => {
+        console.error('ini error', error);
       },
     });
   }

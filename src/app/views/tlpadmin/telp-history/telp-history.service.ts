@@ -67,5 +67,11 @@ export class TelpHistoryService {
     });
   }
 
+  download(): Observable<any> {
+    return this.http.get(this.baseUrl + 'historytelkom/exportToPdfALL', {
+      responseType: 'blob',
+    });
+  }
+
   constructor(private http: HttpClient) {}
 }

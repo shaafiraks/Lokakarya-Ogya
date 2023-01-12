@@ -17,6 +17,7 @@ import {
 } from '@angular/forms';
 import { SearchRequest } from 'src/app/models/search.request.model';
 import { SearchCriteria } from 'src/app/models/search.crtiteria.model';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-transaksi-telkom',
@@ -213,6 +214,17 @@ export class TransaksiTelkomComponent implements OnInit {
       },
       error: (error) => {
         console.error('ini error: ', error);
+      },
+    });
+  }
+
+  getDownload() {
+    this.transaksiTelkomService.download().subscribe({
+      next: (data: any) => {
+        saveAs(data, 'Laporan Penunggakan.pdf');
+      },
+      error: (error) => {
+        console.error('ini error', error);
       },
     });
   }

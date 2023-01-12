@@ -68,5 +68,11 @@ export class TransaksiTelkomService {
     );
   }
 
+  download(): Observable<any> {
+    return this.http.get(this.baseUrl + 'transaksitelkom/exportToPdfALL', {
+      responseType: 'blob',
+    });
+  }
+
   constructor(private http: HttpClient) {}
 }
