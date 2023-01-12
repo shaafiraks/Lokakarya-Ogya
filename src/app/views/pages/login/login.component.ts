@@ -28,8 +28,10 @@ export class LoginComponent {
   }
   
   login() {
+    this._router.navigate(['/loading']);
     this.loginService.login(this.username, this.password).subscribe({
       next: (res: any) => {
+        this._router.navigate(['/dashboard']);
         var data = res.data[0].hakAkses;
         
         //sorting berdasarkan hakAksesId

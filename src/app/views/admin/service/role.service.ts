@@ -62,4 +62,12 @@ export class RoleService {
     });
     return this.http.delete(this.baseUrl + 'roles/deleteById?id=' + id);
   }
+
+  download(): Observable<any>{
+    return this.http.get(
+      this.baseUrl + 'roles/exportToPdfALL',{
+        responseType: 'blob',
+      }
+    );
+  }
 }

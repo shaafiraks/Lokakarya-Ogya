@@ -50,6 +50,7 @@ import { TableModule } from 'primeng/table'
 import {AccordionModule} from 'primeng/accordion';     //accordion and accordion tab
 import {ConfirmationService, MenuItem, MessageService} from 'primeng/api';
 import { CurrencyPipe } from '@angular/common';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -94,6 +95,9 @@ const APP_CONTAINERS = [
     BadgeModule,
     ListGroupModule,
     CardModule,
+    ProgressSpinnerModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     
   ],
   providers: [ ConfirmationService, MessageService, CurrencyPipe,
