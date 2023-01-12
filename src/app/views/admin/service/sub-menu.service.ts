@@ -62,4 +62,12 @@ export class SubMenuService {
     });
     return this.http.delete(this.baseUrl + 'subMenu/deleteById?id=' + id);
   }
+
+  download(): Observable<any>{
+    return this.http.get(
+      this.baseUrl + 'subMenu/exportToPdfALL',{
+        responseType: 'blob',
+      }
+    );
+  }
 }

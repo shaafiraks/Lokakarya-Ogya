@@ -14,6 +14,7 @@ import {
   LazyLoadEvent,
   MessageService,
 } from 'primeng/api';
+
 import { RoleService } from '../service/role.service';
 import { RoleMenuService } from '../service/role-menu.service';
 import { MenuService } from '../service/menu.service';
@@ -21,6 +22,7 @@ import { RoleMenuInterface } from './role-menu-interface';
 import { Table } from 'primeng/table';
 import { UserService } from '../service/user.service';
 import { PaginatorInterface } from '../pagination-interface';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-role-menu',
@@ -34,6 +36,7 @@ export class RoleMenuComponent implements OnInit {
   public listRole: any = [];
   public listUser: any = [];
   public listMenu: any = [];
+  download: any = [];
   multipleMenu: any[] = [];
   roleMenuform: boolean = false;
   header: string = '';
@@ -82,6 +85,7 @@ export class RoleMenuComponent implements OnInit {
     this.isDelete = true;
     this.getConfirmDelete();
   }
+
 
   //Menampilkan form tambah data
   showAdd() {
@@ -251,6 +255,17 @@ export class RoleMenuComponent implements OnInit {
       },
       error: (error) => {
         console.error('ini error: ', error);
+      },
+    });
+  }
+
+  getDownload(){
+    this.roleMenuService.download().subscribe({
+      next: (data: any) => {
+        saveAs(data, 'Role Menu.pdf');
+      },
+      error: (error) => {
+        console.error('ini error', error);
       },
     });
   }

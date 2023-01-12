@@ -7,6 +7,7 @@ import { Table } from 'primeng/table';
 import { UserService } from '../service/user.service';
 import { SearchCriteria } from 'src/app/models/search.crtiteria.model';
 import { SearchRequest } from 'src/app/models/search.request.model';
+import * as saveAs from 'file-saver';
 
 @Component({
   selector: 'app-role',
@@ -203,6 +204,17 @@ export class RoleComponent implements OnInit {
       }
     });
 
+  }
+
+  getDownload(){
+    this.roleService.download().subscribe({
+      next: (data: any) => {
+        saveAs(data, 'Role.pdf');
+      },
+      error: (error) => {
+        console.error('ini error', error);
+      },
+    });
   }
 
   ngOnInit(): void {

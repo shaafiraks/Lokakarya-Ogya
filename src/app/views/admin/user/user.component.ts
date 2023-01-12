@@ -6,6 +6,7 @@ import { ConfirmationService, ConfirmEventType, LazyLoadEvent, MessageService } 
 import { Table } from 'primeng/table';
 import { SearchRequest } from 'src/app/models/search.request.model';
 import { SearchCriteria } from 'src/app/models/search.crtiteria.model';
+import * as saveAs from 'file-saver';
 
 @Component({
   selector: 'app-user',
@@ -221,16 +222,17 @@ export class UserComponent implements OnInit {
 
     this.getUserData(0, 5, searchReq);
 
-    // this.userService.get().subscribe({
-    //   next: (res: any) => {
-    //     this.users = res.data;
-    //     this.loading = false;
-    //     // console.log(res.data);
-    //   },
-    //   error: (error) => {
-    //     console.error('ini error: ', error);
-    //   },
-    // });
+  }
+
+  getDownload(){
+    this.userService.download().subscribe({
+      next: (data: any) => {
+        saveAs(data, 'User.pdf');
+      },
+      error: (error) => {
+        console.error('ini error', error);
+      },
+    });
   }
 
   ngOnInit(): void {

@@ -8,6 +8,7 @@ import { ConfirmationService, ConfirmEventType, LazyLoadEvent, MessageService } 
 import { Table } from 'primeng/table';
 import { SearchCriteria } from 'src/app/models/search.crtiteria.model';
 import { SearchRequest } from 'src/app/models/search.request.model';
+import * as saveAs from 'file-saver';
 
 @Component({
   selector: 'app-hak-akses',
@@ -225,6 +226,17 @@ export class HakAksesComponent implements OnInit {
       }
     });
 
+  }
+
+  getDownload(){
+    this.hakAksesService.download().subscribe({
+      next: (data: any) => {
+        saveAs(data, 'Hak Akses.pdf');
+      },
+      error: (error) => {
+        console.error('ini error', error);
+      },
+    });
   }
 
   ngOnInit(): void {

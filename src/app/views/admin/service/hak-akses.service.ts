@@ -62,4 +62,12 @@ export class HakAksesService {
     });
     return this.http.delete(this.baseUrl + 'hakAkses/deleteById?id=' + id);
   }
+
+  download(): Observable<any>{
+    return this.http.get(
+      this.baseUrl + 'hakAkses/exportToPdfALL',{
+        responseType: 'blob',
+      }
+    );
+  }
 }

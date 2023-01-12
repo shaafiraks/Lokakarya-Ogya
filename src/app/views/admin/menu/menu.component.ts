@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import * as saveAs from 'file-saver';
 import { ConfirmationService, ConfirmEventType, LazyLoadEvent, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { SearchCriteria } from 'src/app/models/search.crtiteria.model';
@@ -209,6 +210,17 @@ export class MenuComponent implements OnInit {
       }
     });
 
+  }
+
+  getDownload(){
+    this.menuService.download().subscribe({
+      next: (data: any) => {
+        saveAs(data, 'Menu.pdf');
+      },
+      error: (error) => {
+        console.error('ini error', error);
+      },
+    });
   }
 
   ngOnInit(): void {
