@@ -258,13 +258,29 @@ export class RoleMenuComponent implements OnInit {
     });
   }
 
-  getDownload() {
+  // getDownload() {
+  //   this.roleMenuService.download().subscribe({
+  //     next: (data: any) => {
+  //       saveAs(data, 'Role Menu.pdf');
+  //     },
+  //     error: (error) => {
+  //       console.error('ini error', error);
+  //     },
+  //   });
+  // }
+
+  getDownload(): void {
     this.roleMenuService.download().subscribe({
-      next: (data: any) => {
-        saveAs(data, 'Role Menu.pdf');
+      next: (data) => {
+        let binaryData = [];
+        binaryData.push(data);
+        var fileUrl = URL.createObjectURL(new Blob(binaryData, { type: 'application/pdf' }));
+        window.open(fileUrl);
+        // saveAs(resp, 'Data-User.pdf');
+        console.log(data);
       },
       error: (error) => {
-        console.error('ini error', error);
+        console.log(error);
       },
     });
   }
