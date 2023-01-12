@@ -1,28 +1,6 @@
 <!-- button download -->
-<div class="mb-4" style="text-align: right; margin: 15px 15px 0px 15px">
-  <button
-    pButton
-    pRipple
-    type="button"
-    label="Download File"
-    icon="pi pi-arrow-down"
-    class="p-button-warning"
-    class="p-button-warning"
-    (click)="getDownload()"
-  ></button>
-</div>
 
 <c-col xs="12">
-  <div class="mb-4" style="text-align: right; margin: 15px 15px 0px 15px">
-    <button
-      pButton
-      type="button"
-      class="p-button-warning btn-sm"
-      (click)="showAdd()"
-    >
-      <i style="color: white" class="pi pi-plus"></i> Tambah Pelanggan
-    </button>
-  </div>
   <!-- section confirmation -->
   <p-confirmDialog #cd [style]="{ width: '50vw' }">
     <ng-template pTemplate="footer">
@@ -252,6 +230,24 @@
                   placeholder="Cari nama, no. telpon atau alamat"
                 />
               </span>
+
+              <button
+                pButton
+                type="button"
+                class="p-button-warning btn-sm btn-add"
+                (click)="showAdd()"
+              >
+                <i style="color: white" class="pi pi-plus"></i> Tambah Pelanggan
+              </button>
+              <button
+                pButton
+                pRipple
+                type="button"
+                label="Download File"
+                icon="pi pi-arrow-down"
+                class="p-button-custom"
+                (click)="getDownload()"
+              ></button>
             </div>
           </ng-template>
           <ng-template pTemplate="header">

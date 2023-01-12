@@ -1,29 +1,4 @@
-<!-- button download -->
-<div class="mb-4" style="text-align: right; margin: 15px 15px 0px 15px">
-  <button
-    pButton
-    pRipple
-    type="button"
-    label="Download File"
-    icon="pi pi-arrow-down"
-    class="p-button-warning"
-    class="p-button-warning"
-    (click)="getDownload()"
-  ></button>
-</div>
-
 <c-col xs="12">
-  <div class="mb-4" style="text-align: right; margin: 15px 15px 0px 15px">
-    <button
-      type="button"
-      pButton
-      class="p-button-warning btn-sm"
-      (click)="showAdd()"
-    >
-      <i style="color: white" class="pi pi-plus"></i>Tambah Transaksi
-    </button>
-  </div>
-
   <!-- section form -->
   <p-dialog
     header="{{ header }}"
@@ -202,14 +177,9 @@
                         </div> > -->
 
             <label>Status</label>
-            <input
-              type="number"
-              formControlName="status"
-              class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f['status'].errors }"
-              id="numeric"
-              value="1"
-            />
+            <select class="form-select" formControlName="status">
+              <option value="1">Belum Lunas</option>
+            </select>
 
             <!-- <label>Hire Date</label>
                           <input type="date" formControlName="hireDate" class="form-control"
@@ -305,6 +275,24 @@
                   placeholder="Cari ID transaksi atau nama pelanggan"
                 />
               </span>
+              <!-- button download -->
+              <button
+                type="button"
+                pButton
+                class="p-button-warning btn-sm btn-add"
+                (click)="showAdd()"
+              >
+                <i style="color: white" class="pi pi-plus"></i>Tambah Transaksi
+              </button>
+              <button
+                pButton
+                pRipple
+                type="button"
+                label="Download File"
+                icon="pi pi-arrow-down"
+                class="p-button-custom"
+                (click)="getDownload()"
+              ></button>
             </div>
           </ng-template>
           <ng-template pTemplate="header">
@@ -348,12 +336,7 @@
               <td class="text-center">
                 {{ transaksi.uang | currency : "IDR " : "symbol" : "3.2-2" }}
               </td>
-              <td class="text-center" *ngIf="transaksi.status == 1">
-                Belum Lunas
-              </td>
-              <td class="text-center" *ngIf="transaksi.status == 2">
-                {{ transaksi.status }}
-              </td>
+              <td class="text-center">Belum Lunas</td>
               <td class="text-center">
                 <button
                   pButton
