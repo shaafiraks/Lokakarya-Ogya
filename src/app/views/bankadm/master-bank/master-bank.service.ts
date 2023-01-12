@@ -10,6 +10,13 @@ export class MasterBankService {
 
   baseUrl = environment.BASE_API_URL;
 
+  //service download pdf
+  downloadMasterBank(): Observable<any>{
+    return this.http.get(this.baseUrl + 'masterbank/exportToPdfALL',{
+      responseType: "blob",
+    })
+  }
+
   //service find all data nasabah
   findAll(): Observable<any> {
     return this.http.get(this.baseUrl + 'masterbank/findAllPlan', {
@@ -17,6 +24,7 @@ export class MasterBankService {
     })
   }
 
+  //service get data all nasabah paging 
   get(
     page: number | undefined,
     size: number | undefined,
