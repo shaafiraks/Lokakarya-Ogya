@@ -7,12 +7,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import { InputMaskModule } from 'primeng/inputmask';
+import { DropdownModule } from 'primeng/dropdown';
 
 import {
   ButtonGroupModule,
   ButtonModule,
   CardModule,
-  DropdownModule,
+  // DropdownModule,
   FormModule,
   GridModule,
   ListGroupModule,
@@ -59,6 +61,8 @@ import { TransaksiTelkomComponent } from './transaksi-telkom/transaksi-telkom.co
     CalendarModule,
     InputTextModule,
     ToastModule,
+    InputMaskModule,
+    DropdownModule,
   ],
 })
 export class TlpadminModule {}

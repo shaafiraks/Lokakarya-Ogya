@@ -34,6 +34,7 @@ export class MasterPelangganComponent implements OnInit {
   element: any = [];
   cekError: boolean = false; //menampilkan error
   cekErrorDel: boolean = false; //menampilkan error
+  errorMessage: string = '';
   berhasilDelete: boolean = false; //menampilkan error
   gagalDelete: boolean = false;
   public masterPelanggan: any = [];
@@ -232,7 +233,7 @@ export class MasterPelangganComponent implements OnInit {
       ],
       noTelp: ['', [Validators.required, Validators.maxLength(13)]],
       alamat: ['', [Validators.required, Validators.maxLength(50)]],
-      userId: [0],
+      userId: [0, Validators.required],
     });
   }
 
@@ -275,6 +276,7 @@ export class MasterPelangganComponent implements OnInit {
           },
           error: (error) => {
             this.cekError = true;
+            this.errorMessage = error.error.message;
             console.error('ini error: ', error);
             // alert(error.error.message);
           },
@@ -291,7 +293,8 @@ export class MasterPelangganComponent implements OnInit {
           },
           error: (error) => {
             console.error('ini error: ', error);
-            alert(error.error.message);
+            this.errorMessage = error.error.message;
+            // alert(error.error.message);
           },
         });
       }
@@ -313,6 +316,7 @@ export class MasterPelangganComponent implements OnInit {
               //this.gagalDelete = true;
               this.cekErrorDel = true;
               this.berhasilDelete = false;
+              this.errorMessage = error.error.message;
               console.error('ini error: ', error);
             },
           });

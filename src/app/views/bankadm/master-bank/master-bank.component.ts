@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, MinValidator, Validators } from '@angular/forms';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { MasterBankInterface } from './master-bank-interface';
 import { MasterBankService } from './master-bank.service'
 import { CurrencyPipe } from '@angular/common';
 import {PaginationInterface} from '../paginations-interface';
+import { SearchRequest } from 'src/app/models/search.request.model';
+import { SearchCriteria } from 'src/app/models/search.crtiteria.model';
 
 @Component({
   selector: 'app-master-bank',
@@ -17,7 +19,7 @@ export class MasterBankComponent implements OnInit {
   //variabel-variabel untuk menampung data
   public cols: any = [];
   public masterBank: any = [];
-  public masterBankPagination: any = [];
+  public masterBankPage: any = [];
   public users: any = [];
   public selectedUser: any = [];
   masterBankform: boolean = false;
@@ -31,9 +33,9 @@ export class MasterBankComponent implements OnInit {
   cekError: boolean = false; //menampilkan error
   cekErrorDel: boolean = false; //menampilkan error
   berhasilDelete: boolean = false; //menampilkan error
-  totalRecords : number = 0;
-  rowsPerPage : number = 0;
-  currentPage : number = 0 ;
+  loading: boolean = true;
+  totalRows: number = 0;
+  private isDirty: boolean = false;
   
   //menampilkan form untuk delete 
   showDelete(reference: MasterBankInterface) {
@@ -141,6 +143,14 @@ export class MasterBankComponent implements OnInit {
 
   //get data dari service
   getData() {
+    let searchReq = new SearchRequest();
+    searchReq._offSet = 0;
+    searchReq._page = 0;
+    searchReq._size = 5;
+    searchReq._sortField = 'saldo';
+    searchReq._sortOrder = 'DESC';
+
+    this.getMasterBankData(0, 5, searchReq);
 
     //memanggil service find all data master bank
     this.masterBankService.findAll().subscribe({
@@ -165,35 +175,8 @@ export class MasterBankComponent implements OnInit {
     });
   }
 
-  getDataPaginations(event : PaginationInterface){
-    //memanggil service find all with pagination
-    this.masterBankService.findAllPaginations(event.page, event.rows).subscribe({
-      next: (res:any) => {
-        this.masterBankPagination = res.data;
-        this.totalRecords = res.totalRowCount;
-        this.rowsPerPage = res.size;
-        this.currentPage = res.page;
-      },
-      error: (error) => {
-        console.error('ini error: ', error);
-      }
-    });
-
-     //memanggil service find all data user 
-     this.masterBankService.findAllUser().subscribe({
-      next: (res: any) => {
-        this.users = res;
-        // console.log(res);
-      },
-      error: (error) => {
-        console.error('ini error: ', error);
-      }
-    });
-  }
-
   ngOnInit(): void {
-    // this.getData();
-    this.getDataPaginations({page : 0, rows: 5})
+    this.getData();
 
     //validasi di form
     this.form = this.formBuilder.group({
@@ -297,8 +280,7 @@ export class MasterBankComponent implements OnInit {
     } else {
       this.form.reset();
     }
-    // this.getData();
-    this.getDataPaginations({page:this.currentPage, rows:5})
+    this.getData();
 
   }
 
@@ -332,4 +314,77 @@ export class MasterBankComponent implements OnInit {
     });
   }
 
+  nextPage(event: LazyLoadEvent) {
+    console.log(event.filters);
+    if (this.isDirty) {
+      alert('You have unsaved changes!!!');
+      console.log(event);
+    } else {
+      let searchReq = new SearchRequest();
+      searchReq._offSet = event.first;
+      searchReq._page = event.first;
+      searchReq._size = event.rows;
+      searchReq._sortField =
+        event.sortField === null ? 'saldo' : event.sortField;
+      searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
+      searchReq._filters = [];
+
+      let currentPage = event.first;
+      if (event.first !== undefined && event.rows !== undefined) {
+        searchReq._page = Math.ceil(event.first / event.rows);
+        currentPage = Math.ceil(event.first / event.rows);
+      }
+
+      //Process filter object
+      let filterObj = <any>event.filters;
+      console.log('filter by : ', filterObj);
+      let fieldName: string = '';
+      let fieldValue: string = '';
+
+      if (filterObj !== undefined) {
+        if (filterObj.hasOwnProperty('nama')) {
+          fieldName = 'nama';
+          if (filterObj['nama'][0]['value'] == null) {
+            if (typeof filterObj['global'] != 'undefined') {
+              fieldValue = filterObj['global']['value'];
+            } else {
+              fieldValue = '';
+            }
+          } else {
+            fieldValue = filterObj['nama'][0]['value'];
+          }
+
+          let criteria = new SearchCriteria();
+          criteria._name = fieldName;
+          criteria._value = fieldValue;
+          searchReq._filters.push(criteria);
+        }
+      }
+
+      //console.log(JSON.stringify(searchReq));
+
+      this.getMasterBankData(currentPage, event.rows, searchReq);
+    }
+  }
+
+  getMasterBankData(
+    pageSize: number | undefined,
+    pageNumber: number | undefined,
+    search?: any
+  ) {
+    console.log(search);
+    this.loading = true;
+    this.masterBankService.get(pageSize, pageNumber, search).subscribe({
+      next: (res: any) => {
+        this.masterBankPage = res.data;
+        this.loading = false;
+        this.totalRows = res.totalRowCount;
+        // console.log(res.data);
+      },
+      error: (error) => {
+        console.error('ini error: ', error);
+      },
+    });
+  }
 }
+

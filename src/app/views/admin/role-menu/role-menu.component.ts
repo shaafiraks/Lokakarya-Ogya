@@ -31,22 +31,15 @@ export class RoleMenuComponent implements OnInit {
   //deklarasi variabel
   public role: any = [];
   public roleMenu: any = [];
-  public roleMenuPagination: any = [];
   public listRole: any = [];
   public listUser: any = [];
   public listMenu: any = [];
   multipleMenu: any[] = [];
-  page: number = 0;
-  size: number = 0;
-  totalRecords: number = 0;
   roleMenuform: boolean = false;
   header: string = '';
   isEdit: boolean = false;
   isAdd: boolean = false;
   isDelete: boolean = false;
-  roleMenuPaging: any = [];
-  totalRecord: any = [];
-  rowsPerPage: any = [];
   currentPage: any = [];
   now = new Date();
   submitted = false;
@@ -262,23 +255,8 @@ export class RoleMenuComponent implements OnInit {
     });
   }
 
-  getDataPagination(event: PaginatorInterface) {
-    this.roleMenuService.getPagination(event.page, event.rows).subscribe({
-      next: (res: any) => {
-        this.roleMenu = res.data;
-        this.totalRecords = res.totalRowCount;
-        this.rowsPerPage = res.size;
-        this.currentPage = res.page;
-      },
-      error: (error) => {
-        console.error('ini error: ', error);
-      },
-    });
-  }
-
   ngOnInit(): void {
-    // this.getData();
-    this.getDataPagination({ page: 0, rows: 10 });
+    this.getData();
 
     //menampilkan isi form add&edit
     this.form = this.formBuilder.group({
@@ -424,8 +402,7 @@ export class RoleMenuComponent implements OnInit {
     } else {
       this.form.reset();
     }
-    // this.getData();
-    this.getDataPagination({ page: this.currentPage, rows: 10 });
+    this.getData();
   }
 
   clear(table: Table) {
@@ -509,7 +486,7 @@ export class RoleMenuComponent implements OnInit {
   ) {
     console.log(search);
     this.loading = true;
-    this.roleMenuService.get(pageSize, pageNumber, search).subscribe({
+    this.roleMenuService.getPage(pageSize, pageNumber, search).subscribe({
       next: (res: any) => {
         this.roleMenu = res.data;
         this.loading = false;

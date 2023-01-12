@@ -52,7 +52,7 @@
                 <div *ngIf="f['idPelanggan'].errors['required']">
                   ID Pelanggan belum diisi
                 </div>
-                <div *ngIf="f['idPelanggan'].errors['minlength']">
+                <!-- <div *ngIf="f['idPelanggan'].errors['minlength']">
                   ID Pelanggan memiliki min.
                   {{ f["idPelanggan"].errors["minlength"]["requiredLength"] }}
                   karakter
@@ -61,7 +61,7 @@
                   ID Pelanggan memiliki maksimal
                   {{ f["idPelanggan"].errors["maxlength"]["requiredLength"] }}
                   karakter
-                </div>
+                </div> -->
               </div>
             </div>
 
@@ -71,13 +71,13 @@
               formControlName="userId"
               aria-label="select users"
               (change)="changeSelect($event)"
+              [ngClass]="{ 'is-invalid': submitted && f['userId'].errors }"
             >
               <option value="">(choose)</option>
               <option *ngFor="let item of users" value="{{ item.userId }}">
                 {{ item.userId }}: {{ item.nama }}
               </option>
             </select>
-
             <div
               *ngIf="submitted && f['userId'].errors"
               class="invalid-feedback"
@@ -326,7 +326,9 @@
 >
   <c-card-body>
     <div>
-      <p><b>Pengguna sudah terdaftar</b></p>
+      <p>
+        <b>{{ errorMessage }}</b>
+      </p>
     </div>
   </c-card-body>
   <ng-template pTemplate="footer">
@@ -352,7 +354,9 @@
 >
   <c-card-body>
     <div>
-      <p><b>Pengguna tidak dapat dihapus</b></p>
+      <p>
+        <b>{{ errorMessage }}</b>
+      </p>
     </div>
   </c-card-body>
   <ng-template pTemplate="footer">

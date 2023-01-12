@@ -171,7 +171,7 @@
   <c-card class="mb-4">
     <c-card-header>
       <strong
-        >Data Nasabah<span>({{ totalRecords }} data)</span></strong
+        >Data Nasabah<span>({{ masterBank?.length }} data)</span></strong
       >
     </c-card-header>
 
@@ -182,13 +182,10 @@
         role="tabpanel"
         id="preview-24"
       >
-      <p-table
-      #dt
-      [value]="masterBankPagination"
-      [rows]="rowsPerPage"
-      [totalRecords]="totalRecords"
-      [globalFilterFields]="['nama']"
-    >
+      <p-table #dt [value]="masterBankPage" dataKey="id" [paginator]="true" [rows]="5" [lazy]="true"
+        (onLazyLoad)="nextPage($event)" [rowsPerPageOptions]="[5, 10, 15, 20]" [totalRecords]="totalRows"
+        [globalFilterFields]="['nama','alamat']" [loading]="loading" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
           <ng-template pTemplate="caption">
             <div class="flex">
               <span class="p-input-icon-left p-ml-auto">
@@ -209,7 +206,7 @@
             <tr>
               <th class="text-center">Nomor Rekening</th>
               <!-- <th pSortableColumn="userId">User Id <p-sortIcon field="userId"></p-sortIcon></th> -->
-              <th class="text-center">Nama Nasabah</th>
+              <th class="text-center">Nama Nasabah<p-columnFilter type="text" field="nama" display="menu"></p-columnFilter></th>
               <th class="text-center">Alamat</th>
               <th class="text-center">Nomor Telepon</th>
               <th class="text-center" pSortableColumn="saldo">
@@ -250,24 +247,17 @@
                 ></button>
               </td>
             </tr>
-          </ng-template>
+        </ng-template>
         </p-table>
-        <p-paginator
-          [rows]="rowsPerPage"
-          [totalRecords]="totalRecords"
-          (onPageChange)="getDataPaginations($event)"
-          [rowsPerPageOptions]="[5, 10, 15, 20]"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        ></p-paginator>
-      </div>
+        </div>
     </div>
 
     <c-card-body>
-      <!--tampilkan pesan toast -->
-      <p-toast position="top-center"></p-toast>
+    <!--tampilkan pesan toast -->
+    <p-toast position="top-center"></p-toast>
 
-      <!-- TAMPIL DIALOG (ERROR) TIDAK BISA HAPUS  -->
-      <p-dialog
+    <!-- TAMPIL DIALOG (ERROR) TIDAK BISA HAPUS  -->
+    <p-dialog
         #cek
         header="Gagal menghapus"
         [(visible)]="cekErrorDel"

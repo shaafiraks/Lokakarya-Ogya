@@ -17,11 +17,20 @@ export class MasterBankService {
     })
   }
 
-  //service find all with paging
-  findAllPaginations(page: number , size: number): Observable<any> {
-    return this.http.get(this.baseUrl + `masterbank/findAllWithPagination?page=${page}&size=${size}`, {
-      responseType: "json",
-    })
+  get(
+    page: number | undefined,
+    size: number | undefined,
+    search: any
+  ): Observable<any>{
+    let bodyString = JSON.stringify(search);
+    console.log(bodyString);
+
+    return this.http.get(
+      this.baseUrl + `masterbank/findAllWithPagination?page=${page}&size=${size}`,
+      {
+        responseType: 'json'
+      }
+    );
   }
 
   //service add data nasabah baru
