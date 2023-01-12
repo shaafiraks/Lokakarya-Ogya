@@ -22,11 +22,18 @@
       >
         <p-table
           #dt
-          [globalFilterFields]="['nama']"
-          [value]="telpHistory"
+          [value]="historyTelkom"
+          dataKey="id"
           [paginator]="true"
           [rows]="5"
+          [lazy]="true"
+          (onLazyLoad)="nextPage($event)"
           [rowsPerPageOptions]="[5, 10, 15, 20]"
+          [totalRecords]="totalRows"
+          [globalFilterFields]="['nama']"
+          [loading]="loading"
+          [showCurrentPageReport]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         >
           <ng-template pTemplate="caption">
             <div class="flex">

@@ -264,11 +264,18 @@
       >
         <p-table
           #dt
-          [value]="transaksi"
+          [value]="transaksiTelkom"
+          dataKey="id"
           [paginator]="true"
           [rows]="5"
+          [lazy]="true"
+          (onLazyLoad)="nextPage($event)"
           [rowsPerPageOptions]="[5, 10, 15, 20]"
+          [totalRecords]="totalRows"
           [globalFilterFields]="['idTransaksi', 'nama']"
+          [loading]="loading"
+          [showCurrentPageReport]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         >
           <ng-template pTemplate="caption">
             <div class="flex">

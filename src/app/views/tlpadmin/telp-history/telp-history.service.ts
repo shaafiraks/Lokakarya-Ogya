@@ -9,6 +9,26 @@ import { environment } from 'src/environments/environment';
 export class TelpHistoryService {
   baseUrl = environment.BASE_API_URL;
 
+  getPage(
+    page: number | undefined,
+    size: number | undefined,
+    search: any
+  ): Observable<any> {
+    let bodyString = JSON.stringify(search); // Stringify payload
+    console.log(bodyString);
+
+    return this.http.get(
+      this.baseUrl +
+        'historytelkom/findAllWithPagination?page=' +
+        page +
+        '&size=' +
+        size,
+      {
+        responseType: 'json',
+      }
+    );
+  }
+
   findAll(): Observable<any> {
     return this.http.get(this.baseUrl + 'historytelkom/findAllPlan', {
       responseType: 'json',

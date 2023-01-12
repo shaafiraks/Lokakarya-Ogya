@@ -1,17 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfirmationService } from 'primeng/api';
-import { TelpHistoryInterface } from './telp-history-interface'
-import { TelpHistoryService } from './telp-history.service'
+import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
+import { TelpHistoryInterface } from './telp-history-interface';
+import { TelpHistoryService } from './telp-history.service';
 import { MasterService } from '../master-pelanggan/master.service';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { SearchRequest } from 'src/app/models/search.request.model';
+import { SearchCriteria } from 'src/app/models/search.crtiteria.model';
 
 @Component({
   selector: 'app-telp-history',
   templateUrl: './telp-history.component.html',
-  styleUrls: ['./telp-history.component.scss']
+  styleUrls: ['./telp-history.component.scss'],
 })
 export class TelpHistoryComponent implements OnInit {
-
   public cols: any = [];
   public telpHistory: any = [];
   public totalTagihan: any = 0;
@@ -21,14 +28,18 @@ export class TelpHistoryComponent implements OnInit {
   isEdit: boolean = false;
   isAdd: boolean = false;
   isDelete: boolean = false;
-  searchQuery: string='';
+  searchQuery: string = '';
+  public historyTelkom: any = [];
+  loading: boolean = true;
+  totalRows: number = 0;
+  private isDirty: boolean = false;
 
   showdelete(reference: TelpHistoryInterface) {
     this.form.setValue(reference);
     this.isEdit = false;
     this.isAdd = false;
     this.isDelete = true;
-    this.header = "Delete History";
+    this.header = 'Delete History';
     this.form.disable();
     this.telpHistoryForm = true;
   }
@@ -47,7 +58,7 @@ export class TelpHistoryComponent implements OnInit {
     this.isEdit = true;
     this.isAdd = false;
     this.isDelete = false;
-    this.header = "Edit History";
+    this.header = 'Edit History';
     this.form.enable();
     this.form.controls['idHistory'].disable();
     this.form.setValue(reference);
@@ -61,7 +72,6 @@ export class TelpHistoryComponent implements OnInit {
     bulanTagihan: new FormControl(0),
     tahunTagihan: new FormControl(0),
     uang: new FormControl(0),
-
   });
   submitted = false;
   paramIdTelpHistory: number = 0;
@@ -71,11 +81,14 @@ export class TelpHistoryComponent implements OnInit {
     private masterPelangganService: MasterService,
     private formBuilder: FormBuilder,
     private confirmationService: ConfirmationService
-  ) { }
+  ) {}
 
   GetConfirmDelete() {
     this.confirmationService.confirm({
-      message: 'Pelanggan dengan ID: ' + this.form.controls['idHistory'].value + ' telah berhasil dihapus',
+      message:
+        'Pelanggan dengan ID: ' +
+        this.form.controls['idHistory'].value +
+        ' telah berhasil dihapus',
       header: 'Pelanggan dihapus',
     });
   }
@@ -91,7 +104,9 @@ export class TelpHistoryComponent implements OnInit {
 
   getConfirmEdit() {
     this.confirmationService.confirm({
-      message: 'Berhasil memperbarui pelanggan dengan ID = ' + this.form.controls['idHistory'].value,
+      message:
+        'Berhasil memperbarui pelanggan dengan ID = ' +
+        this.form.controls['idHistory'].value,
       header: 'Pelanggan diperbarui',
     });
   }
@@ -114,7 +129,7 @@ export class TelpHistoryComponent implements OnInit {
       },
       error: (error) => {
         console.error('ini error: ', error);
-      }
+      },
     });
     this.telpHistoryService.getNominal().subscribe({
       next: (res: any) => {
@@ -128,6 +143,16 @@ export class TelpHistoryComponent implements OnInit {
   }
 
   getData() {
+    // untung paging
+    let searchReq = new SearchRequest();
+    searchReq._offSet = 0;
+    searchReq._page = 0;
+    searchReq._size = 5;
+    searchReq._sortField = 'idHistory';
+    searchReq._sortOrder = 'DESC';
+
+    this.getHistoryTelkomData(0, 5, searchReq);
+
     this.telpHistoryService.findAll().subscribe({
       next: (res: any) => {
         this.telpHistory = res;
@@ -161,12 +186,14 @@ export class TelpHistoryComponent implements OnInit {
       { field: 'bulanTagihan', header: 'Bulan Tagihan' },
       { field: 'tahunTagihan', header: 'Tahun Tagihan' },
       { field: 'uang', header: 'Uang' },
-
     ];
 
     this.form = this.formBuilder.group({
       idHistory: ['', [Validators.required, Validators.maxLength(4)]],
-      idPelanggan: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(9)]],
+      idPelanggan: [
+        '',
+        [Validators.required, Validators.minLength(1), Validators.maxLength(9)],
+      ],
       tanggalBayar: ['', [Validators.required]],
       bulanTagihan: [
         '',
@@ -177,7 +204,6 @@ export class TelpHistoryComponent implements OnInit {
         [Validators.required, Validators.minLength(1), Validators.maxLength(4)],
       ],
       uang: ['', [Validators.required, Validators.maxLength(8)]],
-
     });
   }
 
@@ -211,9 +237,9 @@ export class TelpHistoryComponent implements OnInit {
           error: (error) => {
             console.error('ini error: ', error);
             alert(error.error.message);
-          }
+          },
         });
-      };
+      }
 
       if (this.isEdit) {
         this.telpHistoryService.editTelpHistory(data).subscribe({
@@ -226,21 +252,23 @@ export class TelpHistoryComponent implements OnInit {
           error: (error) => {
             console.error('ini error: ', error);
             alert(error.error.message);
-          }
+          },
         });
-      };
+      }
 
       if (this.isDelete) {
-        this.telpHistoryService.deleteTelpHistory(this.form.controls['idPelanggan'].value).subscribe({
-          next: (res: any) => {
-            this.onReset();
-            this.telpHistoryForm = false;
-            // console.log(res);
-          },
-          error: (error) => {
-            console.error('ini error: ', error);
-          }
-        });
+        this.telpHistoryService
+          .deleteTelpHistory(this.form.controls['idPelanggan'].value)
+          .subscribe({
+            next: (res: any) => {
+              this.onReset();
+              this.telpHistoryForm = false;
+              // console.log(res);
+            },
+            error: (error) => {
+              console.error('ini error: ', error);
+            },
+          });
       }
     }
   }
@@ -251,7 +279,6 @@ export class TelpHistoryComponent implements OnInit {
     // this.form.reset();
 
     // this.refreshPage();
-
 
     this.submitted = false;
     if (this.isEdit) {
@@ -270,4 +297,78 @@ export class TelpHistoryComponent implements OnInit {
     this.GetConfirmDelete();
   }
 
+  // untuk paging
+
+  nextPage(event: LazyLoadEvent) {
+    console.log(event.filters);
+    if (this.isDirty) {
+      alert('You have unsaved changes!!!');
+      console.log(event);
+    } else {
+      let searchReq = new SearchRequest();
+      searchReq._offSet = event.first;
+      searchReq._page = event.first;
+      searchReq._size = event.rows;
+      searchReq._sortField =
+        event.sortField === null ? 'idHistory' : event.sortField;
+      searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
+      searchReq._filters = [];
+
+      let currentPage = event.first;
+      if (event.first !== undefined && event.rows !== undefined) {
+        searchReq._page = Math.ceil(event.first / event.rows);
+        currentPage = Math.ceil(event.first / event.rows);
+      }
+
+      //Process filter object
+      let filterObj = <any>event.filters;
+      console.log('filter by : ', filterObj);
+      let fieldName: string = '';
+      let fieldValue: string = '';
+
+      if (filterObj !== undefined) {
+        if (filterObj.hasOwnProperty('idHistory')) {
+          fieldName = 'idHistory';
+          if (filterObj['nama'][0]['value'] == null) {
+            if (typeof filterObj['global'] != 'undefined') {
+              fieldValue = filterObj['global']['value'];
+            } else {
+              fieldValue = '';
+            }
+          } else {
+            fieldValue = filterObj['nama'][0]['value'];
+          }
+
+          let criteria = new SearchCriteria();
+          criteria._name = fieldName;
+          criteria._value = fieldValue;
+          searchReq._filters.push(criteria);
+        }
+      }
+
+      //console.log(JSON.stringify(searchReq));
+
+      this.getHistoryTelkomData(currentPage, event.rows, searchReq);
+    }
+  }
+
+  getHistoryTelkomData(
+    pageSize: number | undefined,
+    pageNumber: number | undefined,
+    search?: any
+  ) {
+    console.log(search);
+    this.loading = true;
+    this.telpHistoryService.getPage(pageSize, pageNumber, search).subscribe({
+      next: (res: any) => {
+        this.historyTelkom = res.data;
+        this.loading = false;
+        this.totalRows = res.totalRowCount;
+        // console.log(res.data);
+      },
+      error: (error) => {
+        console.error('ini error: ', error);
+      },
+    });
+  }
 }
