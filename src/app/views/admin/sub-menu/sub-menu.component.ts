@@ -228,13 +228,18 @@ export class SubMenuComponent implements OnInit {
 
   }
 
-  getDownload(){
+  getDownload(): void {
     this.subMenuService.download().subscribe({
-      next: (data: any) => {
-        saveAs(data, 'Sub Menu.pdf');
+      next: (data) => {
+        let binaryData = [];
+        binaryData.push(data);
+        var fileUrl = URL.createObjectURL(new Blob(binaryData, { type: 'application/pdf' }));
+        window.open(fileUrl);
+        // saveAs(resp, 'Data-User.pdf');
+        console.log(data);
       },
       error: (error) => {
-        console.error('ini error', error);
+        console.log(error);
       },
     });
   }

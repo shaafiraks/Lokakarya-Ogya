@@ -230,9 +230,16 @@ export class HakAksesComponent implements OnInit {
 
   getDownload(){
     this.hakAksesService.download().subscribe({
-      next: (data: any) => {
-        saveAs(data, 'Hak Akses.pdf');
+      next: (data) => {
+        let binaryData = [];
+        binaryData.push(data);
+        var fileUrl = URL.createObjectURL(new Blob(binaryData, {type: 'application/pdf'}));
+        window.open(fileUrl);
+        console.log(data);
       },
+      //  {
+      //   saveAs(data, 'Hak Akses.pdf');
+      // },
       error: (error) => {
         console.error('ini error', error);
       },
