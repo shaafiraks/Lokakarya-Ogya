@@ -23,6 +23,7 @@ export class UserComponent implements OnInit {
 
   //deklarasi variabel
   public users: any[] = [];
+  public listUser: any = [];
   currentPage: number = 0;
   userform: boolean = false;
   header: string = '';
@@ -218,10 +219,22 @@ export class UserComponent implements OnInit {
     searchReq._offSet = 0;
     searchReq._page = 0;
     searchReq._size = 5;
-    searchReq._sortField = 'createdDate';
+    searchReq._sortField = 'userId';
     searchReq._sortOrder = 'DESC';
+    searchReq._filters = [];
 
-    this.getUserData(0, 5, searchReq);
+    this.getUserData(searchReq);
+
+    this.userService.get().subscribe({
+      next: (res: any) => {
+        this.listUser = res.data;
+        // this.loading = false;
+        // console.log(res);
+      },
+      error: (error) => {
+        console.error('ini error: ', error);
+      },
+    });
 
   }
 
@@ -387,7 +400,7 @@ export class UserComponent implements OnInit {
       searchReq._page = event.first;
       searchReq._size = event.rows;
       searchReq._sortField =
-        event.sortField === null ? 'createdDate' : event.sortField;
+        event.sortField === undefined ? 'createdDate' : event.sortField;
       searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
       searchReq._filters = [];
 
@@ -421,38 +434,36 @@ export class UserComponent implements OnInit {
           criteria._value = fieldValue;
           searchReq._filters.push(criteria);
         }
-        if (filterObj.hasOwnProperty('nama')) {
-          fieldName = 'nama';
-          if (filterObj['nama'][0]['value'] == null) {
-            if (typeof filterObj['global'] != 'undefined') {
-              fieldValue = filterObj['global']['value'];
-            } else {
-              fieldValue = '';
-            }
-          } else {
-            fieldValue = filterObj['nama'][0]['value'];
-          }
-          let criteria = new SearchCriteria();
-          criteria._name = fieldName;
-          criteria._value = fieldValue;
-          searchReq._filters.push(criteria);
-        }
+        // if (filterObj.hasOwnProperty('createdBy')) {
+        //   fieldName = 'createdBy';
+        //   if (filterObj['createdBy'][0]['value'] == null) {
+        //     if (typeof filterObj['global'] != 'undefined') {
+        //       fieldValue = filterObj['global']['value'];
+        //     } else {
+        //       fieldValue = '';
+        //     }
+        //   } else {
+        //     fieldValue = filterObj['createdBy'][0]['value'];
+        //   }
+        //   let criteria = new SearchCriteria();
+        //   criteria._name = fieldName;
+        //   criteria._value = fieldValue;
+        //   searchReq._filters.push(criteria);
+        // }
       }
 
       //console.log(JSON.stringify(searchReq));
 
-      this.getUserData(currentPage, event.rows, searchReq);
+      this.getUserData(searchReq);
     }
   }
 
   getUserData(
-    pageSize: number | undefined,
-    pageNumber: number | undefined,
     search?: any
   ) {
     console.log(search);
     this.loading = true;
-    this.userService.getPage(pageSize, pageNumber, search).subscribe({
+    this.userService.post(search).subscribe({
       next: (res: any) => {
         this.users = res.data;
         this.loading = false;

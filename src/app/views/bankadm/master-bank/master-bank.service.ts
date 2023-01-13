@@ -41,6 +41,19 @@ export class MasterBankService {
     );
   }
 
+  //service get all data nasabah paging and filter
+  pagingAndFilter(search:any):Observable<any>{
+    let bodyString = JSON.stringify(search);
+    var headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    });
+    return this.http.post(
+      this.baseUrl + 'masterbank/findAllWithPaginationAndFilter',
+      bodyString,{headers}
+    );
+  }
+
   //service add data nasabah baru
   addNasabah(data: any): Observable<any> {
     var headers = new HttpHeaders({
