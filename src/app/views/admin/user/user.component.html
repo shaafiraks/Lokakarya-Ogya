@@ -37,13 +37,32 @@
                         <!-- <button pButton pRipple type="button" label="Add User" icon="pi pi-plus" class="btn-caption"
                         (click)="showAdd()"></button> -->
                         <button pButton pRipple type="button" styleClass="p-button-lg" label="Download" iconPos="right"
-                            icon="pi pi-arrow-down" class="p-button-custom btn-caption"
+                            icon="pi pi-download" class="p-button-custom btn-caption"
                             (click)="downloadData()"></button>
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>Username</th>
+                        <th>Username
+                            <p-columnFilter field="username" display="menu" matchMode="in" [showMatchModes]="false"
+                                [showOperator]="false" [showAddButton]="false">
+                                <ng-template pTemplate="header">
+                                    <div class="px-3 pt-3 pb-0">
+                                        <span class="font-bold">Users</span>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-multiSelect [ngModel]="value" [options]="listUser" placeholder="Any"
+                                        (onChange)="filter($event.value)" optionValue="username" optionLabel="username">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="p-multiselect-representative-option">
+                                                <span class="ml-1">{{option.username}}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </ng-template>
+                            </p-columnFilter>
+                        </th>
                         <th style="min-width:12rem">Nama</th>
                         <th>Alamat</th>
                         <th>Email</th>
@@ -60,7 +79,7 @@
                                     </div>
                                 </ng-template>
                                 <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                    <p-multiSelect [ngModel]="value" [options]="users" placeholder="Any"
+                                    <p-multiSelect [ngModel]="value" [options]="listUser" placeholder="Any"
                                         (onChange)="filter($event.value)" optionValue="username" optionLabel="username">
                                         <ng-template let-option pTemplate="item">
                                             <div class="p-multiselect-representative-option">
@@ -82,7 +101,7 @@
                                     </div>
                                 </ng-template>
                                 <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                    <p-multiSelect [ngModel]="value" [options]="users" placeholder="Any"
+                                    <p-multiSelect [ngModel]="value" [options]="listUser" placeholder="Any"
                                         (onChange)="filter($event.value)" optionValue="username" optionLabel="username">
                                         <ng-template let-option pTemplate="item">
                                             <div class="p-multiselect-representative-option">
