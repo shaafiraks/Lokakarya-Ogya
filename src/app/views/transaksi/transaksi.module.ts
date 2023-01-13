@@ -33,6 +33,8 @@ import {ToastModule} from 'primeng/toast';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -69,6 +71,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ToastModule,
     InputNumberModule,
     SelectButtonModule,
+    NgxLoadingModule.forRoot({
+      animationType: ngxLoadingAnimationTypes.threeBounce,
+        backdropBackgroundColour: 'rgba(255,255,255,0.3)',
+        fullScreenBackdrop: true,
+        primaryColour: '#FFBB57', secondaryColour: '#FFBB57', tertiaryColour: '#FFBB57'
+    }),
+    ProgressSpinnerModule,
   ]
 })
 export class TransaksiModule { }

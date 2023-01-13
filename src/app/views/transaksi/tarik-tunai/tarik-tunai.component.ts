@@ -81,6 +81,7 @@ export class TarikTunaiComponent implements OnInit {
   tampilFormPilihanNominal: boolean = false;
   errorMessage:string = '';
   tampilDataNasabah:boolean = false;
+  loading:boolean = false;
   // //UNTUK MENGUBAH KE FORMAT RUPIAH
   // formattedValue = this.currencyPipe.transform(this.nominal, 'IDR', true);
 
@@ -97,11 +98,13 @@ export class TarikTunaiComponent implements OnInit {
       this.confirmationService.confirm({
         message: '<b>Konfirmasi Tarik Tunai Dengan Nominal : Rp. </b>' + this.currencyPipe.transform(this.nominal, 'IDR ', 'symbol', '3.2-2'),
         accept: () => {
+          this.loading = true;
           let data = JSON.stringify(this.norek, this.nominal);
           console.log(data);
           console.log(this.norek, this.nominal);
           this.transaksiService.getTarikTunai(this.norek, this.nominal).subscribe({
             next: (resp: any) => {
+              this.loading = false;
               // this.messageSuccess();
               this.tampilForm = false;
               this.display1 = true;
@@ -112,6 +115,7 @@ export class TarikTunaiComponent implements OnInit {
 
             },
             error: (error) => {
+              this.loading = false;
               this.cekError = true;
               this.tampilForm = false;
               this.errorMessage = error.error.message
@@ -169,16 +173,19 @@ export class TarikTunaiComponent implements OnInit {
       return;
     }
     else {
+      this.loading = true;
       let data = JSON.stringify(this.norek);
       console.log(data);
       this.transaksiService.getNasabah(this.norek).subscribe({
         next: (resp: any) => {
+          this.loading = false;
           this.tampilDataNasabah= true;
           this.nasabah[0] = resp.data;
           console.log(resp);
           console.log(resp.data);
         },
         error: (error) => {
+          this.loading = false;
           this.messageError();
           console.log(error);
           // alert('Id tidak ditemukan')
@@ -220,5 +227,27 @@ export class TarikTunaiComponent implements OnInit {
   onBatalFormTarik() {
     this.tampilForm = false;
   }
+
+    //DOWNLOAD TARIK TUNAI PDF
+    downloadTarikTunaiPDF(idHistory:any) {
+      this.loading = true;
+      this.transaksiService.downloadTarikTunai(idHistory).subscribe({
+        next: (resp) => {
+          this.loading = false;
+          let binaryData = [];
+          binaryData.push(resp);
+          var fileUrl = URL.createObjectURL(new Blob(binaryData, { type: 'application/pdf'}));
+          window.open(fileUrl);
+          // saveAs(resp, 'Data-Setor.pdf')
+          console.log(resp);        
+        },
+        error: (error) => {
+          this.loading = false;
+          console.log(error);
+          this.errorMessage = error.error.message;
+          
+        },
+      })
+    }
 
 }

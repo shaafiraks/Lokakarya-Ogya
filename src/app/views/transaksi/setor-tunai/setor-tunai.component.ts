@@ -56,6 +56,7 @@ export class SetorTunaiComponent implements OnInit {
   tampilForm: boolean = false;
   errorMessage:string = '';
   tampilDataNasabah:boolean =false;
+  loading:boolean = false;
 
 
 
@@ -69,11 +70,13 @@ export class SetorTunaiComponent implements OnInit {
       this.confirmationService.confirm({
         message: '<b>Konfirmasi Setor Tunai Dengan Nominal : </b>' + this.currencyPipe.transform(this.nominal, 'IDR ', 'symbol', '3.2-2'),
         accept: () => {
+          this.loading = true;
           let data = JSON.stringify(this.norek, this.nominal);
           console.log(data);
           console.log(this.norek);
           this.transaksiService.getSetorTunai(this.norek, this.nominal).subscribe({
             next: (resp: any) => {
+              this.loading = false;
               this.tampilForm = false;
               this.display1 = true;
               // this.messageSuccess();
@@ -84,6 +87,7 @@ export class SetorTunaiComponent implements OnInit {
 
             },
             error: (error) => {
+              this.loading = false;
               this.cekError = true;
               console.log(error);
               this.errorMessage = error.error.message
@@ -129,16 +133,19 @@ export class SetorTunaiComponent implements OnInit {
       return;
     }
     else {
+      this.loading = true;
       let data = JSON.stringify(this.norek);
       console.log(data);
       this.transaksiService.getNasabah(this.norek).subscribe({
         next: (resp: any) => {
+          this.loading = false;
           this.tampilDataNasabah= true;
           this.nasabah[0] = resp.data;
           console.log(resp);
           console.log(resp.data);
         },
         error: (error) => {
+          this.loading = false;
           this.messageError();
           console.log(error);
           // alert('Id tidak ditemukan')
@@ -185,4 +192,29 @@ export class SetorTunaiComponent implements OnInit {
     this.form.controls['norek'].disable();
   }
 
+  onBatalSetor(){
+    this.tampilForm= false;
+  }
+ 
+  //DOWNLOAD SETOR TUNAI PDF
+  downloadSetorPDF(idHistory:any) {
+    this.loading = true;
+    this.transaksiService.downloadSetorTunai(idHistory).subscribe({
+      next: (resp) => {
+        this.loading = false;
+        let binaryData = [];
+        binaryData.push(resp);
+        var fileUrl = URL.createObjectURL(new Blob(binaryData, { type: 'application/pdf'}));
+        window.open(fileUrl);
+        // saveAs(resp, 'Data-Setor.pdf')
+        console.log(resp);        
+      },
+      error: (error) => {
+        this.loading = false;
+        console.log(error);
+        this.errorMessage = error.error.message;
+        
+      },
+    })
+  }
 }
