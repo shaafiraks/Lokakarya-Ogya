@@ -2,18 +2,8 @@
 <ng-template>
 </ng-template>
 
-<div class="mb-4" style="text-align:right; margin:15px 15px 0px 15px;">
-    <button pButton pRipple type="button" label="Download File"icon="pi pi-plus" class="p-button-warning"
-    class="p-button-warning"  (click)="getDownload()"></button>
-  </div>
-
 <c-col xs="12">
-    <div class="mb-4" style="text-align:right; margin:15px 15px 0px 15px;">
-        <button pButton pRipple type="button" label="Add Hak Akses" icon="pi pi-plus" class="p-button-warning"
-            (click)="showAdd()"></button>
-    </div>
 
-    <!-- disuruh hilman -->
     <!-- button confirm ketika delete data -->
     <p-confirmDialog #cd [style]="{width: '50vw'}" styleClass="iconClose">
         <ng-template pTemplate="footer">
@@ -46,7 +36,12 @@
                                 (input)="dt.filterGlobal($any($event.target)?.value, 'contains')" placeholder="Search">
                         </span>
                         <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
-                            (click)="clear(dt)"></button>
+                        (click)="clear(dt)"></button>
+                    <button pButton pRipple type="button" label="Hak Akses" icon="pi pi-plus" class="btn-caption-custom btn-caption"
+                        (click)="showAdd()"></button> 
+                    <button pButton pRipple type="button" styleClass="p-button-lg" label="Download" iconPos="right"
+                        icon="pi pi-arrow-down" class="p-button-custom btn-caption"
+                        (click)="getDownload()"></button>
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header">
@@ -132,7 +127,7 @@
             </p-table>
         </c-card-body>
     </c-card>
-</c-col>
+
 
 <!-- section show data tabel pada saat add dan edit   -->
 <p-dialog header="Hak Akses Form" [(visible)]="aksesform" [responsive]="true" showEffect="fade" [modal]="true"

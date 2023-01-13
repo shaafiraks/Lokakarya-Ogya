@@ -10,6 +10,18 @@ export class HistoryTransaksiService {
 
   baseUrl = environment.BASE_API_URL;
 
+  pagingAndFilter(search:any):Observable<any>{
+    let bodyString = JSON.stringify(search);
+    var headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    });
+    return this.http.post(
+      this.baseUrl + 'historybank/findAllWithPaginationAndFilter',
+      bodyString,{headers}
+    );
+  }
+
 //============================================== S E T O R =========================================================
    
   //service find all setor history

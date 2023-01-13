@@ -149,8 +149,9 @@ export class MasterBankComponent implements OnInit {
     searchReq._size = 5;
     searchReq._sortField = 'saldo';
     searchReq._sortOrder = 'DESC';
+    searchReq._filters=[];
 
-    this.getMasterBankData(0, 5, searchReq);
+    this.getMasterBankData(searchReq);
 
     //memanggil service find all data master bank
     this.masterBankService.findAll().subscribe({
@@ -325,7 +326,7 @@ export class MasterBankComponent implements OnInit {
       searchReq._page = event.first;
       searchReq._size = event.rows;
       searchReq._sortField =
-        event.sortField === null ? 'saldo' : event.sortField;
+        event.sortField === undefined ? 'saldo' : event.sortField;
       searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
       searchReq._filters = [];
 
@@ -363,18 +364,16 @@ export class MasterBankComponent implements OnInit {
 
       //console.log(JSON.stringify(searchReq));
 
-      this.getMasterBankData(currentPage, event.rows, searchReq);
+      this.getMasterBankData(searchReq);
     }
   }
 
   getMasterBankData(
-    pageSize: number | undefined,
-    pageNumber: number | undefined,
     search?: any
   ) {
     console.log(search);
     this.loading = true;
-    this.masterBankService.get(pageSize, pageNumber, search).subscribe({
+    this.masterBankService.pagingAndFilter(search).subscribe({
       next: (res: any) => {
         this.masterBankPage = res.data;
         this.loading = false;
@@ -386,6 +385,7 @@ export class MasterBankComponent implements OnInit {
       },
     });
   }
+  
   downloadDataMasterBank(): void {
     this.masterBankService.downloadMasterBank().subscribe({
       next: (res) => {

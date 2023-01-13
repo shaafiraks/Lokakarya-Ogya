@@ -25,15 +25,25 @@ export class UserService {
     )
   }
 
-  getPost(search: any): Observable<any> {
-    let bodyString = JSON.stringify(search); // Stringify payload
+  // getPost(data: any): Observable<any> {
+  //   var headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     Accept: 'application/json',
+  //   });
+  //   const urlPost = this.baseUrl + 'users/findAllWithPaginationAndFilter';
+  //   return this.http.post<any>(urlPost,data, { headers});
+  // }
 
+  post(search: any): Observable<any> {
+    let bodyString = JSON.stringify(search);
+    // console.log(bodyString) // Stringify payload
+    var headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        });
     return this.http.post(
       this.baseUrl + 'users/findAllWithPaginationAndFilter',
-      bodyString,
-      {
-        responseType: 'json',
-      }
+      bodyString, { headers}
     );
   }
 
