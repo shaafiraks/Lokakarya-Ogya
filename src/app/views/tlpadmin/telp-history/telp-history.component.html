@@ -5,20 +5,6 @@
   rel="stylesheet"
 />
 
-<!-- button download -->
-<div class="mb-4" style="text-align: right; margin: 15px 15px 0px 15px">
-  <button
-    pButton
-    pRipple
-    type="button"
-    label="Download File"
-    icon="pi pi-arrow-down"
-    class="p-button-warning"
-    class="p-button-warning"
-    (click)="getDownload()"
-  ></button>
-</div>
-
 <c-col xs="12">
   <c-card class="mb-4">
     <c-card-header>
@@ -63,6 +49,16 @@
                   placeholder="Cari nama pelanggan"
                 />
               </span>
+              <!-- button download -->
+              <button
+                pButton
+                pRipple
+                type="button"
+                label="Download File"
+                icon="pi pi-arrow-down"
+                class="p-button-custom"
+                (click)="getDownload()"
+              ></button>
             </div>
           </ng-template>
           <ng-template pTemplate="header">

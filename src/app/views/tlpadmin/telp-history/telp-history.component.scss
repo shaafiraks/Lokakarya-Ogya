@@ -1,21 +1,50 @@
-.container{
-    display: flex;
-align-items: center;
+.container {
+  display: flex;
+  align-items: center;
 }
 
 .buttonStyle {
-    background: #FF9800;
+  background: #ff9800;
 }
 
 .p-button-warning {
-    border: 1px solid white;
+  border: 1px solid white;
 }
 
 .buttonStyle:enabled:hover {
-    background: #ffab2c;
+  background: #ffab2c;
 }
 
 .card-header {
-    background-color:#64748B ;
-    color:#ffff;
+  background-color: #64748b;
+  color: #ffff;
+}
+
+.p-button-custom {
+  border: 1px solid white;
+  background-color: rgb(219, 219, 219);
+  color: black;
+  float: right;
+}
+
+.p-button-custom:hover {
+  background-color: rgb(165, 165, 165);
+  color: black;
+}
+
+td {
+  padding: 0.5rem 1rem !important;
+}
+
+@media (max-width: 768px) {
+  .responsive-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 0;
+    padding-left: 1px;
+    padding-right: 10px;
+    /* hide label */
+  }
 }

@@ -25,6 +25,18 @@ export class UserService {
     )
   }
 
+  getPost(search: any): Observable<any> {
+    let bodyString = JSON.stringify(search); // Stringify payload
+
+    return this.http.post(
+      this.baseUrl + 'users/findAllWithPaginationAndFilter',
+      bodyString,
+      {
+        responseType: 'json',
+      }
+    );
+  }
+
   getPage(
     page: number | undefined,
     size: number | undefined,
@@ -34,7 +46,7 @@ export class UserService {
     console.log(bodyString);
 
     return this.http.get(
-      this.baseUrl +
+      this.baseUrl + 
         'users/findAllWithPagination?page=' +
         page +
         '&size=' +
