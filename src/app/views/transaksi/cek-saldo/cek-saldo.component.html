@@ -91,3 +91,17 @@
             (click)="onReset()"></button>
     </ng-template>
 </p-dialog>
+
+<!-- LOADING  -->
+<div class="my-container">
+    <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+      </div>
+    </ng-template>
+  
+    <ngx-loading
+      [show]="loading"
+      [config]="{}"
+      [template]="customLoadingTemplate"
+    ></ngx-loading>
+  </div>

@@ -50,6 +50,7 @@ export class CekSaldoComponent implements OnInit {
   submitted: boolean = false;
   errorMessage: string = '';
   cekNorek:boolean = false;
+  loading:boolean = false;
 
 
   //FUNCTION MEMUNCULKAN NASABAH
@@ -61,8 +62,10 @@ export class CekSaldoComponent implements OnInit {
     else {
       let data = JSON.stringify(this.norek);
       console.log(data);
+      this.loading = true;
       this.transaksiService.getNasabah(this.norek).subscribe({
         next: (resp: any) => {
+          this.loading = false;
           this.display1 = true;
           this.nasabah[0] = resp.data;
           console.log(resp);
@@ -70,6 +73,7 @@ export class CekSaldoComponent implements OnInit {
 
         },
         error: (error) => {
+          this.loading = false;
           // this.messageError();
           console.log(error);
           this.errorMessage= error.error.message;
@@ -116,6 +120,7 @@ export class CekSaldoComponent implements OnInit {
       return;
     }
     else {
+      this.loading =true;
     this.transaksiService.getNasabah(this.norek)
     .pipe(catchError(err => {
       if (err.status === 0) {
@@ -127,6 +132,7 @@ export class CekSaldoComponent implements OnInit {
       return throwError(err);
     })).subscribe({
       next: (resp: any) => {
+        this.loading =false;
         this.display1 = true;
         this.nasabah[0] = resp.data;
         console.log(resp);
@@ -134,6 +140,7 @@ export class CekSaldoComponent implements OnInit {
 
       },
       error: (error) => {
+        this.loading =false;
         this.cekNorek= true;
         console.log(error);
         this.errorMessage= error.error.message;

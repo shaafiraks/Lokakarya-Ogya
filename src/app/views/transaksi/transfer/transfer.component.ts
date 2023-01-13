@@ -71,6 +71,7 @@ export class TransferComponent implements OnInit {
   tampilFormPilihanNominal: boolean = false;
   errorMessage : string ='';
   tampilDataNasabah:boolean = false;
+  loading:boolean = false;
 
   onTransfer() {
     this.submitted = true;
@@ -81,11 +82,13 @@ export class TransferComponent implements OnInit {
       this.confirmationService.confirm({
         message: '<b>Konfirmasi Transfer Dengan Nominal : </b>' + this.currencyPipe.transform(this.nominal, 'IDR ', 'symbol', '3.2-2'),
         accept: () => {
+          this.loading = true;
           let data = JSON.stringify(this.norekAsal, this.norekTujuan, this.nominal);
           console.log(data);
           // console.log(this.norekAsal);
           this.transaksiService.getTransfer(this.norekAsal, this.norekTujuan, this.nominal).subscribe({
             next: (resp: any) => {
+              this.loading = false;
               this.display1 = true;
               this.tampilForm = false;
               this.nasabah[0] = resp.data;
@@ -95,6 +98,7 @@ export class TransferComponent implements OnInit {
 
             },
             error: (error) => {
+              this.loading = false;
               this.cekError = true;
               // this.messageError();
               console.log(error);
@@ -140,16 +144,19 @@ export class TransferComponent implements OnInit {
       return;
     }
     else {
+      this.loading = true;
       let data = JSON.stringify(this.norekAsal);
       console.log(data);
       this.transaksiService.getNasabah(this.norekAsal).subscribe({
         next: (resp: any) => {
+          this.loading = false;
           this.tampilDataNasabah =true;
           this.nasabah[0] = resp.data;
           console.log(resp);
           console.log(resp.data);
         },
         error: (error) => {
+          this.loading = false;
           this.messageError();
           console.log(error);
           // alert('Id tidak ditemukan')
@@ -193,5 +200,29 @@ export class TransferComponent implements OnInit {
   onBatalError(){
     this.cekError = false
   }
+
+    //DOWNLOAD TRANSFER PDF
+    downloadTransferPDF(idHistory:any ) {
+      this.loading = true;
+      this.transaksiService.downloadTransfer(idHistory).subscribe({
+        next: (resp) => {
+          this.loading = false;
+          // this.form.controls['norekAsal'].setValue(noRekPenerima);
+          // this.form.controls['norekTujuan'].setValue(noRekPengirim);
+          let binaryData = [];
+          binaryData.push(resp);
+          var fileUrl = URL.createObjectURL(new Blob(binaryData, { type: 'application/pdf'}));
+          window.open(fileUrl);
+          // saveAs(resp, 'Data-Setor.pdf')
+          console.log(resp);        
+        },
+        error: (error) => {
+          this.loading = false;
+          console.log(error);
+          this.errorMessage= error.error.message;
+          
+        },
+      });
+    }
 
 }

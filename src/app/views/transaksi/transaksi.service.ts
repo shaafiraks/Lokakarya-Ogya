@@ -101,4 +101,41 @@ export class TransaksiService {
       }
     );
   }
+
+  //DOWNLOAD PDF SETOR TUNAI
+  downloadSetorTunai(idHistory:number): Observable<any>{
+    return this.http.get(this.baseUrl + `transaksiNasabah/exportToPdfSetorParam?ID%20History=${idHistory}`,
+    {
+       responseType: 'blob',
+    }
+    );
+  }
+
+    //DOWNLOAD PDF TARIK TUNAI
+    downloadTarikTunai(idHistory:number): Observable<any>{
+      return this.http.get(this.baseUrl + `transaksiNasabah/exportToPdfTarikParam?ID%20History=${idHistory}`,
+      {
+         responseType: 'blob',
+      }
+      );
+    }
+
+    //DOWNLOAD PDF TRANSFER
+    downloadTransfer(idHistory:number): Observable<any>{
+      return this.http.get(this.baseUrl + `transaksiNasabah/exportToPdfTransferParam?ID%20History=${idHistory}`,
+      {
+         responseType: 'blob',
+      }
+      );
+    }
+
+        //DOWNLOAD PDF BAYAR TELEPON
+        downloadBayarTelepon(idHistoryBank:number, idHistoryTelepon:number): Observable<any>{
+          return this.http.get(this.baseUrl + `transaksiNasabah/exportToPdfBayarTeleponParam?ID%20History%20Bank=${idHistoryBank}&ID%20History%20Telepon=${idHistoryTelepon}`,
+          {
+             responseType: 'blob',
+          }
+          );
+        }
+
 }
