@@ -36,3 +36,26 @@ align-items: center;
     margin-top: -50px;
     margin-right: 5px;
 }
+
+.p-button-custom {
+    border: 1px solid white;
+    background-color: rgb(219, 219, 219);
+    color: black;
+}
+
+.p-button-custom:hover {
+    background-color: rgb(165, 165, 165);
+
+}
+
+
+.btn-caption{
+    float:  right;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+td{
+    padding: 0.5rem 1rem !important;
+}
+

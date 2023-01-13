@@ -220,8 +220,9 @@ export class UserComponent implements OnInit {
     searchReq._size = 5;
     searchReq._sortField = 'createdDate';
     searchReq._sortOrder = 'DESC';
+    searchReq._filters = [];
 
-    this.getUserData(0, 5, searchReq);
+    this.getUserData(searchReq);
 
   }
 
@@ -387,7 +388,7 @@ export class UserComponent implements OnInit {
       searchReq._page = event.first;
       searchReq._size = event.rows;
       searchReq._sortField =
-        event.sortField === null ? 'createdDate' : event.sortField;
+        event.sortField === undefined ? 'createdDate' : event.sortField;
       searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
       searchReq._filters = [];
 
@@ -421,16 +422,16 @@ export class UserComponent implements OnInit {
           criteria._value = fieldValue;
           searchReq._filters.push(criteria);
         }
-        if (filterObj.hasOwnProperty('nama')) {
-          fieldName = 'nama';
-          if (filterObj['nama'][0]['value'] == null) {
+        if (filterObj.hasOwnProperty('updatedBy')) {
+          fieldName = 'updatedBy';
+          if (filterObj['updatedBy'][0]['value'] == null) {
             if (typeof filterObj['global'] != 'undefined') {
               fieldValue = filterObj['global']['value'];
             } else {
               fieldValue = '';
             }
           } else {
-            fieldValue = filterObj['nama'][0]['value'];
+            fieldValue = filterObj['updatedBy'][0]['value'];
           }
           let criteria = new SearchCriteria();
           criteria._name = fieldName;
@@ -441,18 +442,16 @@ export class UserComponent implements OnInit {
 
       //console.log(JSON.stringify(searchReq));
 
-      this.getUserData(currentPage, event.rows, searchReq);
+      this.getUserData(searchReq);
     }
   }
 
   getUserData(
-    pageSize: number | undefined,
-    pageNumber: number | undefined,
     search?: any
   ) {
     console.log(search);
     this.loading = true;
-    this.userService.getPage(pageSize, pageNumber, search).subscribe({
+    this.userService.post(search).subscribe({
       next: (res: any) => {
         this.users = res.data;
         this.loading = false;
