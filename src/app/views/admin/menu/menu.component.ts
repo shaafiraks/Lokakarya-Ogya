@@ -194,10 +194,11 @@ export class MenuComponent implements OnInit {
     searchReq._offSet = 0;
     searchReq._page = 0;
     searchReq._size = 5;
-    searchReq._sortField = 'createdDate';
+    searchReq._sortField = 'menuId';
     searchReq._sortOrder = 'DESC';
+    searchReq._filters = [];
 
-    this.getMenuData(0, 5, searchReq);
+    this.getMenuData(searchReq);
 
     this.userService.get().subscribe({
       next: (res: any) => {
@@ -347,7 +348,7 @@ export class MenuComponent implements OnInit {
       searchReq._page = event.first;
       searchReq._size = event.rows;
       searchReq._sortField =
-        event.sortField === null ? 'createdDate' : event.sortField;
+        event.sortField === undefined ? 'menuId' : event.sortField;
       searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
       searchReq._filters = [];
 
@@ -401,18 +402,16 @@ export class MenuComponent implements OnInit {
 
       //console.log(JSON.stringify(searchReq));
 
-      this.getMenuData(currentPage, event.rows, searchReq);
+      this.getMenuData(searchReq);
     }
   }
 
   getMenuData(
-    pageSize: number | undefined,
-    pageNumber: number | undefined,
     search?: any
   ) {
     console.log(search);
     this.loading = true;
-    this.menuService.getPage(pageSize, pageNumber, search).subscribe({
+    this.menuService.post(search).subscribe({
       next: (res: any) => {
         this.menu = res.data;
         this.loading = false;
