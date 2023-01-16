@@ -7,6 +7,7 @@ import { CurrencyPipe } from '@angular/common';
 import {PaginationInterface} from '../paginations-interface';
 import { SearchRequest } from 'src/app/models/search.request.model';
 import { SearchCriteria } from 'src/app/models/search.crtiteria.model';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-master-bank',
@@ -313,6 +314,10 @@ export class MasterBankComponent implements OnInit {
         console.error('ini error: ', error);
       }
     });
+  }
+
+  clear(table: Table) {
+    table.clear();
   }
 
   nextPage(event: LazyLoadEvent) {

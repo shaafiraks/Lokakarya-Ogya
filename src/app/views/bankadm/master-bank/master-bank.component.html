@@ -171,9 +171,9 @@
         id="preview-24"
       >
       <p-table #dt [value]="masterBankPage" dataKey="id" [paginator]="true" [rows]="5" [lazy]="true"
-        (onLazyLoad)="nextPage($event)" [rowsPerPageOptions]="[5, 10, 15, 20]" [totalRecords]="totalRows"
-        [globalFilterFields]="['nama','alamat']" [loading]="loading" [showCurrentPageReport]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                (onLazyLoad)="nextPage($event)" [rowsPerPageOptions]="[5, 10, 15, 20]" [totalRecords]="totalRows"
+                [globalFilterFields]="['nama']" [loading]="loading" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
           <ng-template pTemplate="caption">
             <div class="flex">
               <span class="p-input-icon-left p-ml-auto">
@@ -188,6 +188,8 @@
                   placeholder="Search by Name"
                 />
               </span>
+              <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                            (click)="clear(dt)"></button>
               <button pButton pRipple type="button" label="Add Nasabah" icon="pi pi-plus" class="btn-caption"
                             (click)="showAdd()"></button>
                         <button pButton pRipple type="button" styleClass="p-button-lg" label="Download" iconPos="right"
