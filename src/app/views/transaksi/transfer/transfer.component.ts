@@ -92,7 +92,7 @@ export class TransferComponent implements OnInit {
               this.display1 = true;
               this.tampilForm = false;
               this.nasabah[0] = resp.data;
-              this.messageService.add({ severity: 'success', summary: 'Transaksi Berhasil', detail: 'Uang telah ditarik' });
+              this.messageService.add({ severity: 'success', summary: 'Transaksi Berhasil', detail: 'Uang telah di Transfer' });
               console.log(resp);
               console.log(resp.data);
 
@@ -202,9 +202,9 @@ export class TransferComponent implements OnInit {
   }
 
     //DOWNLOAD TRANSFER PDF
-    downloadTransferPDF(idHistory:any ) {
+    downloadTransferPDF(idHistory:any, saldo:any ) {
       this.loading = true;
-      this.transaksiService.downloadTransfer(idHistory).subscribe({
+      this.transaksiService.downloadTransfer(idHistory, saldo).subscribe({
         next: (resp) => {
           this.loading = false;
           // this.form.controls['norekAsal'].setValue(noRekPenerima);
