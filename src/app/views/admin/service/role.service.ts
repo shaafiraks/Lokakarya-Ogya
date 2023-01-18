@@ -37,6 +37,19 @@ export class RoleService {
     );
   }
 
+  post(search: any): Observable<any> {
+    let bodyString = JSON.stringify(search);
+    // console.log(bodyString) // Stringify payload
+    var headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        });
+    return this.http.post(
+      this.baseUrl + 'roles/findAllWithPaginationAndFilter',
+      bodyString, { headers}
+    );
+  }
+
   add(data: any): Observable<any> {
     var headers = new HttpHeaders({
       'Content-Type': 'application/json',

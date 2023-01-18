@@ -190,8 +190,9 @@ export class RoleComponent implements OnInit {
     searchReq._size = 5;
     searchReq._sortField = 'createdDate';
     searchReq._sortOrder = 'DESC';
+    searchReq._filters = []
 
-    this.getRoleData(0, 5, searchReq);
+    this.getRoleData(searchReq);
 
     this.userService.get().subscribe({
       next: (res: any) => {
@@ -339,7 +340,7 @@ export class RoleComponent implements OnInit {
       searchReq._page = event.first;
       searchReq._size = event.rows;
       searchReq._sortField =
-        event.sortField === null ? 'createdDate' : event.sortField;
+        event.sortField === undefined ? 'roleId' : event.sortField;
       searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
       searchReq._filters = [];
 
@@ -393,18 +394,16 @@ export class RoleComponent implements OnInit {
 
       //console.log(JSON.stringify(searchReq));
 
-      this.getRoleData(currentPage, event.rows, searchReq);
+      this.getRoleData(searchReq);
     }
   }
 
   getRoleData(
-    pageSize: number | undefined,
-    pageNumber: number | undefined,
     search?: any
   ) {
     console.log(search);
     this.loading = true;
-    this.roleService.getPage(pageSize, pageNumber, search).subscribe({
+    this.roleService.post(search).subscribe({
       next: (res: any) => {
         this.role = res.data;
         this.loading = false;

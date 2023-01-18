@@ -26,18 +26,18 @@
                 [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                 <ng-template pTemplate="caption">
-                    <div class="flex">
+                    <div class="flex" style="text-align: right">
                         <span class="p-input-icon-left p-ml-auto">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" [(ngModel)]="searchQuery"
                                 (input)="dt.filterGlobal($any($event.target)?.value, 'contains')" placeholder="Search">
-                        </span>
-                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
-                            (click)="clear(dt)"></button>
+                        </span> &nbsp;
+                        <!-- <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                            (click)="clear(dt)"></button> -->
                         <!-- <button pButton pRipple type="button" label="Add User" icon="pi pi-plus" class="btn-caption"
                         (click)="showAdd()"></button> -->
                         <button pButton pRipple type="button" styleClass="p-button-lg" label="Download" iconPos="right"
-                            icon="pi pi-download" class="p-button-custom btn-caption"
+                            icon="pi pi-download" class="p-button-custom"
                             (click)="downloadData()"></button>
                     </div>
                 </ng-template>
@@ -71,7 +71,7 @@
                         <th pSortableColumn="createdDate">Created Date<p-sortIcon field="createdDate"></p-sortIcon></th>
                         <th style="min-width:10rem">
                             Created By
-                            <p-columnFilter field="createdBy" display="menu" matchMode="in" [showMatchModes]="false"
+                            <!-- <p-columnFilter field="createdBy" display="menu" matchMode="in" [showMatchModes]="false"
                                 [showOperator]="false" [showAddButton]="false">
                                 <ng-template pTemplate="header">
                                     <div class="px-3 pt-3 pb-0">
@@ -88,12 +88,12 @@
                                         </ng-template>
                                     </p-multiSelect>
                                 </ng-template>
-                            </p-columnFilter>
+                            </p-columnFilter> -->
                         </th>
                         <th pSortableColumn="updatedDate">Updated Date<p-sortIcon field="updatedDate"></p-sortIcon></th>
                         <th style="min-width:11rem">
                             Updated By
-                            <p-columnFilter field="updatedBy" display="menu" matchMode="in" [showMatchModes]="false"
+                            <!-- <p-columnFilter field="updatedBy" display="menu" matchMode="in" [showMatchModes]="false"
                                 [showOperator]="false" [showAddButton]="false">
                                 <ng-template pTemplate="header">
                                     <div class="px-3 pt-3 pb-0">
@@ -110,7 +110,7 @@
                                         </ng-template>
                                     </p-multiSelect>
                                 </ng-template>
-                            </p-columnFilter>
+                            </p-columnFilter> -->
                         </th>
                         <th style="min-width:9rem">Action</th>
                     </tr>

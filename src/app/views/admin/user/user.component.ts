@@ -400,7 +400,7 @@ export class UserComponent implements OnInit {
       searchReq._page = event.first;
       searchReq._size = event.rows;
       searchReq._sortField =
-        event.sortField === undefined ? 'createdDate' : event.sortField;
+        event.sortField === undefined ? 'userId' : event.sortField;
       searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
       searchReq._filters = [];
 
@@ -414,25 +414,32 @@ export class UserComponent implements OnInit {
       let filterObj = <any>event.filters;
       console.log('filter by : ', filterObj);
       let fieldName: string = '';
-      let fieldValue: string = '';
+      let fieldValue = [];
 
       if (filterObj !== undefined) {
         if (filterObj.hasOwnProperty('username')) {
           fieldName = 'username';
-          if (filterObj['username'][0]['value'] == null) {
-            if (typeof filterObj['global'] != 'undefined') {
-              fieldValue = filterObj['global']['value'];
+
+    
+          if (typeof filterObj['global'] != 'undefined' || filterObj['username'][0]['value'] !== null) {
+            if (filterObj['username'][0]['value'] == null) {
+              if (typeof filterObj['global'] != 'undefined') {
+                fieldValue.push(filterObj['global']['value']);
+                
+              } else {
+                fieldValue = [];
+                
+              }
             } else {
-              fieldValue = '';
+              fieldValue = filterObj['username'][0]['value'];
             }
-          } else {
-            fieldValue = filterObj['username'][0]['value'];
+
+            let criteria = new SearchCriteria();
+            criteria._name = fieldName;
+            criteria._value = fieldValue;
+            searchReq._filters.push(criteria);
           }
 
-          let criteria = new SearchCriteria();
-          criteria._name = fieldName;
-          criteria._value = fieldValue;
-          searchReq._filters.push(criteria);
         }
         // if (filterObj.hasOwnProperty('createdBy')) {
         //   fieldName = 'createdBy';

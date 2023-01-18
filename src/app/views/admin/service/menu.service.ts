@@ -46,6 +46,19 @@ export class MenuService {
     return this.http.post<any>(urlPost,data, { headers});
   }
 
+  post(search: any): Observable<any> {
+    let bodyString = JSON.stringify(search);
+    // console.log(bodyString) // Stringify payload
+    var headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        });
+    return this.http.post(
+      this.baseUrl + 'menu/findAllWithPaginationAndFilter',
+      bodyString, { headers}
+    );
+  }
+
   edit(data: any): Observable<any> {
     var headers = new HttpHeaders({
       'Content-Type': 'application/json',
