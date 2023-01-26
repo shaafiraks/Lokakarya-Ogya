@@ -2,6 +2,7 @@ export interface UserInterface {
     userId: number;
     username: string;
     nama: string;
+    password: string;
     alamat : string;
     email : string;
     telp : string;
