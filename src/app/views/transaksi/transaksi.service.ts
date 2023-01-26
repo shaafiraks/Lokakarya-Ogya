@@ -25,7 +25,7 @@ export class TransaksiService {
 
   //PANGGIL API SERVICE SETOR TUNAI
   getSetorTunai(norek: number, nominal: number): Observable<any> {
-    return this.http.post( this.baseUrl + `transaksiNasabah/setor?Nomor%20Rekening=${norek}&Nominal=${nominal}`,
+    return this.http.post( this.baseUrl + `transaksiNasabah/setorValidate?Nomor%20Rekening=${norek}&Nominal=${nominal}`,
       {
         responseType: 'json',
       }
@@ -34,7 +34,7 @@ export class TransaksiService {
 
   //PANGGIL API SERVICE TARIK TUNAI
   getTarikTunai(norek: number, nominal: number): Observable<any> {
-    return this.http.post( this.baseUrl + `transaksiNasabah/tarik?Nomor%20Rekening=${norek}&Nominal=${nominal}`,
+    return this.http.post( this.baseUrl + `transaksiNasabah/tarikValidate?Nomor%20Rekening=${norek}&Nominal=${nominal}`,
       {
         responseType: 'json',
       }
@@ -48,7 +48,7 @@ export class TransaksiService {
     nominal: number
   ): Observable<any> {
     return this.http.post(this.baseUrl +
-      `transaksiNasabah/transfer?Nomor%20Rekening%20Asal=${norekAsal}&Nomor%20Rekening%20Tujuan=${norekTujuan}&Nominal=${nominal}`,
+      `transaksiNasabah/transferValidate?Nomor%20Rekening%20Asal=${norekAsal}&Nomor%20Rekening%20Tujuan=${norekTujuan}&Nominal=${nominal}`,
       {
         responseType: 'json',
       }
@@ -63,7 +63,7 @@ export class TransaksiService {
 
   getBayartelepon(noRekening: number, noTelepon: number): Observable<any> {
     return this.http.post(this.baseUrl +
-      `transaksiNasabah/bayarTelpon?Nomor%20Rekening=${noRekening}&No%20Telepon=${noTelepon}`,
+      `transaksiNasabah/bayarTeleponValidate?Nomor%20Rekening=${noRekening}&No%20Telepon=${noTelepon}`,
       {
         responseType: 'json',
       }
@@ -86,7 +86,7 @@ export class TransaksiService {
     bulanKe: number
   ): Observable<any> {
     return this.http.post(this.baseUrl +
-      `transaksiNasabah/bayarTelponPerbulan?Nomor%20Rekening=${noRekening}&No%20Telepon=${noTelepon}&Bulan%20Tagihan=${bulanKe}`,
+      `transaksiNasabah/bayarTeleponPerbulanValidate?Nomor%20Rekening=${noRekening}&No%20Telepon=${noTelepon}&Bulan%20Tagihan=${bulanKe}`,
       {
         responseType: 'json',
       }
@@ -121,8 +121,8 @@ export class TransaksiService {
     }
 
     //DOWNLOAD PDF TRANSFER
-    downloadTransfer(idHistory:number): Observable<any>{
-      return this.http.get(this.baseUrl + `transaksiNasabah/exportToPdfTransferParam?ID%20History=${idHistory}`,
+    downloadTransfer(idHistory:number, saldo:number): Observable<any>{
+      return this.http.get(this.baseUrl + `transaksiNasabah/exportToPdfTransferParam?ID%20History=${idHistory}&Saldo=${saldo}`,
       {
          responseType: 'blob',
       }

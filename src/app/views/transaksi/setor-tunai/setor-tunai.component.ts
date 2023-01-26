@@ -57,6 +57,7 @@ export class SetorTunaiComponent implements OnInit {
   errorMessage:string = '';
   tampilDataNasabah:boolean =false;
   loading:boolean = false;
+  tampilFormCekSaldo:boolean =true;
 
 
 
@@ -138,6 +139,7 @@ export class SetorTunaiComponent implements OnInit {
       console.log(data);
       this.transaksiService.getNasabah(this.norek).subscribe({
         next: (resp: any) => {
+          this.tampilFormCekSaldo = false;
           this.loading = false;
           this.tampilDataNasabah= true;
           this.nasabah[0] = resp.data;
@@ -145,6 +147,7 @@ export class SetorTunaiComponent implements OnInit {
           console.log(resp.data);
         },
         error: (error) => {
+          this.tampilFormCekSaldo = false;
           this.loading = false;
           this.messageError();
           console.log(error);

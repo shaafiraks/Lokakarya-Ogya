@@ -1,6 +1,5 @@
-<c-row>
-    <c-col xs="12">
-        <c-card class="mb-4">
+
+        <c-card class="mb-4" *ngIf="tampilFormCekSaldo">
             <c-card-header [ngStyle]="{backgroundColor:'#64748B'}">
                 <strong style="color: white;"><i class="uil uil-money-withdrawal icon-wid"></i> Setor Tunai</strong>
             </c-card-header>
@@ -36,8 +35,6 @@
                 </form>
             </c-card-body>
         </c-card>
-    </c-col>
-</c-row>
 
 <!-- TAMPIL DATA NASABAH -->
 <c-card style="margin-bottom: 50px;" *ngIf="tampilDataNasabah">
