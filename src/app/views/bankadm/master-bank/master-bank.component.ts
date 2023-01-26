@@ -345,7 +345,7 @@ export class MasterBankComponent implements OnInit {
       let filterObj = <any>event.filters;
       console.log('filter by : ', filterObj);
       let fieldName: string = '';
-      let fieldValue: string = '';
+      let fieldValue = [];
 
       if (filterObj !== undefined) {
         if (filterObj.hasOwnProperty('nama')) {
@@ -354,7 +354,7 @@ export class MasterBankComponent implements OnInit {
             if (typeof filterObj['global'] != 'undefined') {
               fieldValue = filterObj['global']['value'];
             } else {
-              fieldValue = '';
+              fieldValue = [];
             }
           } else {
             fieldValue = filterObj['nama'][0]['value'];
