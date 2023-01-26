@@ -61,14 +61,7 @@ export class TransaksiService {
     });
   }
 
-  getBayartelepon(noRekening: number, noTelepon: number): Observable<any> {
-    return this.http.post(this.baseUrl +
-      `transaksiNasabah/bayarTeleponValidate?Nomor%20Rekening=${noRekening}&No%20Telepon=${noTelepon}`,
-      {
-        responseType: 'json',
-      }
-    );
-  }
+
 
   findBayarTelepon(noRekening: number, noTelepon: number): Observable<any> {
     return this.http.get(this.baseUrl + 
@@ -96,6 +89,15 @@ export class TransaksiService {
   getTotalTagihan(noRekening: number, noTelepon: number): Observable<any> {
     return this.http.get(this.baseUrl +
       `transaksiNasabah/findTotalTagihan?Nomor%20Rekening=${noRekening}&No%20Telepon=${noTelepon}`,
+      {
+        responseType: 'json',
+      }
+    );
+  }
+
+  getBayartelepon(noRekening: number, noTelepon: number): Observable<any> {
+    return this.http.post(this.baseUrl +
+      `transaksiNasabah/bayarTeleponTotalValidate?Nomor%20Rekening=${noRekening}&No%20Telepon=${noTelepon}`,
       {
         responseType: 'json',
       }
