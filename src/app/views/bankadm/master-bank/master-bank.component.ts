@@ -23,6 +23,7 @@ export class MasterBankComponent implements OnInit {
   public masterBankPage: any = [];
   public users: any = [];
   public selectedUser: any = [];
+  currentPage: number = 0;
   masterBankform: boolean = false;
   header: string = "";
   isEdit: boolean = false;
@@ -350,21 +351,44 @@ export class MasterBankComponent implements OnInit {
       if (filterObj !== undefined) {
         if (filterObj.hasOwnProperty('nama')) {
           fieldName = 'nama';
-          if (filterObj['nama'][0]['value'] == null) {
-            if (typeof filterObj['global'] != 'undefined') {
-              fieldValue = filterObj['global']['value'];
+
+    
+          if (typeof filterObj['global'] != 'undefined' || filterObj['nama'][0]['value'] !== null) {
+            if (filterObj['nama'][0]['value'] == null) {
+              if (typeof filterObj['global'] != 'undefined') {
+                fieldValue.push(filterObj['global']['value']);
+                
+              } else {
+                fieldValue = [];
+                
+              }
             } else {
-              fieldValue = [];
+              fieldValue = filterObj['nama'][0]['value'];
             }
-          } else {
-            fieldValue = filterObj['nama'][0]['value'];
+
+            let criteria = new SearchCriteria();
+            criteria._name = fieldName;
+            criteria._value = fieldValue;
+            searchReq._filters.push(criteria);
           }
 
-          let criteria = new SearchCriteria();
-          criteria._name = fieldName;
-          criteria._value = fieldValue;
-          searchReq._filters.push(criteria);
         }
+        // if (filterObj.hasOwnProperty('createdBy')) {
+        //   fieldName = 'createdBy';
+        //   if (filterObj['createdBy'][0]['value'] == null) {
+        //     if (typeof filterObj['global'] != 'undefined') {
+        //       fieldValue = filterObj['global']['value'];
+        //     } else {
+        //       fieldValue = '';
+        //     }
+        //   } else {
+        //     fieldValue = filterObj['createdBy'][0]['value'];
+        //   }
+        //   let criteria = new SearchCriteria();
+        //   criteria._name = fieldName;
+        //   criteria._value = fieldValue;
+        //   searchReq._filters.push(criteria);
+        // }
       }
 
       //console.log(JSON.stringify(searchReq));

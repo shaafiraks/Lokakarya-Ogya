@@ -16,6 +16,7 @@ export class TarikComponent implements OnInit {
   public tarikHistory: any = [];
   public tarikHariIni: any = [];
   public tarikPage: any = [];
+  currentPage: number = 0;
   searchQuery: string = '';
   loading: boolean = true;
   totalRows: number = 0;
@@ -32,8 +33,9 @@ export class TarikComponent implements OnInit {
     searchReq._size = 5;
     searchReq._sortField = 'tanggal';
     searchReq._sortOrder = 'DESC';
+    searchReq._filters = []
 
-    this.getTarikPaginations(0, 5, searchReq);
+    this.getTarikPaginations(searchReq);
 
   //memanggil service find all data tarik
     this.tarikService.findAllTarik().subscribe({
@@ -77,56 +79,59 @@ export class TarikComponent implements OnInit {
       searchReq._page = event.first;
       searchReq._size = event.rows;
       searchReq._sortField =
-        event.sortField === null ? 'tanggal' : event.sortField;
+        event.sortField === undefined ? 'tanggal' : event.sortField;
       searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
       searchReq._filters = [];
-  
+
       let currentPage = event.first;
       if (event.first !== undefined && event.rows !== undefined) {
         searchReq._page = Math.ceil(event.first / event.rows);
         currentPage = Math.ceil(event.first / event.rows);
       }
-  
+
       //Process filter object
       let filterObj = <any>event.filters;
       console.log('filter by : ', filterObj);
       let fieldName: string = '';
-      let fieldValue: string = '';
-  
+      let fieldValue = [];
+
       if (filterObj !== undefined) {
         if (filterObj.hasOwnProperty('nama')) {
           fieldName = 'nama';
-          if (filterObj['nama'][0]['value'] == null) {
-            if (typeof filterObj['global'] != 'undefined') {
-              fieldValue = filterObj['global']['value'];
+
+    
+          if (typeof filterObj['global'] != 'undefined' || filterObj['nama'][0]['value'] !== null) {
+            if (filterObj['nama'][0]['value'] == null) {
+              if (typeof filterObj['global'] != 'undefined') {
+                fieldValue.push(filterObj['global']['value']);
+                
+              } else {
+                fieldValue = [];
+                
+              }
             } else {
-              fieldValue = '';
+              fieldValue = filterObj['nama'][0]['value'];
             }
-          } else {
-            fieldValue = filterObj['nama'][0]['value'];
+
+            let criteria = new SearchCriteria();
+            criteria._name = fieldName;
+            criteria._value = fieldValue;
+            searchReq._filters.push(criteria);
           }
-  
-          let criteria = new SearchCriteria();
-          criteria._name = fieldName;
-          criteria._value = fieldValue;
-          searchReq._filters.push(criteria);
+
         }
       }
-  
-      //console.log(JSON.stringify(searchReq));
-  
-      this.getTarikPaginations(currentPage, event.rows, searchReq);
+
+      this.getTarikPaginations(searchReq);
     }
   }
   
   getTarikPaginations(
-    pageSize: number | undefined,
-    pageNumber: number | undefined,
     search?: any
   ) {
     console.log(search);
     this.loading = true;
-    this.tarikService.getTarikPaginations(pageSize, pageNumber, search).subscribe({
+    this.tarikService.pagingAndFilter(search).subscribe({
       next: (res: any) => {
         this.tarikPage = res.data;
         this.loading = false;

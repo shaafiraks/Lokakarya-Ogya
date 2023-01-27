@@ -16,6 +16,7 @@ export class TransferComponent implements OnInit {
 public transferHistory: any = [];
 public transferHariIni: any = [];
 public transferPage: any = [];
+currentPage: number = 0;
 searchQuery: string = '';
 loading: boolean = true;
 totalRows: number = 0;

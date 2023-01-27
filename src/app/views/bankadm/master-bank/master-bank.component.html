@@ -202,7 +202,26 @@
             <tr>
               <th class="text-center">Nomor Rekening</th>
               <!-- <th pSortableColumn="userId">User Id <p-sortIcon field="userId"></p-sortIcon></th> -->
-              <th class="text-center">Nama Nasabah<p-columnFilter type="text" field="nama" display="menu"></p-columnFilter></th>
+              <th class="text-center">Nama nasabah
+                <p-columnFilter field="nama" display="menu" matchMode="in" [showMatchModes]="false"
+                                [showOperator]="false" [showAddButton]="false">
+                                <ng-template pTemplate="header">
+                                    <div class="px-3 pt-3 pb-0">
+                                        <span class="font-bold">Nama</span>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-multiSelect [ngModel]="value" [options]="masterBank" placeholder="Any"
+                                        (onChange)="filter($event.value)" optionValue="nama" optionLabel="nama">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="p-multiselect-representative-option">
+                                                <span class="ml-1">{{option.nama}}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </ng-template>
+                            </p-columnFilter>
+              </th>
               <th class="text-center">Alamat</th>
               <th class="text-center">Nomor Telepon</th>
               <th class="text-center" pSortableColumn="saldo">
