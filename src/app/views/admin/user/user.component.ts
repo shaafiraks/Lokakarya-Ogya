@@ -88,6 +88,7 @@ export class UserComponent implements OnInit {
     this.form.enable();
     reference.sameUsername = 0;
     reference.sameEmail = 0;
+    reference.password = "passwordwkwk";
     this.form.setValue(reference);
     this.form.controls['updatedBy'].setValue(this.username);
     this.form.controls['updatedDate'].setValue(this.currentDate);
@@ -101,6 +102,7 @@ export class UserComponent implements OnInit {
   showDelete(reference: UserInterface) {
     reference.sameUsername = 0;
     reference.sameEmail = 0;
+    reference.password = "passwordwkwk";
     this.form.setValue(reference);
     this.isEdit = false;
     this.isAdd = false;
@@ -113,7 +115,7 @@ export class UserComponent implements OnInit {
   form: FormGroup = new FormGroup({
     userId: new FormControl(0),
     username: new FormControl(''),
-    // password: new FormControl(''),
+    password: new FormControl(''),
     nama: new FormControl(''),
     alamat: new FormControl(''),
     email: new FormControl(''),
@@ -252,9 +254,9 @@ export class UserComponent implements OnInit {
           Validators.maxLength(20),
         ],
       ],
-      // password: ['',[
-      //   Validators.required,
-      // ],],
+      password: ['',[
+        Validators.required,
+      ],],
       email: ['', [Validators.required, Validators.email]],
       nama: ['', [Validators.required]],
       alamat: [''],
@@ -277,7 +279,6 @@ export class UserComponent implements OnInit {
   //submit pada add edit delete
   onSubmit(): void {
     this.submitted = true;
-
     if (this.form.invalid) {
       return;
     } else {
@@ -296,7 +297,11 @@ export class UserComponent implements OnInit {
         } else {
           this.form.controls['sameEmail'].setValue(0);
         }
-
+      
+      }
+      if (this.isEdit || this.isDelete) {
+        this.form.controls['password'].disable();
+        console.log("sampe gak sih");
       }
       let data = JSON.stringify(this.form.value);
       console.log(data);

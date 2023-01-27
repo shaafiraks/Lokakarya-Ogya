@@ -26,12 +26,12 @@
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                 <ng-template pTemplate="caption">
                     <div class="flex" style="text-align: right">
-                        <!-- <span class="p-input-icon-left p-ml-auto">
+                        <span class="p-input-icon-left p-ml-auto">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" [(ngModel)]="searchQuery"
                                 (input)="dt.filterGlobal($any($event.target)?.value, 'contains')" placeholder="Search">
-                        </span>
-                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                        </span> &nbsp;
+                        <!-- <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
                             (click)="clear(dt)"></button> -->
                         <button pButton pRipple type="button" label="Add Menu" icon="pi pi-plus" class="btn-caption"
                             (click)="showAdd()"></button>
@@ -44,6 +44,24 @@
                     <tr>
                         <th style="min-width:8rem">
                             Nama
+                            <p-columnFilter field="nama" display="menu" matchMode="in" [showMatchModes]="false"
+                                [showOperator]="false" [showAddButton]="false">
+                                <ng-template pTemplate="header">
+                                    <div class="px-3 pt-3 pb-0">
+                                        <span class="font-bold">Menu</span>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-multiSelect [ngModel]="value" [options]="menu" placeholder="Any"
+                                        (onChange)="filter($event.value)" optionValue="nama" optionLabel="nama">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="p-multiselect-representative-option">
+                                                <span class="ml-1">{{option.nama}}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </ng-template>
+                            </p-columnFilter>
                         </th>
                         <th>Icon</th>
                         <th>Url</th>
