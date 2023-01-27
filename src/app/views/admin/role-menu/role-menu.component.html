@@ -28,7 +28,7 @@
           <div class="flex">
             <span class="p-input-icon-left p-ml-auto">
               <input pInputText type="text" [(ngModel)]="searchQuery"
-              (input)="dt.filterGlobal($any($event.target)?.value, 'contains')" placeholder="Search">
+              (input)="dt.filterGlobal($any($event.target)?.value, 'contains')" placeholder="Search Role  ">
             </span>
             <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
             (click)="clear(dt)"></button>
@@ -64,24 +64,6 @@
             </th>
             <th style="min-width:10rem">
               Menu
-              <p-columnFilter field="menuId" display="menu" matchMode="in" [showMatchModes]="false"
-                [showOperator]="false" [showAddButton]="false">
-                <ng-template pTemplate="header">
-                  <div class="px-3 pt-3 pb-0">
-                    <span class="font-bold">Users</span>
-                  </div>
-                </ng-template>
-                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                  <p-multiSelect [ngModel]="value" [options]="listMenu" placeholder="Any"
-                    (onChange)="filter($event.value)" optionValue="menuId" optionLabel="nama">
-                    <ng-template let-option pTemplate="item">
-                      <div class="p-multiselect-representative-option">
-                        <span class="ml-1">{{option.menuId}} : {{option.nama}}</span>
-                      </div>
-                    </ng-template>
-                  </p-multiSelect>
-                </ng-template>
-              </p-columnFilter>
             </th>
             <th>Is Active</th>
             <th>Program Name</th>

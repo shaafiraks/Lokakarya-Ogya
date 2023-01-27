@@ -33,7 +33,7 @@
                         <span class="p-input-icon-left p-ml-auto">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" [(ngModel)]="searchQuery"
-                                (input)="dt.filterGlobal($any($event.target)?.value, 'contains')" placeholder="Search">
+                                (input)="dt.filterGlobal($any($event.target)?.value, 'contains')" placeholder="Search Username">
                         </span>
                         <!-- <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
                         (click)="clear(dt)"></button> -->
@@ -69,24 +69,6 @@
                         </th>
                         <th style="min-width:8rem">
                             Role
-                            <p-columnFilter field="roleId" display="menu" matchMode="in" [showMatchModes]="false"
-                                [showOperator]="false" [showAddButton]="false">
-                                <ng-template pTemplate="header">
-                                    <div class="px-3 pt-3 pb-0">
-                                        <span class="font-bold">Users</span>
-                                    </div>
-                                </ng-template>
-                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                    <p-multiSelect [ngModel]="value" [options]="listRole" placeholder="Any"
-                                        (onChange)="filter($event.value)" optionValue="roleId" optionLabel="nama">
-                                        <ng-template let-option pTemplate="item">
-                                            <div class="p-multiselect-representative-option">
-                                                <span class="ml-1">{{option.roleId}} : {{option.nama}}</span>
-                                            </div>
-                                        </ng-template>
-                                    </p-multiSelect>
-                                </ng-template>
-                            </p-columnFilter>
                         </th>
                         <th>Program Name</th>
                         <th pSortableColumn="createdDate">Created Date<p-sortIcon field="createdDate"></p-sortIcon></th>
