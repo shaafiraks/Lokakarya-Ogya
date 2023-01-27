@@ -43,7 +43,7 @@
           <tr>
             <th style="min-width:8rem">
               Role
-              <p-columnFilter field="roleId" display="menu" matchMode="in" [showMatchModes]="false"
+              <p-columnFilter field="roleName" display="menu" matchMode="in" [showMatchModes]="false"
                 [showOperator]="false" [showAddButton]="false">
                 <ng-template pTemplate="header">
                   <div class="px-3 pt-3 pb-0">
@@ -52,10 +52,10 @@
                 </ng-template>
                 <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                   <p-multiSelect [ngModel]="value" [options]="listRole" placeholder="Any"
-                    (onChange)="filter($event.value)" optionValue="roleId" optionLabel="nama">
+                    (onChange)="filter($event.value)" optionValue="roleName" optionLabel="nama">
                     <ng-template let-option pTemplate="item">
                       <div class="p-multiselect-representative-option">
-                        <span class="ml-1">{{option.roleId}} : {{option.nama}}</span>
+                        <span class="ml-1">{{option.roleName}} : {{option.nama}}</span>
                       </div>
                     </ng-template>
                   </p-multiSelect>
