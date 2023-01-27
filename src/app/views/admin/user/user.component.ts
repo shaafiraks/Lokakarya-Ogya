@@ -42,7 +42,7 @@ export class UserComponent implements OnInit {
   valUsername = '';
   valPassword = '';
   valNama = '';
-  valAlamat = '';
+  valAlamat = 0;
   valEmail = '';
   valTelp = '';
   valProgramName = '';
@@ -117,7 +117,7 @@ export class UserComponent implements OnInit {
     username: new FormControl(''),
     password: new FormControl(''),
     nama: new FormControl(''),
-    alamat: new FormControl(''),
+    alamat: new FormControl(0),
     email: new FormControl(''),
     telp: new FormControl(''),
     programName: new FormControl(''),
