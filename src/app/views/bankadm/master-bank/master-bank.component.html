@@ -171,9 +171,10 @@
         id="preview-24"
       >
       <p-table #dt [value]="masterBankPage" dataKey="id" [paginator]="true" [rows]="5" [lazy]="true"
-        (onLazyLoad)="nextPage($event)" [rowsPerPageOptions]="[5, 10, 15, 20]" [totalRecords]="totalRows"
-        [globalFilterFields]="['nama','alamat']" [loading]="loading" [showCurrentPageReport]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                (onLazyLoad)="nextPage($event)" [rowsPerPageOptions]="[5, 10, 15, 20]" [totalRecords]="totalRows"
+                [globalFilterFields]="['nama']" [loading]="loading"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
           <ng-template pTemplate="caption">
             <div class="flex">
               <span class="p-input-icon-left p-ml-auto">
@@ -188,6 +189,8 @@
                   placeholder="Search by Name"
                 />
               </span>
+              <!-- <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                            (click)="clear(dt)"></button> -->
               <button pButton pRipple type="button" label="Add Nasabah" icon="pi pi-plus" class="btn-caption"
                             (click)="showAdd()"></button>
                         <button pButton pRipple type="button" styleClass="p-button-lg" label="Download" iconPos="right"
@@ -199,7 +202,26 @@
             <tr>
               <th class="text-center">Nomor Rekening</th>
               <!-- <th pSortableColumn="userId">User Id <p-sortIcon field="userId"></p-sortIcon></th> -->
-              <th class="text-center">Nama Nasabah<p-columnFilter type="text" field="nama" display="menu"></p-columnFilter></th>
+              <th class="text-center">Nama nasabah
+                <p-columnFilter field="nama" display="menu" matchMode="in" [showMatchModes]="false"
+                                [showOperator]="false" [showAddButton]="false">
+                                <ng-template pTemplate="header">
+                                    <div class="px-3 pt-3 pb-0">
+                                        <span class="font-bold">Nama</span>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-multiSelect [ngModel]="value" [options]="masterBank" placeholder="Any"
+                                        (onChange)="filter($event.value)" optionValue="nama" optionLabel="nama">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="p-multiselect-representative-option">
+                                                <span class="ml-1">{{option.nama}}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </ng-template>
+                            </p-columnFilter>
+              </th>
               <th class="text-center">Alamat</th>
               <th class="text-center">Nomor Telepon</th>
               <th class="text-center" pSortableColumn="saldo">

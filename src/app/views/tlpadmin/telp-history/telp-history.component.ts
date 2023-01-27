@@ -151,8 +151,9 @@ export class TelpHistoryComponent implements OnInit {
     searchReq._size = 5;
     searchReq._sortField = 'idHistory';
     searchReq._sortOrder = 'DESC';
+    searchReq._filters = [];
 
-    this.getHistoryTelkomData(0, 5, searchReq);
+    this.getHistoryTelkomData(searchReq);
 
     this.telpHistoryService.findAll().subscribe({
       next: (res: any) => {
@@ -322,7 +323,7 @@ export class TelpHistoryComponent implements OnInit {
       searchReq._page = event.first;
       searchReq._size = event.rows;
       searchReq._sortField =
-        event.sortField === null ? 'idHistory' : event.sortField;
+        event.sortField === undefined ? 'idHistory' : event.sortField;
       searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
       searchReq._filters = [];
 
@@ -336,47 +337,65 @@ export class TelpHistoryComponent implements OnInit {
       let filterObj = <any>event.filters;
       console.log('filter by : ', filterObj);
       let fieldName: string = '';
-      let fieldValue: string = '';
+      let fieldValue = [];
 
       if (filterObj !== undefined) {
-        if (filterObj.hasOwnProperty('idHistory')) {
-          fieldName = 'idHistory';
-          if (filterObj['nama'][0]['value'] == null) {
-            if (typeof filterObj['global'] != 'undefined') {
-              fieldValue = filterObj['global']['value'];
-            } else {
-              fieldValue = '';
-            }
-          } else {
-            fieldValue = filterObj['nama'][0]['value'];
-          }
+        if (filterObj.hasOwnProperty('nama')) {
+          fieldName = 'nama';
 
-          let criteria = new SearchCriteria();
-          criteria._name = fieldName;
-          criteria._value = fieldValue;
-          searchReq._filters.push(criteria);
+          if (
+            typeof filterObj['global'] != 'undefined' ||
+            filterObj['nama'][0]['value'] !== null
+          ) {
+            if (filterObj['nama'][0]['value'] == null) {
+              if (typeof filterObj['global'] != 'undefined') {
+                fieldValue.push(filterObj['global']['value']);
+              } else {
+                fieldValue = [];
+              }
+            } else {
+              fieldValue = filterObj['nama'][0]['value'];
+            }
+
+            let criteria = new SearchCriteria();
+            criteria._name = fieldName;
+            criteria._value = fieldValue;
+            searchReq._filters.push(criteria);
+          }
         }
+        // if (filterObj.hasOwnProperty('createdBy')) {
+        //   fieldName = 'createdBy';
+        //   if (filterObj['createdBy'][0]['value'] == null) {
+        //     if (typeof filterObj['global'] != 'undefined') {
+        //       fieldValue = filterObj['global']['value'];
+        //     } else {
+        //       fieldValue = '';
+        //     }
+        //   } else {
+        //     fieldValue = filterObj['createdBy'][0]['value'];
+        //   }
+        //   let criteria = new SearchCriteria();
+        //   criteria._name = fieldName;
+        //   criteria._value = fieldValue;
+        //   searchReq._filters.push(criteria);
+        // }
       }
 
       //console.log(JSON.stringify(searchReq));
 
-      this.getHistoryTelkomData(currentPage, event.rows, searchReq);
+      this.getHistoryTelkomData(searchReq);
     }
   }
 
-  getHistoryTelkomData(
-    pageSize: number | undefined,
-    pageNumber: number | undefined,
-    search?: any
-  ) {
+  getHistoryTelkomData(search?: any) {
     console.log(search);
     this.loading = true;
-    this.telpHistoryService.getPage(pageSize, pageNumber, search).subscribe({
+    this.telpHistoryService.post(search).subscribe({
       next: (res: any) => {
         this.historyTelkom = res.data;
         this.loading = false;
         this.totalRows = res.totalRowCount;
-        // console.log(res.data);
+        // console.log(res.data[1]);
       },
       error: (error) => {
         console.error('ini error: ', error);

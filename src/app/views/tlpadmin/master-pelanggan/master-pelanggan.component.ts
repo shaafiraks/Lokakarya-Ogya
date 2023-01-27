@@ -212,8 +212,9 @@ export class MasterPelangganComponent implements OnInit {
     searchReq._size = 5;
     searchReq._sortField = 'idPelanggan';
     searchReq._sortOrder = 'DESC';
+    searchReq._filters = [];
 
-    this.getMasterPelangganData(0, 5, searchReq);
+    this.getMasterPelangganData(searchReq);
 
     this.masterPelangganService.findAll().subscribe({
       next: (res: any) => {
@@ -410,7 +411,7 @@ export class MasterPelangganComponent implements OnInit {
       searchReq._page = event.first;
       searchReq._size = event.rows;
       searchReq._sortField =
-        event.sortField === null ? 'idPelanggan' : event.sortField;
+        event.sortField === undefined ? 'nama' : event.sortField;
       searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
       searchReq._filters = [];
 
@@ -424,53 +425,69 @@ export class MasterPelangganComponent implements OnInit {
       let filterObj = <any>event.filters;
       console.log('filter by : ', filterObj);
       let fieldName: string = '';
-      let fieldValue: string = '';
+      let fieldValue = [];
 
       if (filterObj !== undefined) {
-        if (filterObj.hasOwnProperty('idPelanggan')) {
-          fieldName = 'idPelanggan';
-          if (filterObj['nama'][0]['value'] == null) {
-            if (typeof filterObj['global'] != 'undefined') {
-              fieldValue = filterObj['global']['value'];
-            } else {
-              fieldValue = '';
-            }
-          } else {
-            fieldValue = filterObj['nama'][0]['value'];
-          }
+        if (filterObj.hasOwnProperty('nama')) {
+          fieldName = 'nama';
 
-          let criteria = new SearchCriteria();
-          criteria._name = fieldName;
-          criteria._value = fieldValue;
-          searchReq._filters.push(criteria);
+          if (
+            typeof filterObj['global'] != 'undefined' ||
+            filterObj['nama'][0]['value'] !== null
+          ) {
+            if (filterObj['nama'][0]['value'] == null) {
+              if (typeof filterObj['global'] != 'undefined') {
+                fieldValue.push(filterObj['global']['value']);
+              } else {
+                fieldValue = [];
+              }
+            } else {
+              fieldValue = filterObj['nama'][0]['value'];
+            }
+
+            let criteria = new SearchCriteria();
+            criteria._name = fieldName;
+            criteria._value = fieldValue;
+            searchReq._filters.push(criteria);
+          }
         }
+        // if (filterObj.hasOwnProperty('createdBy')) {
+        //   fieldName = 'createdBy';
+        //   if (filterObj['createdBy'][0]['value'] == null) {
+        //     if (typeof filterObj['global'] != 'undefined') {
+        //       fieldValue = filterObj['global']['value'];
+        //     } else {
+        //       fieldValue = '';
+        //     }
+        //   } else {
+        //     fieldValue = filterObj['createdBy'][0]['value'];
+        //   }
+        //   let criteria = new SearchCriteria();
+        //   criteria._name = fieldName;
+        //   criteria._value = fieldValue;
+        //   searchReq._filters.push(criteria);
+        // }
       }
 
       //console.log(JSON.stringify(searchReq));
 
-      this.getMasterPelangganData(currentPage, event.rows, searchReq);
+      this.getMasterPelangganData(searchReq);
     }
   }
 
-  getMasterPelangganData(
-    pageSize: number | undefined,
-    pageNumber: number | undefined,
-    search?: any
-  ) {
+  getMasterPelangganData(search?: any) {
     console.log(search);
     this.loading = true;
-    this.masterPelangganService
-      .getPage(pageSize, pageNumber, search)
-      .subscribe({
-        next: (res: any) => {
-          this.masterPelanggan = res.data;
-          this.loading = false;
-          this.totalRows = res.totalRowCount;
-          // console.log(res.data);
-        },
-        error: (error) => {
-          console.error('ini error: ', error);
-        },
-      });
+    this.masterPelangganService.post(search).subscribe({
+      next: (res: any) => {
+        this.masterPelanggan = res.data;
+        this.loading = false;
+        this.totalRows = res.totalRowCount;
+        // console.log(res.data);
+      },
+      error: (error) => {
+        console.error('ini error: ', error);
+      },
+    });
   }
 }
