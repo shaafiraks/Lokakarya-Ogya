@@ -19,7 +19,8 @@ import {
   FormModule,
   GridModule,
   ListGroupModule,
-  SharedModule
+  SharedModule,
+  TooltipModule
 } from '@coreui/angular';
 
 import { DocsComponentsModule } from '@docs-components/docs-components.module';
@@ -36,6 +37,15 @@ import { TransferComponent } from './history-transaksi/transfer/transfer.compone
 import { BayarTeleponComponent } from './history-transaksi/bayar-telepon/bayar-telepon.component';
 import { ToastModule } from 'primeng/toast';
 import { PaginatorModule } from 'primeng/paginator';
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { InputMaskModule } from 'primeng/inputmask';
+import { PasswordModule } from 'primeng/password';
+import { DividerModule } from 'primeng/divider';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { CheckboxModule } from 'primeng/checkbox';
 
 
 @NgModule({
@@ -73,6 +83,38 @@ import { PaginatorModule } from 'primeng/paginator';
     InputTextModule,
     ToastModule,
     PaginatorModule,
+    ConfirmDialogModule,
+    ConfirmPopupModule,
+    DialogModule,
+    TableModule,
+    AccordionModule,
+    CommonModule,
+    DocsComponentsModule,
+    CardModule,
+    FormModule,
+    GridModule,
+    ButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FormModule,
+    ButtonModule,
+    ButtonGroupModule,
+    DropdownModule,
+    SharedModule,
+    ListGroupModule,
+    ToastModule,
+    SplitButtonModule,
+    InputMaskModule,
+    PasswordModule,
+    InputTextModule,
+    DividerModule,
+    AutoCompleteModule,
+    InputNumberModule,
+    TooltipModule,
+    MultiSelectModule,
+    RadioButtonModule,
+    CheckboxModule,
+    PaginatorModule
   ]
 })
 export class BankadmModule { }

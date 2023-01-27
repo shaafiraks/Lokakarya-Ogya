@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api';
+import { Table } from 'primeng/table';
 import { SearchCriteria } from 'src/app/models/search.crtiteria.model';
 import { SearchRequest } from 'src/app/models/search.request.model';
 import { HistoryTransaksiService } from '../history-transaksi.service';
@@ -15,6 +16,7 @@ export class TransferComponent implements OnInit {
 public transferHistory: any = [];
 public transferHariIni: any = [];
 public transferPage: any = [];
+currentPage: number = 0;
 searchQuery: string = '';
 loading: boolean = true;
 totalRows: number = 0;
@@ -57,6 +59,10 @@ getData() {
 
 ngOnInit(): void {
   this.getData();
+}
+
+clear(table: Table) {
+  table.clear();
 }
 
 nextPage(event: LazyLoadEvent) {

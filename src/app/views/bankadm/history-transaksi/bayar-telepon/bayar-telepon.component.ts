@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api';
+import { Table } from 'primeng/table';
 import { SearchCriteria } from 'src/app/models/search.crtiteria.model';
 import { SearchRequest } from 'src/app/models/search.request.model';
 import { HistoryTransaksiService } from '../history-transaksi.service';
@@ -15,6 +16,7 @@ export class BayarTeleponComponent implements OnInit {
   public bayarTeleponHistory: any = [];
   public bayarTeleponHariIni: any = [];
   public bayarTeleponPage: any = [];
+  currentPage: number = 0;
   searchQuery: string = '';
   loading: boolean = true;
   totalRows: number = 0;
@@ -31,8 +33,9 @@ export class BayarTeleponComponent implements OnInit {
     searchReq._size = 5;
     searchReq._sortField = 'tanggal';
     searchReq._sortOrder = 'DESC';
+    searchReq._filters = [];
 
-    this.getBayarTeleponPaginations(0, 5, searchReq);
+    this.getBayarTeleponPaginations(searchReq);
 
   //memanggil service find all data bayar telepon
     this.bayarTeleponService.findAllBayarTelepon().subscribe({
@@ -61,6 +64,10 @@ export class BayarTeleponComponent implements OnInit {
 
   }
 
+  clear(table: Table) {
+    table.clear();
+  }
+
   nextPage(event: LazyLoadEvent) {
     console.log(event.filters);
     if (this.isDirty) {
@@ -72,56 +79,59 @@ export class BayarTeleponComponent implements OnInit {
       searchReq._page = event.first;
       searchReq._size = event.rows;
       searchReq._sortField =
-        event.sortField === null ? 'tanggal' : event.sortField;
+        event.sortField === undefined ? 'tanggal' : event.sortField;
       searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
       searchReq._filters = [];
-  
+
       let currentPage = event.first;
       if (event.first !== undefined && event.rows !== undefined) {
         searchReq._page = Math.ceil(event.first / event.rows);
         currentPage = Math.ceil(event.first / event.rows);
       }
-  
+
       //Process filter object
       let filterObj = <any>event.filters;
       console.log('filter by : ', filterObj);
       let fieldName: string = '';
-      let fieldValue: string = '';
-  
+      let fieldValue = [];
+
       if (filterObj !== undefined) {
         if (filterObj.hasOwnProperty('nama')) {
           fieldName = 'nama';
-          if (filterObj['nama'][0]['value'] == null) {
-            if (typeof filterObj['global'] != 'undefined') {
-              fieldValue = filterObj['global']['value'];
+
+    
+          if (typeof filterObj['global'] != 'undefined' || filterObj['nama'][0]['value'] !== null) {
+            if (filterObj['nama'][0]['value'] == null) {
+              if (typeof filterObj['global'] != 'undefined') {
+                fieldValue.push(filterObj['global']['value']);
+                
+              } else {
+                fieldValue = [];
+                
+              }
             } else {
-              fieldValue = '';
+              fieldValue = filterObj['nama'][0]['value'];
             }
-          } else {
-            fieldValue = filterObj['nama'][0]['value'];
+
+            let criteria = new SearchCriteria();
+            criteria._name = fieldName;
+            criteria._value = fieldValue;
+            searchReq._filters.push(criteria);
           }
-  
-          let criteria = new SearchCriteria();
-          criteria._name = fieldName;
-          criteria._value = fieldValue;
-          searchReq._filters.push(criteria);
+
         }
       }
-  
-      //console.log(JSON.stringify(searchReq));
-  
-      this.getBayarTeleponPaginations(currentPage, event.rows, searchReq);
+
+      this.getBayarTeleponPaginations(searchReq);
     }
   }
   
   getBayarTeleponPaginations(
-    pageSize: number | undefined,
-    pageNumber: number | undefined,
     search?: any
   ) {
     console.log(search);
     this.loading = true;
-    this.bayarTeleponService.getBayarTeleponPaginations(pageSize, pageNumber, search).subscribe({
+    this.bayarTeleponService.pagingAndFilter(search).subscribe({
       next: (res: any) => {
         this.bayarTeleponPage = res.data;
         this.loading = false;
