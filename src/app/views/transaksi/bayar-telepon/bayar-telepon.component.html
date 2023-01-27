@@ -29,14 +29,13 @@
                         </div>
                         <div class="col-md-1"><b>:</b></div>
                         <div class="form-group p-field col-md-5">
-                            <input pInputText name="noTelepon" placeholder="" formControlName="noTelepon"
-                                [ngClass]="{'is-invalid' : submitted && f['cekSaldo'].errors}" [(ngModel)]="noTelepon"
+                            <p-inputNumber name="noTelepon" placeholder="" formControlName="noTelepon"
+                                [ngClass]="{'is-invalid' : submitted && f['noTelepon'].errors}" [(ngModel)]="noTelepon"
                                 class="p-inputtext-sm">
-
-
+                            </p-inputNumber>
                             <!-- Untuk menampilkan pesan error -->
                             <div *ngIf="submitted && f['noTelepon'].errors" class="invalid-feedback">
-                                <div *ngIf="f['noTelepon'].errors['required']"> Masukkan nomor rekening </div>
+                                <div *ngIf="f['noTelepon'].errors['required']"> Masukkan nomor Telepon </div>
                             </div>
                         </div>
                     </div>
