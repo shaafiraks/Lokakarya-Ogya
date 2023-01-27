@@ -63,9 +63,9 @@ export class SetorComponent implements OnInit {
     this.getData();
   }
 
-  clear(table: Table) {
-    table.clear();
-  }
+  // clear(table: Table) {
+  //   table.clear();
+  // }
 
   nextPage(event: LazyLoadEvent) {
     console.log(event.filters);
