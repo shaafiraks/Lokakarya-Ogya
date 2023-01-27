@@ -52,7 +52,7 @@ export class BayarTeleponComponent implements OnInit {
   }
 
   noRekening: any;
-  noTelepon: any = 0;
+  noTelepon: any;
   tagihan: any = 0;
   bulanTagihan:any ;
   nasabah: any = [];
@@ -68,6 +68,7 @@ export class BayarTeleponComponent implements OnInit {
   tampilDatatagihan:boolean = false;
   cekErrorBulanTagihan:boolean =false;
   loading:boolean = false;
+  buttonTotalTagihan :any = [];
 
   //FUNCTION BAYAR TELEPON SEKALIGUS
   onBayarTelepon() {

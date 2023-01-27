@@ -149,8 +149,10 @@ export class SetorTunaiComponent implements OnInit {
         error: (error) => {
           // this.tampilFormCekSaldo = false;
           this.loading = false;
-          this.messageError();
+          // this.messageError();
+          this.cekError = true;
           console.log(error);
+          this.errorMessage = error.error.message
           // alert('Id tidak ditemukan')
           // this.onReset();
         },

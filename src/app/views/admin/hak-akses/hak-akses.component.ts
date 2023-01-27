@@ -22,6 +22,7 @@ export class HakAksesComponent implements OnInit {
   public listUser: any = [];
   public listRole: any = [];
   multipleUser: any[] = [];
+  currentPage: number = 0;
   aksesform: boolean = false;
   header: string = "";
   isEdit: boolean = false;
@@ -191,8 +192,8 @@ export class HakAksesComponent implements OnInit {
     });
   }
 
-  errorMessage: string = '';
-  cekError: boolean = false;
+  // errorMessage: string = '';
+  // cekError: boolean = false;
   //mengambil data dari service
   getData() {
     let searchReq = new SearchRequest();
@@ -201,8 +202,9 @@ export class HakAksesComponent implements OnInit {
     searchReq._size = 5;
     searchReq._sortField = 'createdDate';
     searchReq._sortOrder = 'DESC';
+    searchReq._filters = [];
 
-    this.gethakAksesData(0, 5, searchReq);
+    this.gethakAksesData(searchReq);
 
     this.userService.get().subscribe({
       next: (res: any) => {
@@ -389,7 +391,7 @@ export class HakAksesComponent implements OnInit {
       searchReq._page = event.first;
       searchReq._size = event.rows;
       searchReq._sortField =
-        event.sortField === null ? 'createdDate' : event.sortField;
+        event.sortField === undefined ? 'userId' : event.sortField;
       searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
       searchReq._filters = [];
 
@@ -403,58 +405,71 @@ export class HakAksesComponent implements OnInit {
       let filterObj = <any>event.filters;
       console.log('filter by : ', filterObj);
       let fieldName: string = '';
-      let fieldValue: string = '';
+      let fieldValue = [];
 
       if (filterObj !== undefined) {
-        if (filterObj.hasOwnProperty('username')) {
+        if (filterObj.hasOwnProperty('userId')) {
           fieldName = 'username';
-          if (filterObj['username'][0]['value'] == null) {
-            if (typeof filterObj['global'] != 'undefined') {
-              fieldValue = filterObj['global']['value'];
+
+    
+          if (typeof filterObj['global'] != 'undefined' || filterObj['userId'][0]['value'] !== null) {
+            if (filterObj['userId'][0]['value'] == null) {
+              if (typeof filterObj['global'] != 'undefined') {
+                fieldValue.push(filterObj['global']['value']);
+                
+              } else {
+                fieldValue = [];
+                
+              }
             } else {
-              fieldValue = '';
+              fieldValue = filterObj['userId'][0]['value'];
             }
-          } else {
-            fieldValue = filterObj['username'][0]['value'];
+
+            let criteria = new SearchCriteria();
+            criteria._name = fieldName;
+            criteria._value = fieldValue;
+            searchReq._filters.push(criteria);
           }
 
-          let criteria = new SearchCriteria();
-          criteria._name = fieldName;
-          criteria._value = fieldValue;
-          searchReq._filters.push(criteria);
         }
-        if (filterObj.hasOwnProperty('roleName')) {
+        if (filterObj.hasOwnProperty('roleId')) {
           fieldName = 'roleName';
-          if (filterObj['roleName'][0]['value'] == null) {
-            if (typeof filterObj['global'] != 'undefined') {
-              fieldValue = filterObj['global']['value'];
+
+    
+          if (typeof filterObj['global'] != 'undefined' || filterObj['roleId'][0]['value'] !== null) {
+            if (filterObj['roleId'][0]['value'] == null) {
+              if (typeof filterObj['global'] != 'undefined') {
+                fieldValue.push(filterObj['global']['value']);
+                
+              } else {
+                fieldValue = [];
+                
+              }
             } else {
-              fieldValue = '';
+              fieldValue = filterObj['roleId'][0]['value'];
             }
-          } else {
-            fieldValue = filterObj['roleName'][0]['value'];
+
+            let criteria = new SearchCriteria();
+            criteria._name = fieldName;
+            criteria._value = fieldValue;
+            searchReq._filters.push(criteria);
           }
-          let criteria = new SearchCriteria();
-          criteria._name = fieldName;
-          criteria._value = fieldValue;
-          searchReq._filters.push(criteria);
+
         }
       }
 
       //console.log(JSON.stringify(searchReq));
 
-      this.gethakAksesData(currentPage, event.rows, searchReq);
+      this.gethakAksesData(searchReq);
     }
   }
 
   gethakAksesData(
-    pageSize: number | undefined,
-    pageNumber: number | undefined,
     search?: any
   ) {
     console.log(search);
     this.loading = true;
-    this.hakAksesService.getPage(pageSize, pageNumber, search).subscribe({
+    this.hakAksesService.post( search).subscribe({
       next: (res: any) => {
         this.hakAkses = res.data;
         this.loading = false;

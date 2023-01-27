@@ -21,6 +21,8 @@
                                     (input)="dt.filterGlobal($any($event.target)?.value, 'contains')"
                                     placeholder="Search by Name">
                             </span>
+                            <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                            (click)="clear(dt)"></button>
                             <button pButton pRipple type="button" styleClass="p-button-lg" label="Download" iconPos="right"
                             icon="pi pi-arrow-down" class="p-button-custom btn-caption"
                             (click)="downloadDataTarik()"></button>
@@ -30,7 +32,26 @@
                         <tr>
                             <!-- <th>Id History Bank</th> -->
                             <th class="text-center">Nomor Rekening</th>
-                            <th class="text-center">Nama Nasabah <p-columnFilter type="text" field="nama" display="menu"></p-columnFilter></th>
+                            <th class="text-center">Nama Nasabah 
+                                <p-columnFilter field="nama" display="menu" matchMode="in" [showMatchModes]="false"
+                                [showOperator]="false" [showAddButton]="false">
+                                <ng-template pTemplate="header">
+                                    <div class="px-3 pt-3 pb-0">
+                                        <span class="font-bold">Nama</span>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-multiSelect [ngModel]="value" [options]="tarikHistory" placeholder="Any"
+                                        (onChange)="filter($event.value)" optionValue="nama" optionLabel="nama">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="p-multiselect-representative-option">
+                                                <span class="ml-1">{{option.nama}}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </ng-template>
+                            </p-columnFilter>
+                            </th>
                             <th class="text-center" pSortableColumn="tanggal">Tanggal
                                 <p-sortIcon field="tanggal"></p-sortIcon></th>
                             <th class="text-center" >Nominal</th>
