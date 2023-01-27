@@ -221,8 +221,9 @@ export class RoleMenuComponent implements OnInit {
     searchReq._size = 5;
     searchReq._sortField = 'createdDate';
     searchReq._sortOrder = 'DESC';
+    searchReq._filters = [];
 
-    this.getRoleMenuData(0, 5, searchReq);
+    this.getRoleMenuData(searchReq);
 
     this.roleService.get().subscribe({
       next: (res: any) => {
@@ -257,17 +258,6 @@ export class RoleMenuComponent implements OnInit {
       },
     });
   }
-
-  // getDownload() {
-  //   this.roleMenuService.download().subscribe({
-  //     next: (data: any) => {
-  //       saveAs(data, 'Role Menu.pdf');
-  //     },
-  //     error: (error) => {
-  //       console.error('ini error', error);
-  //     },
-  //   });
-  // }
 
   getDownload(): void {
     this.roleMenuService.download().subscribe({
@@ -436,8 +426,7 @@ export class RoleMenuComponent implements OnInit {
   }
 
   clear(table: Table) {
-    this.searchQuery = '';
-    table.reset();
+    table.clear();
   }
 
   nextPage(event: LazyLoadEvent) {
@@ -451,7 +440,7 @@ export class RoleMenuComponent implements OnInit {
       searchReq._page = event.first;
       searchReq._size = event.rows;
       searchReq._sortField =
-        event.sortField === null ? 'createdDate' : event.sortField;
+        event.sortField === undefined ? 'menuId' : event.sortField;
       searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
       searchReq._filters = [];
 
@@ -465,58 +454,63 @@ export class RoleMenuComponent implements OnInit {
       let filterObj = <any>event.filters;
       console.log('filter by : ', filterObj);
       let fieldName: string = '';
-      let fieldValue: string = '';
+      let fieldValue = [];
 
       if (filterObj !== undefined) {
-        if (filterObj.hasOwnProperty('menuId')) {
-          fieldName = 'menuId';
-          if (filterObj['menuId'][0]['value'] == null) {
-            if (typeof filterObj['global'] != 'undefined') {
-              fieldValue = filterObj['global']['value'];
+        if (filterObj.hasOwnProperty('roleName')) {
+          fieldName = 'roleName';
+
+    
+          if (typeof filterObj['global'] != 'undefined' || filterObj['roleName'][0]['value'] !== null) {
+            if (filterObj['roleName'][0]['value'] == null) {
+              if (typeof filterObj['global'] != 'undefined') {
+                fieldValue.push(filterObj['global']['value']);
+                
+              } else {
+                fieldValue = [];
+                
+              }
             } else {
-              fieldValue = '';
+              fieldValue = filterObj['roleName'][0]['value'];
             }
-          } else {
-            fieldValue = filterObj['menuId'][0]['value'];
+
+            let criteria = new SearchCriteria();
+            criteria._name = fieldName;
+            criteria._value = fieldValue;
+            searchReq._filters.push(criteria);
           }
 
-          let criteria = new SearchCriteria();
-          criteria._name = fieldName;
-          criteria._value = fieldValue;
-          searchReq._filters.push(criteria);
         }
-        if (filterObj.hasOwnProperty('roleId')) {
-          fieldName = 'roleId';
-          if (filterObj['roleId'][0]['value'] == null) {
-            if (typeof filterObj['global'] != 'undefined') {
-              fieldValue = filterObj['global']['value'];
-            } else {
-              fieldValue = '';
-            }
-          } else {
-            fieldValue = filterObj['roleId'][0]['value'];
-          }
-          let criteria = new SearchCriteria();
-          criteria._name = fieldName;
-          criteria._value = fieldValue;
-          searchReq._filters.push(criteria);
-        }
+        // if (filterObj.hasOwnProperty('createdBy')) {
+        //   fieldName = 'createdBy';
+        //   if (filterObj['createdBy'][0]['value'] == null) {
+        //     if (typeof filterObj['global'] != 'undefined') {
+        //       fieldValue = filterObj['global']['value'];
+        //     } else {
+        //       fieldValue = '';
+        //     }
+        //   } else {
+        //     fieldValue = filterObj['createdBy'][0]['value'];
+        //   }
+        //   let criteria = new SearchCriteria();
+        //   criteria._name = fieldName;
+        //   criteria._value = fieldValue;
+        //   searchReq._filters.push(criteria);
+        // }
       }
 
       //console.log(JSON.stringify(searchReq));
 
-      this.getRoleMenuData(currentPage, event.rows, searchReq);
+      this.getRoleMenuData(searchReq);
     }
   }
 
   getRoleMenuData(
-    pageSize: number | undefined,
-    pageNumber: number | undefined,
     search?: any
   ) {
     console.log(search);
     this.loading = true;
-    this.roleMenuService.getPage(pageSize, pageNumber, search).subscribe({
+    this.roleMenuService.post(search).subscribe({
       next: (res: any) => {
         this.roleMenu = res.data;
         this.loading = false;
