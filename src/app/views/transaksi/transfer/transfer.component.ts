@@ -157,8 +157,10 @@ export class TransferComponent implements OnInit {
         },
         error: (error) => {
           this.loading = false;
-          this.messageError();
+          // this.messageError();
+          this.cekError = true;
           console.log(error);
+          this.errorMessage= error.error.message;
           // alert('Id tidak ditemukan')
           // this.onReset();
         },

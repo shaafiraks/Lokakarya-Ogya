@@ -29,6 +29,20 @@ export class TelpHistoryService {
     );
   }
 
+  post(search: any): Observable<any> {
+    let bodyString = JSON.stringify(search);
+    // console.log(bodyString) // Stringify payload
+    var headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    });
+    return this.http.post(
+      this.baseUrl + 'historytelkom/findAllWithPaginationAndFilter',
+      bodyString,
+      { headers }
+    );
+  }
+
   findAll(): Observable<any> {
     return this.http.get(this.baseUrl + 'historytelkom/findAllPlan', {
       responseType: 'json',
