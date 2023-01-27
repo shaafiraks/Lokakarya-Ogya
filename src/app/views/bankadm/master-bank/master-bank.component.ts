@@ -317,9 +317,9 @@ export class MasterBankComponent implements OnInit {
     });
   }
 
-  clear(table: Table) {
-    table.clear();
-  }
+  // clear(table: Table) {
+  //   table.clear();
+  // }
 
   nextPage(event: LazyLoadEvent) {
     console.log(event.filters);
@@ -373,25 +373,7 @@ export class MasterBankComponent implements OnInit {
           }
 
         }
-        // if (filterObj.hasOwnProperty('createdBy')) {
-        //   fieldName = 'createdBy';
-        //   if (filterObj['createdBy'][0]['value'] == null) {
-        //     if (typeof filterObj['global'] != 'undefined') {
-        //       fieldValue = filterObj['global']['value'];
-        //     } else {
-        //       fieldValue = '';
-        //     }
-        //   } else {
-        //     fieldValue = filterObj['createdBy'][0]['value'];
-        //   }
-        //   let criteria = new SearchCriteria();
-        //   criteria._name = fieldName;
-        //   criteria._value = fieldValue;
-        //   searchReq._filters.push(criteria);
-        // }
       }
-
-      //console.log(JSON.stringify(searchReq));
 
       this.getMasterBankData(searchReq);
     }

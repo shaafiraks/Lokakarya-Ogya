@@ -45,6 +45,7 @@ export class TransaksiTelkomComponent implements OnInit {
   loading: boolean = true;
   totalRows: number = 0;
   private isDirty: boolean = false;
+  currentPage: number = 0;
 
   //menampilkan dialog delete
   showdelete(reference: TransaksiTelkomInterface) {
@@ -204,8 +205,9 @@ export class TransaksiTelkomComponent implements OnInit {
     searchReq._size = 5;
     searchReq._sortField = 'idTransaksi';
     searchReq._sortOrder = 'DESC';
+    searchReq._filters = [];
 
-    this.getTransaksiTelkomData(0, 5, searchReq);
+    this.getTransaksiTelkomData(searchReq);
 
     this.transaksiTelkomService.findAll().subscribe({
       next: (res: any) => {
@@ -396,7 +398,7 @@ export class TransaksiTelkomComponent implements OnInit {
       searchReq._page = event.first;
       searchReq._size = event.rows;
       searchReq._sortField =
-        event.sortField === null ? 'idTransaksi' : event.sortField;
+        event.sortField === undefined ? 'idTransaksi' : event.sortField;
       searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
       searchReq._filters = [];
 
@@ -410,53 +412,69 @@ export class TransaksiTelkomComponent implements OnInit {
       let filterObj = <any>event.filters;
       console.log('filter by : ', filterObj);
       let fieldName: string = '';
-      let fieldValue: string = '';
+      let fieldValue = [];
 
       if (filterObj !== undefined) {
         if (filterObj.hasOwnProperty('idTransaksi')) {
           fieldName = 'idTransaksi';
-          if (filterObj['nama'][0]['value'] == null) {
-            if (typeof filterObj['global'] != 'undefined') {
-              fieldValue = filterObj['global']['value'];
-            } else {
-              fieldValue = '';
-            }
-          } else {
-            fieldValue = filterObj['nama'][0]['value'];
-          }
 
-          let criteria = new SearchCriteria();
-          criteria._name = fieldName;
-          criteria._value = fieldValue;
-          searchReq._filters.push(criteria);
+          if (
+            typeof filterObj['global'] != 'undefined' ||
+            filterObj['idTransaksi'][0]['value'] !== null
+          ) {
+            if (filterObj['idTransaksi'][0]['value'] == null) {
+              if (typeof filterObj['global'] != 'undefined') {
+                fieldValue.push(filterObj['global']['value']);
+              } else {
+                fieldValue = [];
+              }
+            } else {
+              fieldValue = filterObj['idTransaksi'][0]['value'];
+            }
+
+            let criteria = new SearchCriteria();
+            criteria._name = fieldName;
+            criteria._value = fieldValue;
+            searchReq._filters.push(criteria);
+          }
         }
+        // if (filterObj.hasOwnProperty('createdBy')) {
+        //   fieldName = 'createdBy';
+        //   if (filterObj['createdBy'][0]['value'] == null) {
+        //     if (typeof filterObj['global'] != 'undefined') {
+        //       fieldValue = filterObj['global']['value'];
+        //     } else {
+        //       fieldValue = '';
+        //     }
+        //   } else {
+        //     fieldValue = filterObj['createdBy'][0]['value'];
+        //   }
+        //   let criteria = new SearchCriteria();
+        //   criteria._name = fieldName;
+        //   criteria._value = fieldValue;
+        //   searchReq._filters.push(criteria);
+        // }
       }
 
       //console.log(JSON.stringify(searchReq));
 
-      this.getTransaksiTelkomData(currentPage, event.rows, searchReq);
+      this.getTransaksiTelkomData(searchReq);
     }
   }
 
-  getTransaksiTelkomData(
-    pageSize: number | undefined,
-    pageNumber: number | undefined,
-    search?: any
-  ) {
+  getTransaksiTelkomData(search?: any) {
     console.log(search);
     this.loading = true;
-    this.transaksiTelkomService
-      .getPage(pageSize, pageNumber, search)
-      .subscribe({
-        next: (res: any) => {
-          this.transaksiTelkom = res.data;
-          this.loading = false;
-          this.totalRows = res.totalRowCount;
-          // console.log(res.data);
-        },
-        error: (error) => {
-          console.error('ini error: ', error);
-        },
-      });
+    this.transaksiTelkomService.post(search).subscribe({
+      next: (res: any) => {
+        this.transaksiTelkom = res.data;
+        this.loading = false;
+        this.totalRows = res.totalRowCount;
+        // console.log(res.data);
+      },
+      error: (error) => {
+        console.error('ini error: ', error);
+      },
+    });
   }
 }

@@ -1,8 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { UserService } from '../service/user.service';
 import { UserInterface } from './user-interface';
-import { ConfirmationService, ConfirmEventType, LazyLoadEvent, MessageService } from 'primeng/api';
+import {
+  ConfirmationService,
+  ConfirmEventType,
+  LazyLoadEvent,
+  MessageService,
+} from 'primeng/api';
 import { Table } from 'primeng/table';
 import { SearchRequest } from 'src/app/models/search.request.model';
 import { SearchCriteria } from 'src/app/models/search.crtiteria.model';
@@ -11,7 +22,7 @@ import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  styleUrls: ['./user.component.scss'],
 })
 export class UserComponent implements OnInit {
   constructor(
@@ -19,7 +30,7 @@ export class UserComponent implements OnInit {
     private formBuilder: FormBuilder,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
-  ) { }
+  ) {}
 
   //deklarasi variabel
   public users: any[] = [];
@@ -38,21 +49,22 @@ export class UserComponent implements OnInit {
   currentUsername: string = '';
   currentEmail: string = '';
   keteranganForm = '';
-  password = "";
+  password = '';
   valUsername = '';
   valPassword = '';
   valNama = '';
-  valAlamat = '';
+  valAlamat = 0;
   valEmail = '';
   valTelp = '';
   valProgramName = '';
   searchQuery: string = '';
   loading: boolean = true;
-  currentDate = `${this.now.getFullYear()}-${this.padTo2Digits(this.now.getMonth() + 1)}-${this.padTo2Digits(this.now.getDate())}`;
+  currentDate = `${this.now.getFullYear()}-${this.padTo2Digits(
+    this.now.getMonth() + 1
+  )}-${this.padTo2Digits(this.now.getDate())}`;
 
   totalRows: number = 0;
   private isDirty: boolean = false;
-
 
   //format tanggal angka 2 digit
   padTo2Digits(num: number) {
@@ -88,13 +100,14 @@ export class UserComponent implements OnInit {
     this.form.enable();
     reference.sameUsername = 0;
     reference.sameEmail = 0;
-    reference.password = "passwordwkwk";
+    reference.password = 'passwordwkwk';
     this.form.setValue(reference);
     this.form.controls['updatedBy'].setValue(this.username);
     this.form.controls['updatedDate'].setValue(this.currentDate);
     this.currentUsername = reference.username;
     this.currentEmail = reference.email;
-    this.keteranganForm = 'User ID (' + reference.userId + ') : ' + reference.nama;
+    this.keteranganForm =
+      'User ID (' + reference.userId + ') : ' + reference.nama;
     this.userform = true;
   }
 
@@ -102,7 +115,7 @@ export class UserComponent implements OnInit {
   showDelete(reference: UserInterface) {
     reference.sameUsername = 0;
     reference.sameEmail = 0;
-    reference.password = "passwordwkwk";
+    reference.password = 'passwordwkwk';
     this.form.setValue(reference);
     this.isEdit = false;
     this.isAdd = false;
@@ -110,14 +123,13 @@ export class UserComponent implements OnInit {
     this.getConfirmDelete();
   }
 
-
   //Mendefinisikan formulir di Angular
   form: FormGroup = new FormGroup({
     userId: new FormControl(0),
     username: new FormControl(''),
     password: new FormControl(''),
     nama: new FormControl(''),
-    alamat: new FormControl(''),
+    alamat: new FormControl(0),
     email: new FormControl(''),
     telp: new FormControl(''),
     programName: new FormControl(''),
@@ -128,7 +140,6 @@ export class UserComponent implements OnInit {
     sameUsername: new FormControl(0),
     sameEmail: new FormControl(0),
   });
-
 
   //konfirmasi berhasil add ketika klik submit
   getConfirmAdd() {
@@ -237,7 +248,6 @@ export class UserComponent implements OnInit {
         console.error('ini error: ', error);
       },
     });
-
   }
 
   ngOnInit(): void {
@@ -254,9 +264,7 @@ export class UserComponent implements OnInit {
           Validators.maxLength(20),
         ],
       ],
-      password: ['',[
-        Validators.required,
-      ],],
+      password: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       nama: ['', [Validators.required]],
       alamat: [''],
@@ -297,11 +305,10 @@ export class UserComponent implements OnInit {
         } else {
           this.form.controls['sameEmail'].setValue(0);
         }
-      
       }
       if (this.isEdit || this.isDelete) {
         this.form.controls['password'].disable();
-        console.log("sampe gak sih");
+        console.log('sampe gak sih');
       }
       let data = JSON.stringify(this.form.value);
       console.log(data);
@@ -425,15 +432,15 @@ export class UserComponent implements OnInit {
         if (filterObj.hasOwnProperty('username')) {
           fieldName = 'username';
 
-    
-          if (typeof filterObj['global'] != 'undefined' || filterObj['username'][0]['value'] !== null) {
+          if (
+            typeof filterObj['global'] != 'undefined' ||
+            filterObj['username'][0]['value'] !== null
+          ) {
             if (filterObj['username'][0]['value'] == null) {
               if (typeof filterObj['global'] != 'undefined') {
                 fieldValue.push(filterObj['global']['value']);
-                
               } else {
                 fieldValue = [];
-                
               }
             } else {
               fieldValue = filterObj['username'][0]['value'];
@@ -444,7 +451,6 @@ export class UserComponent implements OnInit {
             criteria._value = fieldValue;
             searchReq._filters.push(criteria);
           }
-
         }
         // if (filterObj.hasOwnProperty('createdBy')) {
         //   fieldName = 'createdBy';
@@ -470,9 +476,7 @@ export class UserComponent implements OnInit {
     }
   }
 
-  getUserData(
-    search?: any
-  ) {
+  getUserData(search?: any) {
     console.log(search);
     this.loading = true;
     this.userService.post(search).subscribe({
@@ -495,7 +499,9 @@ export class UserComponent implements OnInit {
       next: (resp) => {
         let binaryData = [];
         binaryData.push(resp);
-        var fileUrl = URL.createObjectURL(new Blob(binaryData, { type: 'application/pdf' }));
+        var fileUrl = URL.createObjectURL(
+          new Blob(binaryData, { type: 'application/pdf' })
+        );
         window.open(fileUrl);
         // saveAs(resp, 'Data-User.pdf');
         console.log(resp);
@@ -505,5 +511,4 @@ export class UserComponent implements OnInit {
       },
     });
   }
-
 }
