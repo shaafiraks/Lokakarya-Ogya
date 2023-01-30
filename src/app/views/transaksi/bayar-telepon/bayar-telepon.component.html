@@ -31,7 +31,7 @@
                         <div class="form-group p-field col-md-5">
                             <p-inputNumber name="noTelepon" placeholder="" formControlName="noTelepon"
                                 [ngClass]="{'is-invalid' : submitted && f['noTelepon'].errors}" [(ngModel)]="noTelepon"
-                                class="p-inputtext-sm">
+                                class="p-inputtext-sm" [useGrouping]="false">
                             </p-inputNumber>
                             <!-- Untuk menampilkan pesan error -->
                             <div *ngIf="submitted && f['noTelepon'].errors" class="invalid-feedback">
@@ -67,6 +67,7 @@
                 <th>Nama Pelanggan</th>
                 <th>Nomor Telepon</th>
                 <th>Bulan tagihan</th>
+                <th>Tahun Tagihan</th>
                 <th>Tagihan</th>
                 <th *ngIf="nasabah?.length > 1">Action</th>
             </tr>
@@ -74,10 +75,11 @@
             <ng-template pTemplate="body" let-nas>
                 <tr>
                     <td class="td1">{{nas.namaRekening}}</td>
-                    <td class="td1">{{nas.namaPelanggan}}</td>
-                    <td class="td1">{{nas.noTelepon}}</td>
-                    <td class="td1">{{nas.bulanTagihan}}</td>
-                    <td class="td1">{{nas.tagihan | currency:'IDR ':'symbol':'3.2-2'}}</td>
+                    <td class="td1"><b>{{nas.namaPelanggan}}</b></td>
+                    <td class="td1"><b>{{nas.noTelepon}}</b></td>
+                    <td class="td1"><b>{{nas.bulanTagihan}}</b></td>
+                    <td class="td1">{{nas.tahunTagihan}}</td>
+                    <td class="td1"><b>{{nas.tagihan | currency:'IDR ':'symbol':'3.2-2'}}</b></td>
                     <td *ngIf="nasabah?.length > 1">
                         <button type="button" 
                         pButton class="btn p-button-warning" 
@@ -128,9 +130,9 @@
                 <ng-template pTemplate="body" let-nas>
                     <tr>
                         <td class="td1">{{nas.noTelepon}}</td>
-                        <td class="td1">{{nas.namaPelanggan}}</td>
-                        <td class="td1">{{nas.tagihan | currency:'IDR ':'symbol':'3.2-2'}}</td>
-                        <td class="td1">{{nas.bulanTagihan}}</td>
+                        <td class="td1"><b>{{nas.namaPelanggan}}</b></td>
+                        <td class="td1"><b>{{nas.tagihan | currency:'IDR ':'symbol':'3.2-2'}}</b></td>
+                        <td class="td1"><b>{{nas.bulanTagihan}}</b></td>
                         <td class="td1">{{nas.tahunTagihan}}</td>
                         <td class="td1">Lunas</td>
                         <td> <button type="button" class="p-button-secondary btn-tampil-hasil" pButton icon="pi pi-download"

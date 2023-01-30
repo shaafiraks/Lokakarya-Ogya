@@ -64,9 +64,9 @@ export class TarikComponent implements OnInit {
     
   }
 
-  clear(table: Table) {
-    table.clear();
-  }
+  // clear(table: Table) {
+  //   table.clear();
+  // }
 
   nextPage(event: LazyLoadEvent) {
     console.log(event.filters);

@@ -37,6 +37,8 @@ export class SubMenuComponent implements OnInit {
   valProgramName = '';
   searchQuery: string = '';
   loading: boolean = true;
+  currentPage: number = 0;
+
   currentDate = `${this.now.getFullYear()}-${this.padTo2Digits(this.now.getMonth() + 1)}-${this.padTo2Digits(this.now.getDate())}`;
 
   totalRows: number = 0;
@@ -201,8 +203,9 @@ export class SubMenuComponent implements OnInit {
     searchReq._size = 5;
     searchReq._sortField = 'createdDate';
     searchReq._sortOrder = 'DESC';
+    searchReq._filters = [];
 
-    this.getsubMenuData(0, 5, searchReq);
+    this.getsubMenuData(searchReq);
 
     this.menuService.get().subscribe({
       next: (res: any) => {
@@ -225,6 +228,7 @@ export class SubMenuComponent implements OnInit {
         console.error('ini error: ', error);
       }
     });
+
 
   }
 
@@ -380,7 +384,7 @@ export class SubMenuComponent implements OnInit {
       searchReq._page = event.first;
       searchReq._size = event.rows;
       searchReq._sortField =
-        event.sortField === null ? 'createdDate' : event.sortField;
+        event.sortField === undefined ? 'menuId' : event.sortField;
       searchReq._sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC';
       searchReq._filters = [];
 
@@ -394,58 +398,61 @@ export class SubMenuComponent implements OnInit {
       let filterObj = <any>event.filters;
       console.log('filter by : ', filterObj);
       let fieldName: string = '';
-      let fieldValue: string = '';
+      let fieldValue = [];
 
       if (filterObj !== undefined) {
-        if (filterObj.hasOwnProperty('menuNama')) {
-          fieldName = 'menuNama';
-          if (filterObj['menuNama'][0]['value'] == null) {
-            if (typeof filterObj['global'] != 'undefined') {
-              fieldValue = filterObj['global']['value'];
-            } else {
-              fieldValue = '';
-            }
-          } else {
-            fieldValue = filterObj['menuNama'][0]['value'];
-          }
-
-          let criteria = new SearchCriteria();
-          criteria._name = fieldName;
-          criteria._value = fieldValue;
-          searchReq._filters.push(criteria);
-        }
         if (filterObj.hasOwnProperty('nama')) {
           fieldName = 'nama';
-          if (filterObj['nama'][0]['value'] == null) {
-            if (typeof filterObj['global'] != 'undefined') {
-              fieldValue = filterObj['global']['value'];
+          if (typeof filterObj['global'] != 'undefined' || filterObj['nama'][0]['value'] !== null) {
+            if (filterObj['nama'][0]['value'] == null) {
+              if (typeof filterObj['global'] != 'undefined') {
+                fieldValue.push(filterObj['global']['value']);
+              } else {
+                fieldValue = [];
+              }
             } else {
-              fieldValue = '';
+              fieldValue = filterObj['nama'][0]['value'];
             }
-          } else {
-            fieldValue = filterObj['nama'][0]['value'];
+
+            let criteria = new SearchCriteria();
+            criteria._name = fieldName;
+            criteria._value = fieldValue;
+            searchReq._filters.push(criteria);
           }
-          let criteria = new SearchCriteria();
-          criteria._name = fieldName;
-          criteria._value = fieldValue;
-          searchReq._filters.push(criteria);
+
         }
+        // if (filterObj.hasOwnProperty('menuId')) {
+        //   fieldName = 'menuId';
+        //   if (typeof filterObj['global'] != 'undefined' || filterObj['menuId'][0]['value'] !== null) {
+        //     if (filterObj['menuId'][0]['value'] == null) {
+        //       if (typeof filterObj['global'] != 'undefined') {
+        //         fieldValue.push(filterObj['global']['value']);
+        //       } else {
+        //         fieldValue = [];
+        //       }
+        //     } else {
+        //       fieldValue = filterObj['menuId'][0]['value'];
+        //     }
+
+        //     let criteria = new SearchCriteria();
+        //     criteria._name = fieldName;
+        //     criteria._value = fieldValue;
+        //     searchReq._filters.push(criteria);
+        //   }
+
+        // }
+
       }
-
-      //console.log(JSON.stringify(searchReq));
-
-      this.getsubMenuData(currentPage, event.rows, searchReq);
+      this.getsubMenuData(searchReq);
     }
   }
 
   getsubMenuData(
-    pageSize: number | undefined,
-    pageNumber: number | undefined,
     search?: any
   ) {
     console.log(search);
     this.loading = true;
-    this.subMenuService.getPage(pageSize, pageNumber, search).subscribe({
+    this.subMenuService.post(search).subscribe({
       next: (res: any) => {
         this.subMenu = res.data;
         this.loading = false;

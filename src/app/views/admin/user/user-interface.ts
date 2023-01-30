@@ -3,7 +3,7 @@ export interface UserInterface {
     username: string;
     nama: string;
     password: string;
-    alamat : string;
+    alamat : number;
     email : string;
     telp : string;
     programName : string;
