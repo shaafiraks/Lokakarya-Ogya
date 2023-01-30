@@ -272,7 +272,7 @@
                   (input)="
                     dt.filterGlobal($any($event.target)?.value, 'contains')
                   "
-                  placeholder="Cari ID transaksi atau nama pelanggan"
+                  placeholder="Cari ID transaksi"
                 />
               </span>
               <!-- button download -->
@@ -300,6 +300,11 @@
               <th pSortableColumn="idTransaksi" class="text-center">
                 ID Transaksi
                 <p-sortIcon field="idTransaksi"></p-sortIcon>
+                <p-columnFilter
+                  type="text"
+                  field="idTransaksi"
+                  display="idTransaksi"
+                ></p-columnFilter>
               </th>
               <th pSortableColumn="nama" class="text-center">
                 Nama

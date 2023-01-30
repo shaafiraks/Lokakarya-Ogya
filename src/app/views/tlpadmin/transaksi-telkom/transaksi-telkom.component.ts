@@ -198,7 +198,7 @@ export class TransaksiTelkomComponent implements OnInit {
   }
 
   getData() {
-    // untung paging
+    // untuk paging
     let searchReq = new SearchRequest();
     searchReq._offSet = 0;
     searchReq._page = 0;
